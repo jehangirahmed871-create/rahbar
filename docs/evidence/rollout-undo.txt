@@ -1,0 +1,18 @@
+$ kubectl set image deployment/api api=rahbar-api:bad-tag -n rahbar
+deployment.apps/api image updated
+
+$ kubectl rollout status deployment/api -n rahbar
+Waiting for deployment "api" rollout to finish: 1 out of 3 new replicas have been updated...
+error: deployment "api" exceeded its progressDeadlineSeconds
+
+$ kubectl rollout undo deployment/api -n rahbar
+deployment.apps/api rolled back
+
+$ kubectl rollout status deployment/api -n rahbar
+deployment "api" successfully rolled out
+
+$ kubectl get pods -n rahbar -l app.kubernetes.io/name=api
+NAME                   READY   STATUS    RESTARTS   AGE
+api-7d9f6bfbd8-4j5k2   1/1     Running   0          32m
+api-7d9f6bfbd8-8q2m9   1/1     Running   0          32m
+api-7d9f6bfbd8-x7v1p   1/1     Running   0          32m
