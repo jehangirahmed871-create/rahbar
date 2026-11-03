@@ -173,7 +173,10 @@ jobs:
       - name: Deploy Kubernetes Manifests
         run: |
           kubectl apply -k k8s/overlays/dev
-          kubectl patch configmap rahbar-config -n rahbar --type merge -p '{"data":{"LLM_PROVIDER":"stub"}}'
+          kubectl patch configmap rahbar-config -n rahbar --type merge -p '{"data":{"LLM_PROVIDER":"stub","RETRIEVER":"chroma"}}'
+          # Scale down API and temporarily remove HPA to avoid resource contention on Kind node during indexing
+          kubectl scale deployment/api -n rahbar --replicas=0
+          kubectl delete hpa api-hpa -n rahbar --ignore-not-found
 
       - name: Wait for Stateful Backends
         run: |
@@ -198,13 +201,14 @@ jobs:
 
       - name: Wait for API Rollout Status
         run: |
-          kubectl rollout restart deployment/api -n rahbar
+          kubectl scale deployment/api -n rahbar --replicas=3
+          kubectl apply -f k8s/base/hpa.yaml
           kubectl rollout status deployment/api -n rahbar --timeout=180s
 
       - name: Port-Forward API for Evaluation
         run: |
           kubectl port-forward svc/api -n rahbar 8000:8000 &
-          for i in {1..15}; do
+          for i in {1..20}; do
             if curl -s http://localhost:8000/healthz; then
               echo "API is answering health checks"
               break
@@ -214,4 +218,4 @@ jobs:
 
       - name: Execute Evaluation Gate with eval/run_eval.py
         run: |
-          python eval/run_eval.py --api http://localhost:8000 --golden eval/fixtures/golden.fixture.yaml --baseline eval/baseline.json
+          python eval/run_eval.py --api http://localhost:8000 --golden eval/fixtures/golden.fixture.yaml --baseline eval/fixtures/baseline.fixture.json

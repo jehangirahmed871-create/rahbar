@@ -67,15 +67,17 @@ def _wait_for_chroma(settings: IndexerSettings, timeout: int = 60) -> None:
     from .store import get_client
 
     deadline = time.time() + timeout
+    last_err = None
     while time.time() < deadline:
         try:
             client = get_client(settings)
             client.heartbeat()
             log("chroma ready", host=settings.chroma_host, port=settings.chroma_port)
             return
-        except Exception:
+        except Exception as exc:
+            last_err = exc
             time.sleep(2)
-    log("warning: chroma did not respond to heartbeat within timeout")
+    log("warning: chroma did not respond to heartbeat within timeout", error=str(last_err))
 
 
 def run_pipeline(settings: IndexerSettings) -> int:

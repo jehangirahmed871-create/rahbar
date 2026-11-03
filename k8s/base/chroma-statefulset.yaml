@@ -34,11 +34,6 @@ spec:
     spec:
       serviceAccountName: chroma-sa
       automountServiceAccountToken: false
-      securityContext:
-        runAsNonRoot: true
-        runAsUser: 10001
-        runAsGroup: 10001
-        fsGroup: 10001
       containers:
         - name: chroma
           image: chromadb/chroma:1.0.12
@@ -54,12 +49,15 @@ spec:
             - name: ANONYMIZED_TELEMETRY
               value: "FALSE"
           securityContext:
-            runAsNonRoot: true
-            readOnlyRootFilesystem: false
             allowPrivilegeEscalation: false
-            capabilities:
-              drop:
-                - ALL
+            readOnlyRootFilesystem: false
+          readinessProbe:
+            httpGet:
+              path: /api/v1/heartbeat
+              port: 8000
+            initialDelaySeconds: 5
+            periodSeconds: 2
+            failureThreshold: 20
           resources:
             requests:
               cpu: 200m

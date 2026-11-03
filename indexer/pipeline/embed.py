@@ -43,7 +43,7 @@ def embed(texts: list[str], settings: IndexerSettings) -> list[list[float]]:
     use_fallback = False
     endpoint = f"{settings.ollama_url.rstrip('/')}/api/embed"
 
-    with httpx.Client(timeout=60.0) as client:
+    with httpx.Client(timeout=3.0) as client:
         for i in range(0, len(texts), batch_size):
             batch = texts[i : i + batch_size]
             if not use_fallback:
