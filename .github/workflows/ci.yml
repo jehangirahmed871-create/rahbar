@@ -119,7 +119,7 @@ jobs:
           docker build -t rahbar-api:${{ github.sha }} api
 
       - name: Run Trivy Vulnerability Scanner
-        uses: aquasecurity/trivy-action@0.28.0
+        uses: aquasecurity/trivy-action@v0.36.0
         with:
           image-ref: rahbar-api:${{ github.sha }}
           format: "table"
@@ -160,23 +160,48 @@ jobs:
           kind load docker-image rahbar-indexer:dev --name rahbar-ci
           kind load docker-image rahbar-ui:dev --name rahbar-ci
 
+      - name: Setup Namespace and Fixtures
+        run: |
+          kubectl create namespace rahbar --dry-run=client -o yaml | kubectl apply -f -
+          kubectl create secret generic rahbar-secret -n rahbar --from-literal=LLM_API_KEY="test-ci-key" --dry-run=client -o yaml | kubectl apply -f -
+          kubectl create configmap rahbar-fixtures -n rahbar \
+            --from-file=eval/fixtures/academic-rules-2023.md \
+            --from-file=eval/fixtures/academic-rules-2026.md \
+            --from-file=eval/fixtures/fees-2026.md \
+            --dry-run=client -o yaml | kubectl apply -f -
+
       - name: Deploy Kubernetes Manifests
         run: |
           kubectl apply -k k8s/overlays/dev
+          kubectl patch configmap rahbar-config -n rahbar --type merge -p '{"data":{"LLM_PROVIDER":"stub"}}'
+
+      - name: Wait for Stateful Backends
+        run: |
+          kubectl rollout status statefulset/chroma -n rahbar --timeout=120s
+          kubectl rollout status deployment/redis -n rahbar --timeout=120s
 
       - name: Run Indexer Job on Fixtures
         run: |
+          kubectl delete job indexer -n rahbar --ignore-not-found
           kubectl apply -f k8s/base/indexer-job.yaml
           kubectl wait --for=condition=complete job/indexer -n rahbar --timeout=180s || (kubectl logs job/indexer -n rahbar && exit 1)
+          kubectl logs job/indexer -n rahbar
 
       - name: Wait for API Rollout Status
         run: |
+          kubectl rollout restart deployment/api -n rahbar
           kubectl rollout status deployment/api -n rahbar --timeout=180s
 
       - name: Port-Forward API for Evaluation
         run: |
           kubectl port-forward svc/api -n rahbar 8000:8000 &
-          sleep 5
+          for i in {1..15}; do
+            if curl -s http://localhost:8000/healthz; then
+              echo "API is answering health checks"
+              break
+            fi
+            sleep 2
+          done
 
       - name: Execute Evaluation Gate with eval/run_eval.py
         run: |
