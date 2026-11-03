@@ -182,10 +182,19 @@ jobs:
 
       - name: Run Indexer Job on Fixtures
         run: |
-          kubectl delete job indexer -n rahbar --ignore-not-found
           kubectl apply -f k8s/base/indexer-job.yaml
-          kubectl wait --for=condition=complete job/indexer -n rahbar --timeout=180s || (kubectl logs job/indexer -n rahbar && exit 1)
-          kubectl logs job/indexer -n rahbar
+          kubectl wait --for=condition=complete job/indexer -n rahbar --timeout=180s || {
+            echo "=== Indexer Job Describe ==="
+            kubectl describe job indexer -n rahbar
+            echo "=== Pods in rahbar namespace ==="
+            kubectl get pods -n rahbar
+            echo "=== Indexer Pod Logs ==="
+            kubectl logs -n rahbar -l app.kubernetes.io/name=indexer --tail=100
+            echo "=== Chroma Pod Logs ==="
+            kubectl logs -n rahbar -l app.kubernetes.io/name=chroma --tail=50
+            exit 1
+          }
+          kubectl logs -n rahbar -l app.kubernetes.io/name=indexer
 
       - name: Wait for API Rollout Status
         run: |

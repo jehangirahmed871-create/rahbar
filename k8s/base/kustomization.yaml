@@ -9,7 +9,6 @@ resources:
   - configmap.yaml
   - chroma-statefulset.yaml
   - redis.yaml
-  - indexer-job.yaml
   - reindex-cronjob.yaml
   - api-deployment.yaml
   - ui-deployment.yaml

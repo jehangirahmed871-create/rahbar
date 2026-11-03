@@ -12,7 +12,13 @@ from dataclasses import dataclass, field
 
 
 def _int(name: str, default: int) -> int:
-    return int(os.environ.get(name, default))
+    val = str(os.environ.get(name, default)).strip()
+    if val.startswith("tcp://"):
+        val = val.split(":")[-1]
+    try:
+        return int(val)
+    except Exception:
+        return default
 
 
 def _float(name: str, default: float) -> float:

@@ -26,7 +26,13 @@ def get_client(settings: IndexerSettings) -> Any:
 def invalidate_cache(settings: IndexerSettings) -> None:
     """Invalidate semantic cache upon re-index so old stale answers are not served."""
     redis_host = os.environ.get("REDIS_HOST", "redis")
-    redis_port = int(os.environ.get("REDIS_PORT", "6379"))
+    port_val = str(os.environ.get("REDIS_PORT", "6379")).strip()
+    if port_val.startswith("tcp://"):
+        port_val = port_val.split(":")[-1]
+    try:
+        redis_port = int(port_val)
+    except Exception:
+        redis_port = 6379
     try:
         import redis
 

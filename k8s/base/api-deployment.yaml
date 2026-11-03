@@ -36,6 +36,7 @@ spec:
       labels:
         app.kubernetes.io/name: api
     spec:
+      enableServiceLinks: false
       serviceAccountName: api-sa
       automountServiceAccountToken: false
       terminationGracePeriodSeconds: 30
