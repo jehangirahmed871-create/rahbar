@@ -180,8 +180,18 @@ jobs:
 
       - name: Wait for Stateful Backends
         run: |
-          kubectl rollout status statefulset/chroma -n rahbar --timeout=120s
-          kubectl rollout status deployment/redis -n rahbar --timeout=120s
+          kubectl rollout status statefulset/chroma -n rahbar --timeout=120s || {
+            echo "=== Chroma Pod Describe ==="
+            kubectl describe pod -n rahbar -l app.kubernetes.io/name=chroma
+            echo "=== Chroma Pod Logs ==="
+            kubectl logs -n rahbar -l app.kubernetes.io/name=chroma --tail=100
+            exit 1
+          }
+          kubectl rollout status deployment/redis -n rahbar --timeout=120s || {
+            echo "=== Redis Pod Describe ==="
+            kubectl describe pod -n rahbar -l app.kubernetes.io/name=redis
+            exit 1
+          }
 
       - name: Run Indexer Job on Fixtures
         run: |

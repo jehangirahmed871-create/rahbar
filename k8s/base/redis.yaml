@@ -68,11 +68,11 @@ spec:
               drop:
                 - ALL
           readinessProbe:
-            exec:
-              command: ["redis-cli", "ping"]
-            initialDelaySeconds: 3
+            tcpSocket:
+              port: 6379
+            initialDelaySeconds: 2
             periodSeconds: 2
-            failureThreshold: 10
+            failureThreshold: 30
           resources:
             requests:
               cpu: 100m

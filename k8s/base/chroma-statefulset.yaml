@@ -52,12 +52,11 @@ spec:
             allowPrivilegeEscalation: false
             readOnlyRootFilesystem: false
           readinessProbe:
-            httpGet:
-              path: /api/v1/heartbeat
+            tcpSocket:
               port: 8000
-            initialDelaySeconds: 5
+            initialDelaySeconds: 2
             periodSeconds: 2
-            failureThreshold: 20
+            failureThreshold: 30
           resources:
             requests:
               cpu: 200m
