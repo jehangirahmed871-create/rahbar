@@ -1,5 +1,8 @@
 # RAHBAR System Architecture
 
+**Author:** Muhammad Abdul Wadood (Person B — Service & Platform)  
+**System:** RAHBAR Grounded RAG on Kubernetes
+
 RAHBAR is a grounded, production-hardened question-answering service deployed on Kubernetes over real university regulatory documents.
 
 ```mermaid
