@@ -83,7 +83,7 @@ def readyz(request: Request, response: Response) -> dict[str, object]:
             "error": f"Chroma unreachable: {exc}",
         }
 
-    # 3. Redis Reachability Check (if configured)
+    # 3. Redis Reachability Check (section 4.3)
     if getattr(settings, "redis_host", None):
         try:
             import redis
@@ -92,7 +92,12 @@ def readyz(request: Request, response: Response) -> dict[str, object]:
             r.ping()
             checks["redis"] = "connected"
         except Exception as exc:
-            log.info("Redis optional check: %s", exc)
-            checks["redis"] = f"unreachable ({exc})"
+            response.status_code = 503
+            log.warning("Redis reachability check failed: %s", exc)
+            return {
+                "status": "not_ready",
+                "failed_dependency": "redis",
+                "error": f"Redis unreachable: {exc}",
+            }
 
     return {"status": "ready", "checks": checks}
