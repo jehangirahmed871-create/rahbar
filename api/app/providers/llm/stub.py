@@ -9,10 +9,16 @@ from __future__ import annotations
 from ...schemas import Answer, Citation, Passage
 
 
+import logging
+
+log = logging.getLogger("rahbar.provider.stub")
+
+
 class StubProvider:
     name = "stub"
 
     def generate(self, question: str, passages: list[Passage]) -> Answer:
+        log.debug("StubProvider invoked", extra={"passages_count": len(passages)})
         if not passages:
             return Answer(
                 reasoning="stub: nothing was retrieved",
