@@ -3,6 +3,9 @@
 ## Status
 Accepted · 2026-11-03
 
+## Author
+Muhammad Abdul Wadood (Person B — Service & Platform)
+
 ## Context
 RAHBAR processes academic records, university policies, and student inquiries. We need an LLM provider architecture that:
 1. Prevents institutional policy data and student query telemetry from leaking to third-party public models without governance.
