@@ -1,5 +1,9 @@
 # Failure Analysis: Breaking Four Pipeline Stages on Purpose
 
+**Authors & Division:**
+- **Stages A & B:** Jehangir Ahmed (Person A — Data & Quality)
+- **Stages D & F:** Muhammad Abdul Wadood (Person B — Service & Platform)
+
 In this failure analysis, we systematically break four pipeline stages one at a time, observe the symptoms under live traffic, identify the diagnostic log/metric signature as if encountering the issue in production, and record the verified remedy.
 
 ---
