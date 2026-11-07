@@ -59,6 +59,11 @@ def test_question_length_is_enforced(client: TestClient, question: str) -> None:
     assert r.status_code == 422
 
 
+def test_question_whitespace_is_trimmed(client: TestClient) -> None:
+    r = client.post("/api/ask", json={"question": "   What is the attendance requirement?   "})
+    assert r.status_code == 200
+
+
 def test_metrics_count_requests_by_route(client: TestClient) -> None:
     client.post("/api/ask", json={"question": "Count this request"})
     text = client.get("/metrics").text
