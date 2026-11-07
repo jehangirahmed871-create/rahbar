@@ -10,11 +10,19 @@ from __future__ import annotations
 
 from typing import Literal
 
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, Field, field_validator
 
 
 class AskRequest(BaseModel):
     question: str = Field(min_length=3, max_length=500)
+
+    @field_validator('question')
+    @classmethod
+    def validate_question(cls, v: str) -> str:
+        cleaned = v.strip()
+        if len(cleaned) < 3 or len(cleaned) > 500:
+            raise ValueError('question must be between 3 and 500 characters after trimming whitespace')
+        return cleaned
 
 
 class Passage(BaseModel):
