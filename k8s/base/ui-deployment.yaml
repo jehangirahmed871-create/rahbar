@@ -52,6 +52,20 @@ spec:
             capabilities:
               drop:
                 - ALL
+          livenessProbe:
+            httpGet:
+              path: /healthz
+              port: 8080
+            initialDelaySeconds: 3
+            periodSeconds: 15
+            failureThreshold: 3
+          readinessProbe:
+            httpGet:
+              path: /healthz
+              port: 8080
+            initialDelaySeconds: 2
+            periodSeconds: 10
+            failureThreshold: 3
           resources:
             requests:
               cpu: 50m
