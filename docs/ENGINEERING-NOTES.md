@@ -1,6 +1,6 @@
 # Engineering Notes: Seven Questions
 
-**Authors:** Jehangir Ahmed (Person A — Data & Quality) & Partner (Person B — Platform & Service)  
+**Authors:** Jehangir Ahmed (Person A — Data & Quality) & Muhammad Abdul Wadood (Person B — Platform & Service)  
 **System:** RAHBAR Grounded RAG on Kubernetes  
 
 ---

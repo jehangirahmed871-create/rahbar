@@ -4,6 +4,10 @@
 [![Kubernetes](https://img.shields.io/badge/kubernetes-v1.30-blue?logo=kubernetes)](k8s/)
 [![License](https://img.shields.io/badge/license-MIT-green)](LICENSE)
 
+**Team Members:**
+- **Jehangir Ahmed** (Person A — Data & Quality)
+- **Muhammad Abdul Wadood** (Person B — Service & Platform)
+
 RAHBAR is a production-grade, grounded question-answering service deployed on Kubernetes over real institutional regulatory documents from FAST-NUCES. Unlike general-purpose language models that hallucinate policy details or cite repealed rules, RAHBAR retrieves verbatim passages from a ChromaDB vector store, enforces strict metadata filtering (`superseded: false`), generates schema-constrained answers with verified citations, and honestly declines questions outside its corpus. The system adheres to the core architectural invariant: **the indexer Job is the sole writer; the API Deployment only reads**.
 
 ---

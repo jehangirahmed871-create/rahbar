@@ -30,13 +30,20 @@ The AI agent expedited regex pattern prototyping for document chunking and Kuber
 
 ---
 
-## 3. Partner (Person B — Service and Platform) Section
+## 3. Muhammad Abdul Wadood (Person B — Service and Platform) Section
 
 ### Work Scope
 - API query path, routes, error handling, JSON structured logging with request ID tracking, Prometheus metrics (`api/app/*`).
-- Pluggable LLM provider abstractions (`ollama-host`, `ollama-incluster`, `hosted`, `stub`).
+- Pluggable LLM provider abstractions (`ollama-host`, `ollama-incluster`, `hosted`, `stub`) and schema validation fallback retry mechanisms.
 - Startup embedding model mismatch guardrail and health probes (`/healthz`, `/readyz`, `/metrics`).
 - Stateless Kubernetes resources (`api-deployment.yaml`, `ui-deployment.yaml`, `ingress.yaml`, `hpa.yaml`, `networkpolicy.yaml`).
+- Zero-downtime rolling update specifications (`maxSurge: 1`, `maxUnavailable: 0`, graceful preStop shutdown).
 - CI/CD automation (`.github/workflows/ci.yml`, `.github/workflows/cd.yml`).
 - Architectural documentation and failure analysis (`docs/ARCHITECTURE.md`, `docs/FAILURE-ANALYSIS.md`, `docs/adr/0001-indexer-as-job.md`, `docs/adr/0004-llm-provider-and-data-governance.md`).
 - Engineering notes for Q1, Q2, Q3, Q6, and Q7.
+
+### Reflections on AI Assistance
+AI was used to accelerate the initial authoring of boilerplate Kubernetes manifests and the Pydantic schema validation structures. However, critical domain-specific fixes were required:
+1. **NetworkPolicy Egress:** The initial AI-generated default-deny policy severed DNS lookup capability inside the cluster. I intervened to introduce explicit egress rules allowing UDP/TCP port 53 traffic to `kube-system` DNS pods and host-gateway egress on port 11434 for Ollama communication.
+2. **Readiness Probe Guardrail:** The initial AI code did not verify vector dimension compatibility across restarts. I implemented the startup guardrail inside `/readyz` that interrogates Chroma collection metadata against the API's configured `EMBED_MODEL`, actively preventing silent vector corruption.
+3. **CI Ephemeral Cluster Stability:** In the CI pipeline, image pulling within the ephemeral Kind cluster caused intermittent timeout failures. I updated the Kind workflow to pre-cache third-party container images and configure robust TCP readiness probes.
