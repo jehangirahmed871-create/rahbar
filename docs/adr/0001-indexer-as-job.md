@@ -3,6 +3,9 @@
 ## Status
 Accepted · 2026-11-03
 
+## Author
+Muhammad Abdul Wadood (Person B — Service & Platform)
+
 ## Context
 When deploying a RAG application on Kubernetes, it is tempting to run document extraction and vector indexing inside the API pod's startup lifecycle (e.g. within FastAPI's `lifespan` or an `initContainer`). However, in a multi-replica production deployment, this creates critical failure modes:
 1. **Concurrent Writer Collisions:** If the API Deployment scales to 3 replicas, three pods start simultaneously and race to write to the same single Chroma PersistentVolumeClaim (PVC). Chroma's underlying SQLite/HNSW storage does not support multi-process concurrent write access across independent containers; concurrent writes corrupt the index and lock the database.
