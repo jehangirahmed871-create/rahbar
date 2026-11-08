@@ -1,0 +1,65 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: reindex
+  namespace: rahbar
+  labels:
+    app.kubernetes.io/name: reindex
+spec:
+  schedule: "0 2 * * 0" # Weekly at 02:00 UTC Sunday
+  concurrencyPolicy: Forbid
+  successfulJobsHistoryLimit: 3
+  failedJobsHistoryLimit: 3
+  jobTemplate:
+    spec:
+      backoffLimit: 3
+      template:
+        metadata:
+          labels:
+            app.kubernetes.io/name: reindex
+        spec:
+          restartPolicy: OnFailure
+          serviceAccountName: indexer-sa
+          automountServiceAccountToken: false
+          securityContext:
+            runAsNonRoot: true
+            runAsUser: 10001
+            runAsGroup: 10001
+            fsGroup: 10001
+          containers:
+            - name: indexer
+              image: rahbar-indexer:dev
+              imagePullPolicy: IfNotPresent
+              envFrom:
+                - configMapRef:
+                    name: rahbar-config
+              env:
+                - name: CORPUS_DIR
+                  value: "/corpus"
+              resources:
+                requests:
+                  cpu: 500m
+                  memory: 1Gi
+                limits:
+                  cpu: 2000m
+                  memory: 2Gi
+              securityContext:
+                runAsNonRoot: true
+                readOnlyRootFilesystem: false
+                allowPrivilegeEscalation: false
+                capabilities:
+                  drop:
+                    - ALL
+              volumeMounts:
+                - name: corpus-data
+                  mountPath: /corpus
+                  readOnly: true
+                - name: tmp-dir
+                  mountPath: /tmp
+          volumes:
+            - name: corpus-data
+              configMap:
+                name: rahbar-fixtures
+                optional: true
+            - name: tmp-dir
+              emptyDir: {}

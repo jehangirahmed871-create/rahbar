@@ -1,0 +1,12 @@
+$ kubectl get endpoints -n rahbar
+NAME     ENDPOINTS                                                    AGE
+api      10.244.0.14:8000,10.244.0.15:8000,10.244.0.16:8000           18m
+chroma   10.244.0.11:8000                                            22m
+redis    10.244.0.12:6379                                            22m
+ui       10.244.0.17:8080                                            18m
+
+$ kubectl get pods -n rahbar -o wide -l app.kubernetes.io/name=api
+NAME                   READY   STATUS    RESTARTS   AGE   IP            NODE       NOMINATED NODE   READINESS GATES
+api-7d9f6bfbd8-4j5k2   1/1     Running   0          18m   10.244.0.14   minikube   <none>           <none>
+api-7d9f6bfbd8-8q2m9   1/1     Running   0          18m   10.244.0.15   minikube   <none>           <none>
+api-7d9f6bfbd8-x7v1p   1/1     Running   0          18m   10.244.0.16   minikube   <none>           <none>

@@ -12,7 +12,13 @@ from dataclasses import dataclass, field
 
 
 def _int(name: str, default: int) -> int:
-    return int(os.environ.get(name, default))
+    val = str(os.environ.get(name, default)).strip()
+    if val.startswith("tcp://"):
+        val = val.split(":")[-1]
+    try:
+        return int(val)
+    except Exception:
+        return default
 
 
 def _float(name: str, default: float) -> float:
@@ -33,6 +39,12 @@ class Settings:
     chroma_port: int = 8000
     collection: str = "rahbar"
 
+    # Semantic Cache & Floor
+    redis_host: str = "redis"
+    redis_port: int = 6379
+    cache_threshold: float = 0.90
+    relevance_floor: float = 0.50
+
     # Retrieval and generation
     top_k: int = 5
     temperature: float = 0.2
@@ -52,6 +64,10 @@ def get_settings() -> Settings:
         chroma_host=os.environ.get("CHROMA_HOST", "chroma"),
         chroma_port=_int("CHROMA_PORT", 8000),
         collection=os.environ.get("CHROMA_COLLECTION", "rahbar"),
+        redis_host=os.environ.get("REDIS_HOST", "redis"),
+        redis_port=_int("REDIS_PORT", 6379),
+        cache_threshold=_float("CACHE_THRESHOLD", 0.90),
+        relevance_floor=_float("RELEVANCE_FLOOR", 0.50),
         top_k=_int("TOP_K", 5),
         temperature=_float("TEMPERATURE", 0.2),
         llm_model=os.environ.get("LLM_MODEL", "llama3.2:3b"),

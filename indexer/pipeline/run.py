@@ -63,12 +63,31 @@ def discover(corpus_dir: str) -> list[tuple[Path, str, bool]]:
     return found
 
 
+def _wait_for_chroma(settings: IndexerSettings, timeout: int = 60) -> None:
+    from .store import get_client
+
+    deadline = time.time() + timeout
+    last_err = None
+    while time.time() < deadline:
+        try:
+            client = get_client(settings)
+            client.heartbeat()
+            log("chroma ready", host=settings.chroma_host, port=settings.chroma_port)
+            return
+        except Exception as exc:
+            last_err = exc
+            time.sleep(2)
+    log("warning: chroma did not respond to heartbeat within timeout", error=str(last_err))
+
+
 def run_pipeline(settings: IndexerSettings) -> int:
     from .chunk import chunk
     from .clean import clean
     from .embed import embed
     from .extract import extract
     from .store import store
+
+    _wait_for_chroma(settings)
 
     documents = discover(settings.corpus_dir)
     if not documents:

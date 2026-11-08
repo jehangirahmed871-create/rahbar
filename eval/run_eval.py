@@ -8,13 +8,14 @@
 Exit code 0 when every gate passes, 1 when any fails. CI relies on that exit code.
 
 Given: talking to the API, reading the golden set, writing results.json, the exit
-code. Yours: the four functions marked STARTER-TODO. They are the evaluation.
+code. Implemented evaluation functions: recall_at_k, citation_validity, summarise, gate.
 """
 
 from __future__ import annotations
 
 import argparse
 import json
+import re
 import sys
 import time
 from pathlib import Path
@@ -45,31 +46,137 @@ def ask(client: httpx.Client, api: str, question: str) -> dict:
     return response.json()
 
 
+def _normalize_str(s: str) -> str:
+    return re.sub(r"[^a-z0-9]", "", s.lower())
+
+
+def _section_matches(rel_sec: str, ret_sec: str) -> bool:
+    r1, r2 = _normalize_str(rel_sec), _normalize_str(ret_sec)
+    return (r1 in r2 or r2 in r1) if (r1 and r2) else False
+
+
 def recall_at_k(relevant: list[dict], retrieved: list[dict], k: int) -> float | None:
     """Fraction of the relevant (source, section) pairs found in the top k retrieved.
-    Return None when the question has no relevant passages (must-abstain questions)."""
-    # STARTER-TODO(5.2): implement. Decide how you match sections and say so in PIPELINE.md.
-    raise NotImplementedError("recall_at_k: see STARTER-TODO(5.2)")
+    Return None when the question has no relevant passages (must-abstain questions).
+    """
+    if not relevant:
+        return None
+    top_k = retrieved[:k]
+    hits = 0
+    for rel in relevant:
+        rel_src = rel.get("source", "").lower().strip()
+        rel_sec = rel.get("section", "").strip()
+        found = False
+        for ret in top_k:
+            ret_src = ret.get("source", "").lower().strip()
+            ret_sec = ret.get("section", "").strip()
+            if rel_src == ret_src and _section_matches(rel_sec, ret_sec):
+                found = True
+                break
+        if found:
+            hits += 1
+    return hits / len(relevant)
 
 
 def citation_validity(response: dict) -> float | None:
     """Fraction of the response's citations that match a passage in response['retrieved'].
-    Return None when there are no citations."""
-    # STARTER-TODO(5.3): implement.
-    raise NotImplementedError("citation_validity: see STARTER-TODO(5.3)")
+    Return None when there are no citations.
+    """
+    citations = response.get("citations") or []
+    if not citations:
+        return None
+    retrieved = response.get("retrieved") or []
+    valid = 0
+    for c in citations:
+        c_src = c.get("source", "").lower().strip()
+        c_sec = c.get("section", "").strip()
+        matched = False
+        for r in retrieved:
+            r_src = r.get("source", "").lower().strip()
+            r_sec = r.get("section", "").strip()
+            if c_src == r_src and _section_matches(c_sec, r_sec):
+                matched = True
+                break
+        if matched:
+            valid += 1
+    return valid / len(citations)
 
 
 def summarise(rows: list[dict]) -> dict:
     """Overall recall@3, recall@5, citation validity and abstention correctness, plus
-    recall@5 broken down by question type. This dict becomes results.json."""
-    # STARTER-TODO(5.2, 5.3): implement.
-    raise NotImplementedError("summarise: see STARTER-TODO(5.2, 5.3)")
+    recall@5 broken down by question type. This dict becomes results.json.
+    """
+    r3_scores: list[float] = []
+    r5_scores: list[float] = []
+    r5_by_type: dict[str, list[float]] = {}
+    citation_scores: list[float] = []
+    abstain_correct = 0
+    total_must_abstain = 0
+
+    for r in rows:
+        q_type = r.get("type", "ordinary")
+        must_abstain = r.get("must_abstain", False)
+        relevant = r.get("relevant") or []
+        resp = r.get("response") or {}
+        retrieved = resp.get("retrieved") or []
+
+        if must_abstain:
+            total_must_abstain += 1
+            if not resp.get("answered_from_context", True):
+                abstain_correct += 1
+        else:
+            r3 = recall_at_k(relevant, retrieved, 3)
+            r5 = recall_at_k(relevant, retrieved, 5)
+            if r3 is not None:
+                r3_scores.append(r3)
+            if r5 is not None:
+                r5_scores.append(r5)
+                r5_by_type.setdefault(q_type, []).append(r5)
+
+        cv = citation_validity(resp)
+        if cv is not None:
+            citation_scores.append(cv)
+
+    avg_r3 = round(sum(r3_scores) / len(r3_scores), 4) if r3_scores else 0.0
+    avg_r5 = round(sum(r5_scores) / len(r5_scores), 4) if r5_scores else 0.0
+    avg_cv = round(sum(citation_scores) / len(citation_scores), 4) if citation_scores else 1.0
+    abs_pct = round(abstain_correct / total_must_abstain, 4) if total_must_abstain > 0 else 1.0
+
+    breakdown = {t: round(sum(sc) / len(sc), 4) for t, sc in sorted(r5_by_type.items())}
+
+    return {
+        "recall_at_3": avg_r3,
+        "recall_at_5": avg_r5,
+        "recall_at_5_by_type": breakdown,
+        "citation_validity": avg_cv,
+        "abstention_correctness": abs_pct,
+    }
 
 
 def gate(results: dict, baseline: dict | None) -> list[str]:
     """Return one message per failed gate (section 5.4); an empty list means pass."""
-    # STARTER-TODO(5.4): implement, using the three constants at the top of this file.
-    raise NotImplementedError("gate: see STARTER-TODO(5.4)")
+    failures: list[str] = []
+    if baseline:
+        base_r5 = baseline.get("recall_at_5", 0.0)
+        curr_r5 = results.get("recall_at_5", 0.0)
+        if curr_r5 < base_r5 - MAX_RECALL5_DROP:
+            failures.append(
+                f"recall@5 dropped by {round(base_r5 - curr_r5, 4):.2%}, exceeding allowable {MAX_RECALL5_DROP:.0%}"
+            )
+
+    curr_abs = results.get("abstention_correctness", 0.0)
+    if curr_abs < REQUIRED_ABSTENTION:
+        failures.append(
+            f"abstention correctness is {curr_abs:.1%}; expected {REQUIRED_ABSTENTION:.0%}"
+        )
+
+    curr_cv = results.get("citation_validity", 0.0)
+    if curr_cv < MIN_CITATION_VALIDITY:
+        failures.append(
+            f"citation validity is {curr_cv:.1%}; expected >= {MIN_CITATION_VALIDITY:.0%}"
+        )
+
+    return failures
 
 
 def main() -> int:
