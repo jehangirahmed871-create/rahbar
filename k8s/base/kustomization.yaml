@@ -7,6 +7,8 @@ resources:
   - namespace.yaml
   - serviceaccounts.yaml
   - configmap.yaml
+  - indexer-data-pvc.yaml
+  - traces-pvc.yaml
   - chroma-statefulset.yaml
   - redis.yaml
   - reindex-cronjob.yaml

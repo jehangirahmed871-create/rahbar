@@ -113,12 +113,18 @@ $$\text{Storage Amplification} = \frac{\text{Stored Tokens in Chunks}}{\text{Ori
 
 - **Vector Database:** ChromaDB 1.0.12 running as a StatefulSet on Kubernetes with a PersistentVolumeClaim.
 - **Collection Name:** `rahbar`
-- **Metadata Fields:** Every chunk carries exactly:
+- **Metadata Fields:** Every chunk carries:
   1. `source` (str): Filename (e.g., `academic-rules-handbook-jun-2026.pdf`).
   2. `section` (str): Governing clause or heading (e.g., `5.4 Academic Warning`).
   3. `page` (int): Page number in the source document.
   4. `doc_version` (str): Version tag (e.g., `2026-06` vs `2023-08`).
   5. `superseded` (bool): `True` for deprecated rules; `False` for active policy.
+  6. `document_id` (str): Stable identity shared by versions of one source.
+  7. `document_version_id` (str): Stable version key used for incremental writes.
+  8. `document_hash` (str): SHA-256 of the source file.
+  9. `title` (str): Source title used by completeness verification.
+  10. `page_count` (int): Extracted page count.
+  11. `chunk_size` and `chunk_overlap` (int): Chunking settings used for the record.
 
 ---
 
@@ -146,3 +152,51 @@ In `eval/run_eval.py`:
 - **`recall@k`:** For each golden question, matches retrieved passages against known relevant pairs. A passage matches if `source` matches exactly and `section` matches via normalized substring matching (e.g. `"5.4"` matches `"5.4 Academic Warning"`). Must-abstain questions return `None`.
 - **`citation_validity`:** Validates that every citation emitted by the generator exists in the passages actually retrieved for that specific request. Fabricated citations yield validity $< 100\%$.
 - **`abstention_correctness`:** Asserts that 100% of must-abstain questions return `answered_from_context: false`.
+
+---
+
+## 8. Assignment 03 Day 1: Data verification and traceability
+
+The indexer now extracts each candidate document and verifies it before cleaning
+or chunking. `indexer/pipeline/verify.py` records a pass/fail reason for quality,
+completeness, recency, and uniqueness. Exact duplicates are checked by source
+SHA-256; near duplicates are checked by embedding cosine similarity using
+`NEAR_DUPLICATE_THRESHOLD` (default `0.95`). A failed input is moved to
+`QUARANTINE_DIR`, and every run writes a timestamped JSON report to
+`VERIFICATION_DIR`.
+
+The default directories are under `CORPUS_DIR`: `quarantine/`, `archive/`, and
+`verification/`. Superseded, verified source files are copied into the archive
+using their document ID and version. Their indexed chunks remain marked
+`superseded: true`; `python -m pipeline.run --restore DOCUMENT_ID VERSION`
+changes the metadata filter state to restore a version and invalidates the
+semantic cache.
+
+Incremental indexing compares each version's content hash, chunk text,
+embedding-model pin, and chunking settings with Chroma. Unchanged chunks are
+not embedded. Changed versions have only their own chunk IDs replaced, and
+versions absent from the verified corpus are deleted to prevent orphans. The
+indexer log reports embedded, written, and removed chunk counts.
+
+When Ollama is unavailable, the indexer logs that it is using deterministic
+lexical feature hashing instead of the configured semantic embedding model.
+This keeps local verification and tests offline; the report records the model,
+threshold, and fallback policy. Results measured with this fallback must not be
+
+The API writes one JSONL trace per successful or cached query to stdout and to
+`TRACE_DIR/queries.jsonl`. Traces include the retrieved records, the exact safe
+generation context, prompt and SHA-256, model parameters, citation/response
+data, guardrail actions, cache result, and stage timings. Retrieved passages
+containing explicit instruction-override text are excluded from generation and
+recorded as a guardrail action. `eval/show_trace.py TRACE_ID --traces FILE`
+prints the context and prompt from a trace. The API response includes the trace
+ID so an operator can look it up.
+
+`eval/golden.jsonl` is the Part B labelled set. `eval/embedding_pairs.jsonl`
+contains 15 paraphrase and 15 unrelated pairs. Run the full Part B suite twice
+with `make eval-assignment03`; the command writes timestamped results under
+`eval/results/`. It tests retrieval with one-character query typos as its noise
+condition. The faithfulness score is explicitly an expected-answer substring
+proxy, not a human judgment; citation validity is measured separately.
+Synthetic question review status is included in the result file and must be
+completed by the team before submission.

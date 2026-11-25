@@ -12,12 +12,15 @@ WORKDIR /app
 RUN groupadd -g 10001 appgroup && \
     useradd -u 10001 -g appgroup -s /bin/bash -m appuser
 
-COPY requirements.txt .
+COPY indexer/requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
-COPY pipeline/ ./pipeline/
+COPY indexer/pipeline/ ./pipeline/
+# The corpus is fetched by corpus/fetch.py and is intentionally not committed.
+# It is copied into the immutable indexer image at build time; the API never sees it.
+COPY corpus/raw/ /corpus/
 
-RUN chown -R appuser:appgroup /app
+RUN chown -R appuser:appgroup /app /corpus
 
 USER appuser
 

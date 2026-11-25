@@ -36,6 +36,12 @@ spec:
               env:
                 - name: CORPUS_DIR
                   value: "/corpus"
+                - name: QUARANTINE_DIR
+                  value: "/indexer-data/quarantine"
+                - name: ARCHIVE_DIR
+                  value: "/indexer-data/archive"
+                - name: VERIFICATION_DIR
+                  value: "/indexer-data/verification"
               resources:
                 requests:
                   cpu: 500m
@@ -51,15 +57,13 @@ spec:
                   drop:
                     - ALL
               volumeMounts:
-                - name: corpus-data
-                  mountPath: /corpus
-                  readOnly: true
                 - name: tmp-dir
                   mountPath: /tmp
+                - name: indexer-data
+                  mountPath: /indexer-data
           volumes:
-            - name: corpus-data
-              configMap:
-                name: rahbar-fixtures
-                optional: true
             - name: tmp-dir
               emptyDir: {}
+            - name: indexer-data
+              persistentVolumeClaim:
+                claimName: indexer-data-pvc

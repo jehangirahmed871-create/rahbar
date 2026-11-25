@@ -13,7 +13,7 @@ INGRESS_IP ?= $(shell minikube ip 2>/dev/null)
 HOST ?= rahbar.local
 
 .DEFAULT_GOAL := help
-.PHONY: help install test lint dev cluster images apply secret index ask fetch eval eval-fixtures check
+.PHONY: help install test lint dev cluster images apply secret index ask fetch eval eval-fixtures eval-assignment03 show-trace check
 
 help: ## list the targets
 	@grep -E '^[a-z-]+:.*## ' $(MAKEFILE_LIST) | awk -F':.*## ' '{printf "  make %-14s %s\n", $$1, $$2}'
@@ -26,6 +26,7 @@ install: ## create .venv and install the api, indexer and tool dependencies
 test: ## run the api and indexer tests (stubs only: no cluster, no model, no network)
 	cd api && $(BIN)/pytest -q
 	cd indexer && $(BIN)/pytest -q
+	cd eval && $(BIN)/pytest -q
 
 lint: ## ruff and mypy over everything in Python
 	$(BIN)/ruff check api indexer eval corpus
@@ -42,7 +43,7 @@ cluster: ## start minikube with Calico, then enable metrics-server and ingress
 
 images: ## build the three images and load them into minikube (needs yours: Dockerfiles)
 	docker build -t rahbar-api:$(TAG) api
-	docker build -t rahbar-indexer:$(TAG) indexer
+	docker build -f indexer/Dockerfile -t rahbar-indexer:$(TAG) .
 	docker build -t rahbar-ui:$(TAG) ui
 	minikube image load rahbar-api:$(TAG)
 	minikube image load rahbar-indexer:$(TAG)
@@ -73,6 +74,13 @@ eval: ## score eval/golden.yaml through the Ingress and apply the CI gate
 
 eval-fixtures: ## score the CI fixture golden set against a local `make dev`
 	$(BIN)/python eval/run_eval.py --api http://localhost:8000 --golden eval/fixtures/golden.fixture.yaml --out /tmp/rahbar-fixture-results.json
+
+eval-assignment03: ## run the Part B three-level suite twice and save timestamped evidence
+	$(BIN)/python eval/run_assignment03.py --api "http://$(INGRESS_IP)" --host $(HOST)
+
+show-trace: ## reconstruct a trace: make show-trace TRACE_ID=<id> TRACE_FILE=<jsonl>
+	@test -n "$(TRACE_ID)" || { echo "set TRACE_ID=<trace-id>"; exit 1; }
+	$(BIN)/python eval/show_trace.py "$(TRACE_ID)" --traces "$(or $(TRACE_FILE),traces/queries.jsonl)"
 
 check: ## run the submission checker
 	$(PY) scripts/check_submission.py

@@ -34,6 +34,7 @@ jobs:
       - name: Run Ruff Linter
         run: |
           ruff check api indexer eval corpus
+          mypy api/app indexer/pipeline
 
   test:
     name: Unit & Offline Stub Tests
@@ -54,8 +55,8 @@ jobs:
 
       - name: Run Pytest Suite
         run: |
-          export PYTHONPATH="api:indexer"
-          pytest -v api/tests indexer/tests
+          export PYTHONPATH="api:indexer:eval"
+          pytest -v api/tests indexer/tests eval/test_assignment03.py
 
   manifests:
     name: Validate Kubernetes Manifests
@@ -95,7 +96,8 @@ jobs:
       - name: Build Indexer Image
         uses: docker/build-push-action@v5
         with:
-          context: indexer
+          context: .
+          file: indexer/Dockerfile
           push: false
           tags: rahbar-indexer:${{ github.sha }}
 
@@ -123,7 +125,7 @@ jobs:
         with:
           image-ref: rahbar-api:${{ github.sha }}
           format: "table"
-          exit-code: "0"
+          exit-code: "1"
           ignore-unfixed: true
           vuln-type: "os,library"
           severity: "CRITICAL,HIGH"
@@ -153,8 +155,10 @@ jobs:
 
       - name: Build and Load Images into Kind
         run: |
+          mkdir -p corpus/raw
+          cp eval/fixtures/*.md eval/fixtures/batch-b/*.md corpus/raw/
           docker build -t rahbar-api:dev api
-          docker build -t rahbar-indexer:dev indexer
+          docker build -f indexer/Dockerfile -t rahbar-indexer:dev .
           docker build -t rahbar-ui:dev ui
           kind load docker-image rahbar-api:dev rahbar-indexer:dev rahbar-ui:dev --name rahbar-ci
 
