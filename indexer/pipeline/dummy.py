@@ -11,14 +11,18 @@ against this index; run the real pipeline to replace it.
 from __future__ import annotations
 
 import hashlib
+import logging
 import math
 from typing import Any
+
+from chromadb.errors import NotFoundError
 
 from .config import IndexerSettings
 from .models import Chunk
 
 DUMMY_MODEL = "dummy-768"
 DUMMY_DIM = 768
+log = logging.getLogger("rahbar.indexer.dummy")
 
 DUMMY_CHUNKS = [
     Chunk(id="dummy-001", text="Dummy chunk one. The real indexer replaces this.",
@@ -46,8 +50,8 @@ def write_dummy_index(settings: IndexerSettings, client: Any) -> int:
     """Rebuild the collection with the three dummy chunks. Safe to run twice."""
     try:
         client.delete_collection(settings.collection)
-    except Exception:  # the collection did not exist yet
-        pass
+    except NotFoundError as exc:
+        log.debug("Collection %s does not exist yet: %s", settings.collection, exc)
     collection = client.create_collection(
         name=settings.collection,
         metadata={"hnsw:space": "cosine", "embed_model": DUMMY_MODEL, "dimension": DUMMY_DIM},

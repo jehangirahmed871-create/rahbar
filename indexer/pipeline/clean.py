@@ -51,7 +51,9 @@ def clean(doc: Document) -> Document:
                 continue
 
             # Skip standalone page numbering patterns (e.g. "Page 14 of 58", "12", "- 12 -")
-            if re.fullmatch(r"(?:Page\s+)?-?\s*\d+\s*(?:of\s+\d+)?-?", stripped, re.I):
+            if re.fullmatch(
+                r"(?:Page\s+)?-?\s*\d+\s*(?:of\s+\d+)?-?", stripped, re.IGNORECASE
+            ):
                 continue
 
             # Deliberately PRESERVE:
@@ -82,4 +84,10 @@ def clean(doc: Document) -> Document:
         doc_version=doc.doc_version,
         superseded=doc.superseded,
         pages=cleaned_pages,
+        title=doc.title,
+        document_id=doc.document_id,
+        text_truncated=doc.text_truncated,
+        content_hash=doc.content_hash,
+        extraction_error=doc.extraction_error,
+        source_path=doc.source_path,
     )

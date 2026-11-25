@@ -8,7 +8,10 @@ from .models import Chunk, Document
 
 HEADING_PATTERNS = [
     re.compile(r"^#{1,4}\s+(.+)$"),
-    re.compile(r"^(?:Section|Clause|Rule|Article)\s+([0-9]+(?:\.[0-9]+)*\b.*)$", re.I),
+    re.compile(
+        r"^(?:Section|Clause|Rule|Article)\s+([0-9]+(?:\.[0-9]+)*\b.*)$",
+        re.IGNORECASE,
+    ),
     re.compile(r"^([0-9]+(?:\.[0-9]+)+\.?\s+[A-Za-z].*)$"),
     re.compile(r"^([0-9]+\.\s+[A-Za-z][\w\s]{2,50})$"),
 ]
@@ -50,6 +53,8 @@ def chunk(doc: Document, size: int = 400, overlap: int = 50) -> list[Chunk]:
     chunks: list[Chunk] = []
     chunk_idx = 0
     current_section = f"General ({doc.source})"
+    document_version_id = f"{doc.document_id}@{doc.doc_version}"
+    page_count = len(doc.pages)
 
     for page in doc.pages:
         page_num = page.page
@@ -80,6 +85,13 @@ def chunk(doc: Document, size: int = 400, overlap: int = 50) -> list[Chunk]:
                         page=page_num,
                         doc_version=doc.doc_version,
                         superseded=doc.superseded,
+                        document_id=doc.document_id,
+                        document_version_id=document_version_id,
+                        document_hash=doc.content_hash,
+                        title=doc.title,
+                        page_count=page_count,
+                        chunk_size=size,
+                        chunk_overlap=overlap,
                     )
                 )
                 chunk_idx += 1
@@ -103,6 +115,13 @@ def chunk(doc: Document, size: int = 400, overlap: int = 50) -> list[Chunk]:
                                 page=page_num,
                                 doc_version=doc.doc_version,
                                 superseded=doc.superseded,
+                                document_id=doc.document_id,
+                                document_version_id=document_version_id,
+                                document_hash=doc.content_hash,
+                                title=doc.title,
+                                page_count=page_count,
+                                chunk_size=size,
+                                chunk_overlap=overlap,
                             )
                         )
                         chunk_idx += 1
@@ -135,6 +154,13 @@ def chunk(doc: Document, size: int = 400, overlap: int = 50) -> list[Chunk]:
                             page=page_num,
                             doc_version=doc.doc_version,
                             superseded=doc.superseded,
+                            document_id=doc.document_id,
+                            document_version_id=document_version_id,
+                            document_hash=doc.content_hash,
+                            title=doc.title,
+                            page_count=page_count,
+                            chunk_size=size,
+                            chunk_overlap=overlap,
                         )
                     )
                     chunk_idx += 1
