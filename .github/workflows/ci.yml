@@ -233,3 +233,22 @@ jobs:
       - name: Execute Evaluation Gate with eval/run_eval.py
         run: |
           python eval/run_eval.py --api http://localhost:8000 --golden eval/fixtures/golden.fixture.yaml --baseline eval/fixtures/baseline.fixture.json
+
+      - name: Collect end-to-end traces
+        if: always()
+        run: |
+          api_pod=$(kubectl get pods -n rahbar -l app.kubernetes.io/name=api -o jsonpath='{.items[0].metadata.name}' 2>/dev/null || true)
+          if [ -n "$api_pod" ] && kubectl exec -n rahbar "$api_pod" -- test -f /traces/queries.jsonl; then
+            kubectl exec -n rahbar "$api_pod" -- cat /traces/queries.jsonl > eval/traces.jsonl
+          fi
+
+      - name: Upload end-to-end evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: assignment-03-evaluation-evidence
+          path: |
+            eval/results.json
+            eval/traces.jsonl
+          if-no-files-found: warn
+          retention-days: 14
