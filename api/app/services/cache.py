@@ -10,7 +10,7 @@ from __future__ import annotations
 import json
 import logging
 import math
-from typing import Any
+from typing import Any, cast
 
 import redis
 
@@ -146,9 +146,11 @@ class SemanticCache:
         if self._redis:
             try:
                 entries: list[dict[str, Any]] = []
-                keys = self._redis.keys("rahbar:cache:*")
+                # redis-py shares sync/async command typings; this client is synchronous
+                # and uses decode_responses=True.
+                keys = cast(list[str], self._redis.keys("rahbar:cache:*"))
                 for k in keys:
-                    raw = self._redis.get(k)
+                    raw = cast(str | None, self._redis.get(k))
                     if raw:
                         entries.append(json.loads(raw))
                 return entries
