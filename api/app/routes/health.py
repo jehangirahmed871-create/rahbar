@@ -5,6 +5,9 @@ from __future__ import annotations
 import logging
 from typing import Any
 
+import httpx
+import redis
+from chromadb.errors import ChromaError
 from fastapi import APIRouter, Request, Response
 
 log = logging.getLogger("rahbar.health")
@@ -75,7 +78,7 @@ def readyz(request: Request, response: Response) -> dict[str, object]:
             }
         checks["embed_model"] = settings.embed_model
 
-    except Exception as exc:
+    except (ChromaError, httpx.HTTPError, OSError) as exc:
         response.status_code = 503
         return {
             "status": "not_ready",
@@ -86,12 +89,10 @@ def readyz(request: Request, response: Response) -> dict[str, object]:
     # 3. Redis Reachability Check (section 4.3)
     if getattr(settings, "redis_host", None):
         try:
-            import redis
-
             r = redis.Redis(host=settings.redis_host, port=settings.redis_port, socket_timeout=1.0)
             r.ping()
             checks["redis"] = "connected"
-        except Exception as exc:
+        except (redis.RedisError, OSError) as exc:
             response.status_code = 503
             log.warning("Redis reachability check failed: %s", exc)
             return {

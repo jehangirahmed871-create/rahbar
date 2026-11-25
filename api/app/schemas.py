@@ -34,6 +34,8 @@ class Passage(BaseModel):
     section: str
     page: int | None = None
     score: float = Field(description="Similarity, higher is closer (1 - cosine distance).")
+    document_id: str | None = None
+    doc_version: str | None = None
 
 
 class Citation(BaseModel):
@@ -60,6 +62,8 @@ class RetrievedRef(BaseModel):
     section: str
     page: int | None = None
     score: float
+    document_id: str | None = None
+    doc_version: str | None = None
 
 
 class AskResponse(BaseModel):
@@ -70,3 +74,4 @@ class AskResponse(BaseModel):
     confidence: Literal["high", "medium", "low"]
     retrieved: list[RetrievedRef]
     provider: str
+    trace_id: str | None = None

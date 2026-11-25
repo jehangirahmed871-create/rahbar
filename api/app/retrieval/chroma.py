@@ -3,8 +3,11 @@
 from __future__ import annotations
 
 import hashlib
+import json
 import logging
 import math
+import os
+import re
 
 import httpx
 
@@ -12,6 +15,12 @@ from ..config import Settings
 from ..schemas import Passage
 
 log = logging.getLogger("rahbar.retrieval.chroma")
+
+_STOPWORDS = {"a", "an", "and", "are", "be", "for", "from", "how", "in", "is", "of", "on", "or", "the", "to", "what", "when", "which", "who", "with"}
+
+
+def _terms(text: str) -> set[str]:
+    return {word for word in re.findall(r"[a-z0-9][a-z0-9.-]{1,}", text.lower()) if word not in _STOPWORDS}
 
 
 def _get_query_vector(text: str, settings: Settings, dim: int = 768) -> list[float]:
@@ -22,10 +31,15 @@ def _get_query_vector(text: str, settings: Settings, dim: int = 768) -> list[flo
             resp = client.post(endpoint, json={"model": settings.embed_model, "input": [text]})
             if resp.status_code == 200:
                 data = resp.json()
-                embeds = data.get("embeddings") or []
-                if embeds and len(embeds[0]) > 0:
+                embeds = data.get("embeddings") if isinstance(data, dict) else None
+                if (
+                    isinstance(embeds, list)
+                    and embeds
+                    and isinstance(embeds[0], list)
+                    and embeds[0]
+                ):
                     return embeds[0]
-    except Exception as exc:
+    except (httpx.HTTPError, json.JSONDecodeError, TypeError, ValueError) as exc:
         log.info("Query embedding fallback used (%s)", exc)
 
     # Deterministic fallback vector
@@ -47,19 +61,31 @@ class ChromaRetriever:
         from chromadb.config import Settings as ChromaSettings
 
         self.settings = settings
-        self.client = chromadb.HttpClient(
-            host=settings.chroma_host,
-            port=settings.chroma_port,
-            settings=ChromaSettings(anonymized_telemetry=False),
-        )
+
+        # Local mode: use PersistentClient (no Docker/network needed)
+        local_dir = os.environ.get("CHROMA_LOCAL_DIR", "")
+        if local_dir:
+            log.info("Using local PersistentClient at %s", local_dir)
+            self.client = chromadb.PersistentClient(
+                path=local_dir,
+                settings=ChromaSettings(anonymized_telemetry=False),
+            )
+        else:
+            self.client = chromadb.HttpClient(
+                host=settings.chroma_host,
+                port=settings.chroma_port,
+                settings=ChromaSettings(anonymized_telemetry=False),
+            )
 
     def retrieve(self, question: str, k: int) -> list[Passage]:
         """Query Chroma for top k chunks, filtering out superseded policy documents
         unless explicitly requested by user inquiry.
         """
+        from chromadb.errors import ChromaError
+
         try:
             collection = self.client.get_collection(self.settings.collection)
-        except Exception as exc:
+        except (ChromaError, httpx.HTTPError, OSError) as exc:
             log.error("Failed to access collection %s: %s", self.settings.collection, exc)
             return []
 
@@ -72,18 +98,17 @@ class ChromaRetriever:
 
         try:
             results = collection.query(
-                query_embeddings=[query_vector],
+                query_embeddings=[query_vector],  # type: ignore[arg-type]
                 n_results=k,
-                where=where_filter,
+                where=where_filter,  # type: ignore[arg-type]
                 include=["documents", "metadatas", "distances"],
             )
-        except Exception as exc:
-            log.warning("Chroma query failed with where filter (%s); querying without filter", exc)
-            results = collection.query(
-                query_embeddings=[query_vector],
-                n_results=k,
-                include=["documents", "metadatas", "distances"],
-            )
+        except (ChromaError, httpx.HTTPError, OSError, ValueError) as exc:
+            # Never silently drop the superseded-document filter. A malformed or
+            # unsupported query is a safe empty retrieval, not permission to return
+            # obsolete policy text.
+            log.error("Chroma query failed with required metadata filter: %s", exc)
+            return []
 
         passages: list[Passage] = []
         ids = (results.get("ids") or [[]])[0]
@@ -100,9 +125,48 @@ class ChromaRetriever:
                     text=str(text),
                     source=str(meta.get("source", "unknown")),
                     section=str(meta.get("section", "General")),
-                    page=int(meta["page"]) if meta.get("page") is not None else None,
+                    page=int(str(meta["page"])) if meta.get("page") is not None else None,
                     score=round(similarity, 4),
+                    document_id=str(meta.get("document_id", "")) or None,
+                    doc_version=str(meta.get("doc_version", "")) or None,
                 )
             )
+
+        # Offline backstop: when Ollama is unavailable the deterministic hash
+        # vector is not semantic. Score the indexed text lexically so exact
+        # FAST terms (CGPA, fees, clause numbers) still retrieve grounded data.
+        if passages and max((p.score for p in passages), default=0.0) < self.settings.relevance_floor:
+            try:
+                all_rows = collection.get(
+                    where=where_filter,  # type: ignore[arg-type]
+                    include=["documents", "metadatas"],
+                )
+                query_terms = _terms(question)
+                candidates: list[Passage] = []
+                for chunk_id, text, meta in zip(
+                    all_rows.get("ids") or [],
+                    all_rows.get("documents") or [],
+                    all_rows.get("metadatas") or [],
+                ):
+                    chunk_terms = _terms(str(text))
+                    if not query_terms or not chunk_terms:
+                        continue
+                    overlap = len(query_terms & chunk_terms) / len(query_terms)
+                    if overlap <= 0:
+                        continue
+                    candidates.append(Passage(
+                        chunk_id=str(chunk_id), text=str(text),
+                        source=str(meta.get("source", "unknown")),
+                        section=str(meta.get("section", "General")),
+                        page=int(str(meta["page"])) if meta.get("page") is not None else None,
+                        score=round(min(1.0, overlap), 4),
+                        document_id=str(meta.get("document_id", "")) or None,
+                        doc_version=str(meta.get("doc_version", "")) or None,
+                    ))
+                if candidates:
+                    candidates.sort(key=lambda item: item.score, reverse=True)
+                    passages = candidates[:k]
+            except (ChromaError, httpx.HTTPError, OSError, ValueError) as exc:
+                log.warning("Lexical retrieval backstop failed: %s", exc)
 
         return passages
