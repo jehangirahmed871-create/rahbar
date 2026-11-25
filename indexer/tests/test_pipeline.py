@@ -143,6 +143,30 @@ def test_chunk_preserves_sections_and_metadata() -> None:
         }
 
 
+def test_chunk_ids_are_unique_for_same_basename_across_documents() -> None:
+    page_text = "# Attendance\nStudents must attend the required lectures."
+    first = Document(
+        source="academic-rules-2026.md",
+        doc_version="2026",
+        superseded=False,
+        pages=[Page(source="academic-rules-2026.md", page=1, text=page_text)],
+        document_id="fixture-academic-rules",
+    )
+    second = Document(
+        source="academic-rules-2026.md",
+        doc_version="2026",
+        superseded=True,
+        pages=[Page(source="academic-rules-2026.md", page=1, text=page_text)],
+        document_id="undergraduate-academic-rules",
+    )
+
+    first_ids = {item.id for item in chunk(first)}
+    second_ids = {item.id for item in chunk(second)}
+    assert first_ids
+    assert second_ids
+    assert first_ids.isdisjoint(second_ids)
+
+
 def test_incremental_store_skips_unchanged_chunks_and_removes_deleted_documents(
     monkeypatch: pytest.MonkeyPatch,
 ) -> None:
