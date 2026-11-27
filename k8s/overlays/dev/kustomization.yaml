@@ -16,3 +16,4 @@ images:
 
 patches:
   - path: api-dev-patch.yaml
+  - path: hpa-dev-patch.yaml

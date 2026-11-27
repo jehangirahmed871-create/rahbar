@@ -16,12 +16,3 @@ spec:
             limits:
               cpu: 500m
               memory: 768Mi
----
-apiVersion: autoscaling/v2
-kind: HorizontalPodAutoscaler
-metadata:
-  name: api-hpa
-  namespace: rahbar
-spec:
-  minReplicas: 1
-  maxReplicas: 1
