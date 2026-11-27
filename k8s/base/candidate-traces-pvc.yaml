@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: candidate-traces-pvc
+  namespace: rahbar
+  labels:
+    app.kubernetes.io/name: api-candidate
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 1Gi

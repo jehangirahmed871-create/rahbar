@@ -13,3 +13,6 @@ images:
     newTag: dev
   - name: rahbar-ui
     newTag: dev
+
+patches:
+  - path: api-dev-patch.yaml

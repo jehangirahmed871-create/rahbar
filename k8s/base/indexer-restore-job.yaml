@@ -1,0 +1,67 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: indexer-restore-old-version
+  namespace: rahbar
+  labels:
+    app.kubernetes.io/name: indexer
+    app.kubernetes.io/instance: restore
+spec:
+  backoffLimit: 1
+  activeDeadlineSeconds: 300
+  ttlSecondsAfterFinished: 86400
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: indexer
+        app.kubernetes.io/instance: restore
+    spec:
+      restartPolicy: Never
+      serviceAccountName: indexer-sa
+      automountServiceAccountToken: false
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 10001
+        runAsGroup: 10001
+        fsGroup: 10001
+      containers:
+        - name: restore
+          image: rahbar-indexer:dev
+          imagePullPolicy: IfNotPresent
+          command:
+            - /bin/sh
+            - -ec
+          args:
+            - |
+              test -f /indexer-data/archive/undergraduate-academic-rules/2026/academic-rules-2026.md
+              python -m pipeline.run --restore undergraduate-academic-rules 2026
+          envFrom:
+            - configMapRef:
+                name: rahbar-config
+          env:
+            - name: CHROMA_COLLECTION
+              value: rahbar
+            - name: PYTHONDONTWRITEBYTECODE
+              value: "1"
+          resources:
+            requests:
+              cpu: 100m
+              memory: 128Mi
+            limits:
+              cpu: 250m
+              memory: 256Mi
+          securityContext:
+            runAsNonRoot: true
+            readOnlyRootFilesystem: true
+            allowPrivilegeEscalation: false
+            capabilities:
+              drop:
+                - ALL
+          volumeMounts:
+            - name: indexer-data
+              mountPath: /indexer-data
+              readOnly: true
+      volumes:
+        - name: indexer-data
+          persistentVolumeClaim:
+            claimName: indexer-data-pvc

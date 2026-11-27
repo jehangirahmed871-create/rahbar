@@ -173,6 +173,73 @@ def test_abstention_on_irrelevant_question(monkeypatch: pytest.MonkeyPatch, clie
     assert len(data["citations"]) == 0
 
 
+def test_chroma_uses_local_lexical_retrieval_without_embedding_service(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    from app.config import Settings
+    from app.retrieval import chroma
+
+    class Collection:
+        query_called = False
+
+        def query(self, **kwargs: object) -> dict[str, object]:
+            self.query_called = True
+            return {}
+
+        def get(self, **kwargs: object) -> dict[str, object]:
+            return {
+                "ids": ["attendance"],
+                "documents": ["The minimum percentage of attendance is 80 percent."],
+                "metadatas": [{
+                    "source": "rules.md",
+                    "section": "Attendance",
+                    "page": 2,
+                    "document_id": "rules",
+                    "doc_version": "2026",
+                }],
+            }
+
+    class Client:
+        def __init__(self) -> None:
+            self.collection = Collection()
+
+        def get_collection(self, name: str) -> Collection:
+            return self.collection
+
+    retriever = chroma.ChromaRetriever.__new__(chroma.ChromaRetriever)
+    retriever.settings = Settings(relevance_floor=0.5)
+    fake_client = Client()
+    monkeypatch.setattr(retriever, "client", fake_client, raising=False)
+    monkeypatch.setattr(
+        chroma.httpx,
+        "Client",
+        lambda *args, **kwargs: pytest.fail("retrieval must not call an embedding service"),
+    )
+
+    passages = retriever.retrieve("What is the minimum percentage of attendance?", 5)
+
+    assert fake_client.collection.query_called is False
+    assert passages[0].chunk_id == "attendance"
+    assert passages[0].score > 0
+
+
+def test_query_cache_vector_is_deterministic_and_local(monkeypatch: pytest.MonkeyPatch) -> None:
+    from app.config import Settings
+    from app.retrieval import chroma
+
+    monkeypatch.setattr(
+        chroma.httpx,
+        "Client",
+        lambda *args, **kwargs: pytest.fail("query vectors must not call an embedding service"),
+    )
+
+    first = chroma._get_query_vector("minimum attendance percentage", Settings())
+    second = chroma._get_query_vector("minimum attendance percentage", Settings())
+
+    assert len(first) == 768
+    assert first == second
+
+
 def test_validation_fallback_on_schema_failure(monkeypatch: pytest.MonkeyPatch, client: TestClient) -> None:
     """Tests the safe fallback path when an LLM provider fails Pydantic validation."""
     from app.providers.llm.base import LLMProvider

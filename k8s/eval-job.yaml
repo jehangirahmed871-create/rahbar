@@ -1,0 +1,84 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: eval-candidate
+  namespace: rahbar
+  labels:
+    app.kubernetes.io/name: evaluation
+    app.kubernetes.io/instance: candidate
+spec:
+  backoffLimit: 0
+  activeDeadlineSeconds: 7200
+  ttlSecondsAfterFinished: 86400
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: evaluation
+        app.kubernetes.io/instance: candidate
+    spec:
+      restartPolicy: Never
+      serviceAccountName: eval-sa
+      automountServiceAccountToken: false
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 10001
+        runAsGroup: 10001
+        fsGroup: 10001
+      containers:
+        - name: evaluate
+          image: rahbar-eval:dev
+          imagePullPolicy: IfNotPresent
+          command:
+            - python
+            - /app/eval/run_assignment03.py
+          args:
+            - --api
+            - http://api-candidate:8000
+            - --golden
+            - /app/eval/golden.jsonl
+            - --embedding-pairs
+            - /app/eval/embedding_pairs.jsonl
+            - --repeats
+            - "2"
+            - --output-file
+            - /results/part-c-candidate.json
+            - --baseline-report
+            - /results/part-e3-after-batch-b.json
+            - --thresholds
+            - /thresholds/release-thresholds.json
+            - --gate-out
+            - /results/part-c-gate.json
+          env:
+            - name: PYTHONDONTWRITEBYTECODE
+              value: "1"
+          resources:
+            requests:
+              cpu: 100m
+              memory: 128Mi
+            limits:
+              cpu: 500m
+              memory: 256Mi
+          securityContext:
+            runAsNonRoot: true
+            readOnlyRootFilesystem: true
+            allowPrivilegeEscalation: false
+            capabilities:
+              drop:
+                - ALL
+          volumeMounts:
+            - name: results
+              mountPath: /results
+            - name: thresholds
+              mountPath: /thresholds
+              readOnly: true
+            - name: tmp-dir
+              mountPath: /tmp
+      volumes:
+        - name: results
+          persistentVolumeClaim:
+            claimName: eval-results-pvc
+        - name: thresholds
+          configMap:
+            name: eval-thresholds
+        - name: tmp-dir
+          emptyDir: {}

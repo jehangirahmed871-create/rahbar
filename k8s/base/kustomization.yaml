@@ -7,8 +7,12 @@ resources:
   - namespace.yaml
   - serviceaccounts.yaml
   - configmap.yaml
+  - corpus-pvc.yaml
   - indexer-data-pvc.yaml
   - traces-pvc.yaml
+  - candidate-traces-pvc.yaml
+  - eval-results-pvc.yaml
+  - eval-thresholds-configmap.yaml
   - chroma-statefulset.yaml
   - redis.yaml
   - reindex-cronjob.yaml

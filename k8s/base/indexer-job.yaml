@@ -7,6 +7,7 @@ metadata:
     app.kubernetes.io/name: indexer
 spec:
   backoffLimit: 3
+  activeDeadlineSeconds: 7200
   template:
     metadata:
       labels:
@@ -21,6 +22,25 @@ spec:
         runAsUser: 10001
         runAsGroup: 10001
         fsGroup: 10001
+      initContainers:
+        - name: seed-corpus-from-image
+          image: rahbar-indexer:dev
+          imagePullPolicy: IfNotPresent
+          command: ["/bin/sh", "-ec"]
+          args:
+            - |
+              cp -rn /corpus/. /corpus-pvc/
+              touch /corpus-pvc/.base-seeded
+          securityContext:
+            runAsNonRoot: true
+            readOnlyRootFilesystem: true
+            allowPrivilegeEscalation: false
+            capabilities:
+              drop:
+                - ALL
+          volumeMounts:
+            - name: corpus-data
+              mountPath: /corpus-pvc
       containers:
         - name: indexer
           image: rahbar-indexer:dev
@@ -42,8 +62,8 @@ spec:
               cpu: 250m
               memory: 512Mi
             limits:
-              cpu: 2000m
-              memory: 2Gi
+              cpu: "1"
+              memory: 1536Mi
           securityContext:
             runAsNonRoot: true
             readOnlyRootFilesystem: false
@@ -54,11 +74,16 @@ spec:
           volumeMounts:
             - name: tmp-dir
               mountPath: /tmp
+            - name: corpus-data
+              mountPath: /corpus
             - name: indexer-data
               mountPath: /indexer-data
       volumes:
         - name: tmp-dir
           emptyDir: {}
+        - name: corpus-data
+          persistentVolumeClaim:
+            claimName: corpus-pvc
         - name: indexer-data
           persistentVolumeClaim:
             claimName: indexer-data-pvc

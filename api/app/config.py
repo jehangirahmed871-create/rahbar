@@ -32,7 +32,7 @@ class Settings:
     llm_provider: str = "stub"       # LLM_PROVIDER: stub | ollama-host | ollama-incluster | hosted
 
     # The embedding pin (section 4.4). The indexer reads the same ConfigMap key.
-    embed_model: str = "nomic-embed-text"
+    embed_model: str = "offline-feature-hash-v1"
 
     # Vector store
     chroma_host: str = "chroma"
@@ -61,7 +61,7 @@ def get_settings() -> Settings:
     return Settings(
         retriever=os.environ.get("RETRIEVER", "stub"),
         llm_provider=os.environ.get("LLM_PROVIDER", "stub"),
-        embed_model=os.environ.get("EMBED_MODEL", "nomic-embed-text"),
+        embed_model=os.environ.get("EMBED_MODEL", "offline-feature-hash-v1"),
         chroma_host=os.environ.get("CHROMA_HOST", "chroma"),
         chroma_port=_int("CHROMA_PORT", 8000),
         collection=os.environ.get("CHROMA_COLLECTION", "rahbar"),

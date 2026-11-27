@@ -29,17 +29,16 @@ flowchart TD
         IndexerJob[Indexer Job / CronJob<br/>extract, clean, chunk, embed, store]
     end
 
-    subgraph InferenceEngine [LLM Host]
-        Ollama[Ollama Host<br/>llama3.2:3b + nomic-embed-text]
+    subgraph InferenceEngine [Hosted LLM]
+        Groq[Groq API<br/>gpt-oss-20b]
     end
 
     API -->|1. Cache Check| Redis
     API -->|2. Read-Only Retrieval| Chroma
-    API -->|3. Augmented Prompt| Ollama
+    API -->|3. Augmented Prompt| Groq
 
     IndexerJob -->|Only Writer: Upsert Vectors| Chroma
     IndexerJob -->|Flush Cache on Reindex| Redis
-    IndexerJob -->|Batch Embeddings| Ollama
 ```
 
 ---
@@ -60,8 +59,10 @@ flowchart TD
 ### Prerequisites
 - Docker & Minikube (or Kind / k3d)
 - Python 3.12 & `kubectl`
-- Ollama running locally: `OLLAMA_HOST=0.0.0.0 ollama serve`
-  - Pull models: `ollama pull llama3.2:3b` and `ollama pull nomic-embed-text`
+- A hosted LLM API key stored in the `rahbar-secret` Kubernetes Secret
+- Groq handles answer generation. Embedding vectors use deterministic local
+  feature hashing, and queries use lexical retrieval; no Ollama or separate
+  embedding service is required. This is resource-light but less semantic.
 
 ### 1. Start Cluster with Calico CNI
 Start minikube with Calico (required for NetworkPolicy enforcement):
@@ -190,3 +191,16 @@ API_POD=$(kubectl get pods -n rahbar -l app.kubernetes.io/name=api \
 kubectl cp -n rahbar "$API_POD:/traces/queries.jsonl" traces/queries.jsonl
 make show-trace TRACE_ID=<trace-id> TRACE_FILE=traces/queries.jsonl
 ```
+
+## Assignment 03 Day 2: drift, gating, and desktop Kubernetes
+
+Day 2 extends the persistent corpus with Batch B, measures post-ingestion drift,
+compares a top-k candidate against the post-B baseline, gates and rolls out the
+passing candidate, and captures traces and cluster resource evidence. All
+Kubernetes Jobs must run sequentially because the indexer Job is the sole
+writer to Chroma. The dev overlay scales the live API to a desktop-sized
+replica count; it does not switch the cluster to Docker Desktop Kubernetes.
+
+Follow [k8s/README.md](k8s/README.md) for the exact PowerShell commands,
+including image builds, PVC-backed corpus/results, the evaluation and release
+gate Jobs, trace capture, and rollout/undo verification.
