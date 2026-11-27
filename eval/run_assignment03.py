@@ -20,8 +20,8 @@ import httpx
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "indexer"))
 
-from pipeline.config import get_settings as get_indexer_settings
-from pipeline.embed import embed
+from pipeline.config import get_settings as get_indexer_settings  # noqa: E402
+from pipeline.embed import embed  # noqa: E402
 
 
 def load_jsonl(path: Path) -> list[dict[str, Any]]:
