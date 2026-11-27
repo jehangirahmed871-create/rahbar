@@ -1,5 +1,9 @@
 FROM python:3.12-slim
 
+RUN apt-get update && \
+    apt-get install -y --only-upgrade --no-install-recommends libzstd1 && \
+    rm -rf /var/lib/apt/lists/*
+
 WORKDIR /app
 
 RUN groupadd -g 10001 appgroup && \

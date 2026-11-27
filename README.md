@@ -29,17 +29,16 @@ flowchart TD
         IndexerJob[Indexer Job / CronJob<br/>extract, clean, chunk, embed, store]
     end
 
-    subgraph InferenceEngine [LLM Host]
-        Ollama[Ollama Host<br/>llama3.2:3b + nomic-embed-text]
+    subgraph InferenceEngine [Hosted LLM]
+        Groq[Groq API<br/>gpt-oss-20b]
     end
 
     API -->|1. Cache Check| Redis
     API -->|2. Read-Only Retrieval| Chroma
-    API -->|3. Augmented Prompt| Ollama
+    API -->|3. Augmented Prompt| Groq
 
     IndexerJob -->|Only Writer: Upsert Vectors| Chroma
     IndexerJob -->|Flush Cache on Reindex| Redis
-    IndexerJob -->|Batch Embeddings| Ollama
 ```
 
 ---
@@ -60,8 +59,10 @@ flowchart TD
 ### Prerequisites
 - Docker & Minikube (or Kind / k3d)
 - Python 3.12 & `kubectl`
-- Ollama running locally: `OLLAMA_HOST=0.0.0.0 ollama serve`
-  - Pull models: `ollama pull llama3.2:3b` and `ollama pull nomic-embed-text`
+- A hosted LLM API key stored in the `rahbar-secret` Kubernetes Secret
+- Groq handles answer generation. Embedding vectors use deterministic local
+  feature hashing, and queries use lexical retrieval; no Ollama or separate
+  embedding service is required. This is resource-light but less semantic.
 
 ### 1. Start Cluster with Calico CNI
 Start minikube with Calico (required for NetworkPolicy enforcement):
@@ -90,7 +91,7 @@ python corpus/fetch.py --verify
 Build images locally and load them into the cluster:
 ```bash
 docker build -t rahbar-api:dev api
-docker build -t rahbar-indexer:dev indexer
+docker build -f indexer/Dockerfile -t rahbar-indexer:dev .
 docker build -t rahbar-ui:dev ui
 minikube image load rahbar-api:dev
 minikube image load rahbar-indexer:dev
@@ -145,3 +146,61 @@ Run automated evaluation suite against the live cluster:
 python eval/run_eval.py --api http://localhost:8000
 python scripts/check_submission.py
 ```
+
+## Assignment 03 Day 1: Verification, evaluation, and traces
+
+The indexer image includes the local corpus at build time. Fetch and verify the
+official documents before building it. To include the planted Batch B inputs,
+copy them into the ignored working corpus directory first; ingestion moves
+failed inputs to quarantine, so never index directly from `eval/fixtures/`.
+
+```bash
+mkdir -p corpus/raw
+cp eval/fixtures/batch-b/*.md corpus/raw/
+docker build -f indexer/Dockerfile -t rahbar-indexer:dev .
+minikube image load rahbar-indexer:dev
+```
+
+The dev overlay provisions persistent storage for indexer verification,
+quarantine, and archived versions, and a separate trace volume for API pods.
+Run the indexer after loading the image:
+
+```bash
+kubectl delete job indexer -n rahbar --ignore-not-found
+kubectl apply -f k8s/base/indexer-job.yaml
+kubectl wait --for=condition=complete job/indexer -n rahbar --timeout=300s
+kubectl logs job/indexer -n rahbar
+```
+
+Use the API port-forward from Step 8, then run the twice-repeated Part B suite.
+Results are timestamped under `eval/results/`; the report labels its
+expected-answer-match faithfulness score as a proxy, measures citation validity
+separately, and records the count of synthetic questions still awaiting human
+review.
+
+```bash
+make eval-assignment03 INGRESS_IP=127.0.0.1
+```
+
+The API response includes `trace_id`. Copy the JSONL file from an API pod, then
+reconstruct a trace's exact prompt and safe generation context:
+
+```bash
+API_POD=$(kubectl get pods -n rahbar -l app.kubernetes.io/name=api \
+  -o jsonpath='{.items[0].metadata.name}')
+kubectl cp -n rahbar "$API_POD:/traces/queries.jsonl" traces/queries.jsonl
+make show-trace TRACE_ID=<trace-id> TRACE_FILE=traces/queries.jsonl
+```
+
+## Assignment 03 Day 2: drift, gating, and desktop Kubernetes
+
+Day 2 extends the persistent corpus with Batch B, measures post-ingestion drift,
+compares a top-k candidate against the post-B baseline, gates and rolls out the
+passing candidate, and captures traces and cluster resource evidence. All
+Kubernetes Jobs must run sequentially because the indexer Job is the sole
+writer to Chroma. The dev overlay scales the live API to a desktop-sized
+replica count; it does not switch the cluster to Docker Desktop Kubernetes.
+
+Follow [k8s/README.md](k8s/README.md) for the exact PowerShell commands,
+including image builds, PVC-backed corpus/results, the evaluation and release
+gate Jobs, trace capture, and rollout/undo verification.

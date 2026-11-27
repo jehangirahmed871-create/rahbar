@@ -1,0 +1,22 @@
+{
+  "window_minutes": 1440.0,
+  "window_start": "2026-11-26T09:50:39.357582+00:00",
+  "window_end": "2026-11-27T09:50:39.357582+00:00",
+  "trace_count": 314,
+  "top1_similarity": {
+    "count": 307,
+    "mean": 0.546342671009772,
+    "p50": 0.5556,
+    "p95": 0.8571
+  },
+  "abstention_rate": 0.9235668789808917,
+  "cache_hit_rate": 0.022292993630573247,
+  "stage_latency_p95_seconds": {
+    "cache_lookup": 0.09574297395008668,
+    "generation": 2.499708853250013,
+    "query_embedding": 0.0011530789002108536,
+    "retrieval": 0.819629613500092,
+    "total": 2.652841815250235
+  },
+  "injection_attempts_flagged": 26
+}

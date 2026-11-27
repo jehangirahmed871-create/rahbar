@@ -6,6 +6,7 @@ on:
       - dev
   pull_request:
     branches:
+      - dev
       - main
 
 permissions:
@@ -29,11 +30,12 @@ jobs:
       - name: Install Linting Tools
         run: |
           python -m pip install --upgrade pip
-          pip install ruff==0.11.8 mypy==1.15.0
+          pip install -r api/requirements-dev.txt -r indexer/requirements-dev.txt
 
       - name: Run Ruff Linter
         run: |
           ruff check api indexer eval corpus
+          mypy api/app indexer/pipeline
 
   test:
     name: Unit & Offline Stub Tests
@@ -54,8 +56,8 @@ jobs:
 
       - name: Run Pytest Suite
         run: |
-          export PYTHONPATH="api:indexer"
-          pytest -v api/tests indexer/tests
+          export PYTHONPATH="api:indexer:eval"
+          pytest -v api/tests indexer/tests eval/test_assignment03.py
 
   manifests:
     name: Validate Kubernetes Manifests
@@ -95,7 +97,8 @@ jobs:
       - name: Build Indexer Image
         uses: docker/build-push-action@v5
         with:
-          context: indexer
+          context: .
+          file: indexer/Dockerfile
           push: false
           tags: rahbar-indexer:${{ github.sha }}
 
@@ -123,7 +126,7 @@ jobs:
         with:
           image-ref: rahbar-api:${{ github.sha }}
           format: "table"
-          exit-code: "0"
+          exit-code: "1"
           ignore-unfixed: true
           vuln-type: "os,library"
           severity: "CRITICAL,HIGH"
@@ -153,8 +156,10 @@ jobs:
 
       - name: Build and Load Images into Kind
         run: |
+          mkdir -p corpus/raw
+          cp eval/fixtures/*.md corpus/raw/
           docker build -t rahbar-api:dev api
-          docker build -t rahbar-indexer:dev indexer
+          docker build -f indexer/Dockerfile -t rahbar-indexer:dev .
           docker build -t rahbar-ui:dev ui
           kind load docker-image rahbar-api:dev rahbar-indexer:dev rahbar-ui:dev --name rahbar-ci
 
@@ -227,3 +232,22 @@ jobs:
       - name: Execute Evaluation Gate with eval/run_eval.py
         run: |
           python eval/run_eval.py --api http://localhost:8000 --golden eval/fixtures/golden.fixture.yaml --baseline eval/fixtures/baseline.fixture.json
+
+      - name: Collect end-to-end traces
+        if: always()
+        run: |
+          api_pod=$(kubectl get pods -n rahbar -l app.kubernetes.io/name=api -o jsonpath='{.items[0].metadata.name}' 2>/dev/null || true)
+          if [ -n "$api_pod" ] && kubectl exec -n rahbar "$api_pod" -- test -f /traces/queries.jsonl; then
+            kubectl exec -n rahbar "$api_pod" -- cat /traces/queries.jsonl > eval/traces.jsonl
+          fi
+
+      - name: Upload end-to-end evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: assignment-03-evaluation-evidence
+          path: |
+            eval/results.json
+            eval/traces.jsonl
+          if-no-files-found: warn
+          retention-days: 14

@@ -6,7 +6,8 @@ metadata:
   labels:
     app.kubernetes.io/name: rahbar
 data:
-  EMBED_MODEL: "nomic-embed-text"
+  RETRIEVER: "chroma"
+  EMBED_MODEL: "offline-feature-hash-v1"
   CHROMA_HOST: "chroma"
   CHROMA_PORT: "8000"
   CHROMA_COLLECTION: "rahbar"
@@ -18,7 +19,8 @@ data:
   CACHE_THRESHOLD: "0.90"
   CHUNK_SIZE: "400"
   CHUNK_OVERLAP: "50"
-  LLM_PROVIDER: "ollama-host"
-  LLM_MODEL: "llama3.2:3b"
-  OLLAMA_URL: "http://host.minikube.internal:11434"
+  LLM_PROVIDER: "hosted"
+  HOSTED_BASE_URL: "https://api.groq.com/openai/v1"
+  LLM_MODEL: "openai/gpt-oss-20b"
   LOG_LEVEL: "INFO"
+  TRACE_DIR: "/traces"

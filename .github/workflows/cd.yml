@@ -7,7 +7,6 @@ on:
 
 permissions:
   contents: read
-  packages: write
 
 jobs:
   test:
@@ -28,8 +27,8 @@ jobs:
 
       - name: Run Pytest
         run: |
-          export PYTHONPATH="api:indexer"
-          pytest -v api/tests indexer/tests
+          export PYTHONPATH="api:indexer:eval"
+          pytest -v api/tests indexer/tests eval/test_assignment03.py
 
   build-push:
     name: Build & Push Images to Docker Hub
@@ -48,6 +47,11 @@ jobs:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
+      - name: Fetch corpus for indexer image
+        run: |
+          python3 corpus/fetch.py
+          python3 corpus/fetch.py --verify
+
       - name: Build and Push API Image
         uses: docker/build-push-action@v5
         with:
@@ -58,7 +62,8 @@ jobs:
       - name: Build and Push Indexer Image
         uses: docker/build-push-action@v5
         with:
-          context: indexer
+          context: .
+          file: indexer/Dockerfile
           push: true
           tags: ${{ secrets.DOCKERHUB_USERNAME }}/rahbar-indexer:${{ github.sha }}
 
@@ -95,7 +100,11 @@ jobs:
       - name: Run Indexer Job
         run: |
           kubectl apply -f k8s/base/indexer-job.yaml
-          kubectl wait --for=condition=complete job/indexer -n rahbar --timeout=180s || true
+          kubectl wait --for=condition=complete job/indexer -n rahbar --timeout=180s || {
+            kubectl describe job/indexer -n rahbar
+            kubectl logs -n rahbar -l app.kubernetes.io/name=indexer --tail=100
+            exit 1
+          }
 
       - name: Verify API Deployment Rollout Status
         run: |

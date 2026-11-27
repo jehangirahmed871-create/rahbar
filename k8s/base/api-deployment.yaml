@@ -101,6 +101,11 @@ spec:
           volumeMounts:
             - name: tmp-dir
               mountPath: /tmp
+            - name: traces
+              mountPath: /traces
       volumes:
         - name: tmp-dir
           emptyDir: {}
+        - name: traces
+          persistentVolumeClaim:
+            claimName: traces-pvc

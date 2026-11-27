@@ -17,7 +17,7 @@ def _int(name: str, default: int) -> int:
         val = val.split(":")[-1]
     try:
         return int(val)
-    except Exception:
+    except ValueError:
         return default
 
 
@@ -32,7 +32,7 @@ class Settings:
     llm_provider: str = "stub"       # LLM_PROVIDER: stub | ollama-host | ollama-incluster | hosted
 
     # The embedding pin (section 4.4). The indexer reads the same ConfigMap key.
-    embed_model: str = "nomic-embed-text"
+    embed_model: str = "offline-feature-hash-v1"
 
     # Vector store
     chroma_host: str = "chroma"
@@ -53,6 +53,7 @@ class Settings:
     hosted_base_url: str = ""        # e.g. an OpenAI-compatible endpoint
     llm_api_key: str = field(default="", repr=False)   # from the Secret; never log it
 
+    trace_dir: str = "/tmp/rahbar-traces"
     log_level: str = "INFO"
 
 
@@ -60,7 +61,7 @@ def get_settings() -> Settings:
     return Settings(
         retriever=os.environ.get("RETRIEVER", "stub"),
         llm_provider=os.environ.get("LLM_PROVIDER", "stub"),
-        embed_model=os.environ.get("EMBED_MODEL", "nomic-embed-text"),
+        embed_model=os.environ.get("EMBED_MODEL", "offline-feature-hash-v1"),
         chroma_host=os.environ.get("CHROMA_HOST", "chroma"),
         chroma_port=_int("CHROMA_PORT", 8000),
         collection=os.environ.get("CHROMA_COLLECTION", "rahbar"),
@@ -74,5 +75,6 @@ def get_settings() -> Settings:
         ollama_url=os.environ.get("OLLAMA_URL", "http://host.minikube.internal:11434"),
         hosted_base_url=os.environ.get("HOSTED_BASE_URL", ""),
         llm_api_key=os.environ.get("LLM_API_KEY", ""),
+        trace_dir=os.environ.get("TRACE_DIR", "/tmp/rahbar-traces"),
         log_level=os.environ.get("LOG_LEVEL", "INFO"),
     )

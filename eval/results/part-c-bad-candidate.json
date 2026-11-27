@@ -1,0 +1,4053 @@
+{
+  "created_at": "2026-11-27T09:04:32.887894+00:00",
+  "golden_set": "/app/eval/golden.jsonl",
+  "golden_set_review": {
+    "total": 39,
+    "human_origin": 10,
+    "synthetic_origin": 29,
+    "synthetic_reviewed_by_human": 8,
+    "synthetic_review_gap_to_required_8": 0
+  },
+  "embedding_runs": [
+    {
+      "model": "offline-feature-hash-v1",
+      "pair_counts": {
+        "paraphrase": 15,
+        "unrelated": 15
+      },
+      "mean_cosine_similarity": {
+        "paraphrase": 0.10394913004307202,
+        "unrelated": 0.03383833718134177
+      },
+      "paraphrase_unrelated_gap": 0.07011079286173025,
+      "embedding_seconds_per_text": 0.0006383239500034203,
+      "determinism_largest_absolute_difference": 0.0,
+      "pair_scores": {
+        "p01": 0.09176629354822471,
+        "p02": 0.16692446522239718,
+        "p03": 0.05292561240249632,
+        "p04": 0.10012523486435178,
+        "p05": 0.09701425001453319,
+        "p06": 0.20261022461827694,
+        "p07": 0.05923488777590924,
+        "p08": 0.08728715609439697,
+        "p09": 0.05383819020581655,
+        "p10": 0.28090032386679487,
+        "p11": 0.21170244960998527,
+        "p12": 0.09567297464698798,
+        "p13": 0.05923488777590924,
+        "p14": 0.0,
+        "p15": 0.0,
+        "u01": 0.10526315789473685,
+        "u02": 0.0,
+        "u03": -0.05292561240249632,
+        "u04": 0.05634361698190111,
+        "u05": 0.0,
+        "u06": 0.04761904761904762,
+        "u07": 0.1076763804116331,
+        "u08": 0.05292561240249632,
+        "u09": 0.0,
+        "u10": 0.10114434748483472,
+        "u11": 0.04761904761904762,
+        "u12": 0.0,
+        "u13": 0.0,
+        "u14": 0.10114434748483472,
+        "u15": -0.05923488777590924
+      }
+    },
+    {
+      "model": "offline-feature-hash-v1",
+      "pair_counts": {
+        "paraphrase": 15,
+        "unrelated": 15
+      },
+      "mean_cosine_similarity": {
+        "paraphrase": 0.10394913004307202,
+        "unrelated": 0.03383833718134177
+      },
+      "paraphrase_unrelated_gap": 0.07011079286173025,
+      "embedding_seconds_per_text": 0.00012829683334227108,
+      "determinism_largest_absolute_difference": 0.0,
+      "pair_scores": {
+        "p01": 0.09176629354822471,
+        "p02": 0.16692446522239718,
+        "p03": 0.05292561240249632,
+        "p04": 0.10012523486435178,
+        "p05": 0.09701425001453319,
+        "p06": 0.20261022461827694,
+        "p07": 0.05923488777590924,
+        "p08": 0.08728715609439697,
+        "p09": 0.05383819020581655,
+        "p10": 0.28090032386679487,
+        "p11": 0.21170244960998527,
+        "p12": 0.09567297464698798,
+        "p13": 0.05923488777590924,
+        "p14": 0.0,
+        "p15": 0.0,
+        "u01": 0.10526315789473685,
+        "u02": 0.0,
+        "u03": -0.05292561240249632,
+        "u04": 0.05634361698190111,
+        "u05": 0.0,
+        "u06": 0.04761904761904762,
+        "u07": 0.1076763804116331,
+        "u08": 0.05292561240249632,
+        "u09": 0.0,
+        "u10": 0.10114434748483472,
+        "u11": 0.04761904761904762,
+        "u12": 0.0,
+        "u13": 0.0,
+        "u14": 0.10114434748483472,
+        "u15": -0.05923488777590924
+      }
+    }
+  ],
+  "stochasticity_embedding_metric_deltas_run2_minus_run1": {
+    "paraphrase_mean_cosine": 0.0,
+    "unrelated_mean_cosine": 0.0,
+    "paraphrase_unrelated_gap": 0.0
+  },
+  "runs": [
+    {
+      "run": 1,
+      "seed": 42,
+      "summary": {
+        "retrieval": {
+          "recall_at_3": 0.1111111111111111,
+          "recall_at_5": 0.1111111111111111,
+          "mrr": 0.1111111111111111,
+          "ndcg_at_5": 0.1111111111111111
+        },
+        "answers": {
+          "faithfulness_expected_answer_proxy": 0.14814814814814814,
+          "faithfulness_proxy_questions": 27,
+          "abstention_correctness": 1.0,
+          "citation_validity": 1.0,
+          "latency_p50_seconds": 0.5249352919990997,
+          "latency_p95_seconds": 1.3736524709000153
+        },
+        "counts": {
+          "questions": 39,
+          "answerable": 27,
+          "must_abstain": 12
+        },
+        "noise_test": {
+          "typo_queries": 39,
+          "metric_deltas": {
+            "recall_at_3": 0.037037037037037035,
+            "recall_at_5": 0.037037037037037035,
+            "mrr": 0.037037037037037035,
+            "ndcg_at_5": 0.037037037037037035
+          }
+        }
+      },
+      "rows": [
+        {
+          "id": "q01",
+          "response": {
+            "request_id": "eval-42-q01",
+            "answer": "The evidence does not specify a CGPA threshold for avoiding academic warning; it only states that a minimum CGPA of 2.00 is required for graduation.",
+            "citations": [
+              {
+                "source": "academic-rules-handbook-jun-2026.pdf",
+                "section": "1.9 A theory course is normally assigned 2 to 4 credit hours, d) For pre-planned activities (conferences, etc.) during",
+                "page": 10
+              }
+            ],
+            "answered_from_context": true,
+            "confidence": "low",
+            "retrieved": [
+              {
+                "chunk_id": "academic-rules-handbook-jun-2026@2026-06#1-9-a-theory-course-is-normally-assigned#p10#c17",
+                "source": "academic-rules-handbook-jun-2026.pdf",
+                "section": "1.9 A theory course is normally assigned 2 to 4 credit hours, d) For pre-planned activities (conferences, etc.) during",
+                "page": 10,
+                "score": 0.5,
+                "document_id": "academic-rules-handbook-jun-2026",
+                "doc_version": "2026-06"
+              }
+            ],
+            "provider": "hosted",
+            "trace_id": "945d9df8bb524a6ab13314308fd6fbc3"
+          },
+          "seconds": 1.575750601999971
+        },
+        {
+          "id": "q02",
+          "response": {
+            "request_id": "eval-42-q02",
+            "answer": "80%",
+            "citations": [
+              {
+                "source": "prospectus-2026-academic-rules-and-regulations.pdf",
+                "section": "General (prospectus-2026-academic-rules-and-regulations.pdf)",
+                "page": 3
+              }
+            ],
+            "answered_from_context": true,
+            "confidence": "high",
+            "retrieved": [
+              {
+                "chunk_id": "prospectus-2026-academic-rules-and-regul@2026#general-prospectus-2026-academic-rules-a#p3#c7",
+                "source": "prospectus-2026-academic-rules-and-regulations.pdf",
+                "section": "General (prospectus-2026-academic-rules-and-regulations.pdf)",
+                "page": 3,
+                "score": 0.7143,
+                "document_id": "prospectus-2026-academic-rules-and-regulations",
+                "doc_version": "2026"
+              }
+            ],
+            "provider": "hosted",
+            "trace_id": "b463e1c9925c438992fba373068c227c"
+          },
+          "seconds": 1.0045108029999028
+        },
+        {
+          "id": "q03",
+          "response": {
+            "request_id": "eval-42-q03",
+            "answer": "No, a student cannot register for a subsequent course if they have failed its prerequisite.",
+            "citations": [
+              {
+                "source": "academic-rules-handbook-jun-2026.pdf",
+                "section": "3.32 A new admission is closed if an awaited result does not meet",
+                "page": 21
+              }
+            ],
+            "answered_from_context": true,
+            "confidence": "medium",
+            "retrieved": [
+              {
+                "chunk_id": "academic-rules-handbook-jun-2026@2026-06#3-32-a-new-admission-is-closed-if-an-awa#p21#c39",
+                "source": "academic-rules-handbook-jun-2026.pdf",
+                "section": "3.32 A new admission is closed if an awaited result does not meet",
+                "page": 21,
+                "score": 0.6364,
+                "document_id": "academic-rules-handbook-jun-2026",
+                "doc_version": "2026-06"
+              }
+            ],
+            "provider": "hosted",
+            "trace_id": "8be7dc909e7046419a8b20701778a08c"
+          },
+          "seconds": 1.35119712300002
+        },
+        {
+          "id": "q04",
+          "response": {
+            "request_id": "eval-42-q04",
+            "answer": "The handbook does not specify a specific number of courses for a normal course load; it refers to the University study plan for that detail.",
+            "citations": [
+              {
+                "source": "academic-rules-handbook-jun-2026.pdf",
+                "section": "1.9 A theory course is normally assigned 2 to 4 credit hours, d) For pre-planned activities (conferences, etc.) during",
+                "page": 8
+              }
+            ],
+            "answered_from_context": true,
+            "confidence": "medium",
+            "retrieved": [
+              {
+                "chunk_id": "academic-rules-handbook-jun-2026@2026-06#1-9-a-theory-course-is-normally-assigned#p8#c13",
+                "source": "academic-rules-handbook-jun-2026.pdf",
+                "section": "1.9 A theory course is normally assigned 2 to 4 credit hours, d) For pre-planned activities (conferences, etc.) during",
+                "page": 8,
+                "score": 0.8571,
+                "document_id": "academic-rules-handbook-jun-2026",
+                "doc_version": "2026-06"
+              }
+            ],
+            "provider": "hosted",
+            "trace_id": "d2b086d8b2024465b74288d9af5a6966"
+          },
+          "seconds": 1.6001768389996869
+        },
+        {
+          "id": "q05",
+          "response": {
+            "request_id": "eval-42-q05",
+            "answer": "The service is temporarily unable to retrieve an answer from the hosted model. Please try again shortly.",
+            "citations": [],
+            "answered_from_context": false,
+            "confidence": "low",
+            "retrieved": [
+              {
+                "chunk_id": "academic-rules-handbook-jun-2026@2026-06#general-academic-rules-handbook-jun-2026#p4#c5",
+                "source": "academic-rules-handbook-jun-2026.pdf",
+                "section": "General (academic-rules-handbook-jun-2026.pdf)",
+                "page": 4,
+                "score": 0.6667,
+                "document_id": "academic-rules-handbook-jun-2026",
+                "doc_version": "2026-06"
+              }
+            ],
+            "provider": "hosted",
+            "trace_id": "1d8e91ff3ac14468b9c8645e48745b04"
+          },
+          "seconds": 0.4989944850003667
+        },
+        {
+          "id": "q06",
+          "response": {
+            "request_id": "eval-42-q06",
+            "answer": "The service is temporarily unable to retrieve an answer from the hosted model. Please try again shortly.",
+            "citations": [],
+            "answered_from_context": false,
+            "confidence": "low",
+            "retrieved": [
+              {
+                "chunk_id": "academic-rules-handbook-jun-2026@2026-06#3-32-a-new-admission-is-closed-if-an-awa#p23#c43",
+                "source": "academic-rules-handbook-jun-2026.pdf",
+                "section": "3.32 A new admission is closed if an awaited result does not meet",
+                "page": 23,
+                "score": 0.6667,
+                "document_id": "academic-rules-handbook-jun-2026",
+                "doc_version": "2026-06"
+              }
+            ],
+            "provider": "hosted",
+            "trace_id": "a90f476830364764bbff8f40cf21c2be"
+          },
+          "seconds": 0.5931042029997116
+        },
+        {
+          "id": "q07",
+          "response": {
+            "request_id": "eval-42-q07",
+            "answer": "The service is temporarily unable to retrieve an answer from the hosted model. Please try again shortly.",
+            "citations": [],
+            "answered_from_context": false,
+            "confidence": "low",
+            "retrieved": [
+              {
+                "chunk_id": "academic-rules-handbook-jun-2026@2026-06#10-policy-on-generative#p43#c86",
+                "source": "academic-rules-handbook-jun-2026.pdf",
+                "section": "10. Policy on Generative",
+                "page": 43,
+                "score": 0.6667,
+                "document_id": "academic-rules-handbook-jun-2026",
+                "doc_version": "2026-06"
+              }
+            ],
+            "provider": "hosted",
+            "trace_id": "91601aeb006742dc9ca487e5513f3b0d"
+          },
+          "seconds": 0.6467942509998466
+        },
+        {
+          "id": "q08",
+          "response": {
+            "request_id": "eval-42-q08",
+            "answer": "The service is temporarily unable to retrieve an answer from the hosted model. Please try again shortly.",
+            "citations": [],
+            "answered_from_context": false,
+            "confidence": "low",
+            "retrieved": [
+              {
+                "chunk_id": "academic-rules-handbook-jun-2026@2026-06#1-9-a-theory-course-is-normally-assigned#p10#c17",
+                "source": "academic-rules-handbook-jun-2026.pdf",
+                "section": "1.9 A theory course is normally assigned 2 to 4 credit hours, d) For pre-planned activities (conferences, etc.) during",
+                "page": 10,
+                "score": 0.6,
+                "document_id": "academic-rules-handbook-jun-2026",
+                "doc_version": "2026-06"
+              }
+            ],
+            "provider": "hosted",
+            "trace_id": "0cc0aaf31e5540b0a002b0766f236bc6"
+          },
+          "seconds": 0.5249352919990997
+        },
+        {
+          "id": "q09",
+          "response": {
+            "request_id": "eval-42-q09",
+            "answer": "Only the most recent attempt\u2019s grade points count toward the CGPA.",
+            "citations": [
+              {
+                "source": "prospectus-2026-academic-rules-and-regulations.pdf",
+                "section": "General (prospectus-2026-academic-rules-and-regulations.pdf)",
+                "page": 2
+              }
+            ],
+            "answered_from_context": true,
+            "confidence": "high",
+            "retrieved": [
+              {
+                "chunk_id": "prospectus-2026-academic-rules-and-regul@2026#general-prospectus-2026-academic-rules-a#p2#c4",
+                "source": "prospectus-2026-academic-rules-and-regulations.pdf",
+                "section": "General (prospectus-2026-academic-rules-and-regulations.pdf)",
+                "page": 2,
+                "score": 0.6364,
+                "document_id": "prospectus-2026-academic-rules-and-regulations",
+                "doc_version": "2026"
+              }
+            ],
+            "provider": "hosted",
+            "trace_id": "078fb64942cf4eaea4b449baa8403f9a"
+          },
+          "seconds": 1.0247605370004749
+        },
+        {
+          "id": "q10",
+          "response": {
+            "request_id": "eval-42-q10",
+            "answer": "The service is temporarily unable to retrieve an answer from the hosted model. Please try again shortly.",
+            "citations": [],
+            "answered_from_context": false,
+            "confidence": "low",
+            "retrieved": [
+              {
+                "chunk_id": "academic-rules-handbook-jun-2026@2026-06#3-18-only-credits-of-relevant-courses-wh#p17#c31",
+                "source": "academic-rules-handbook-jun-2026.pdf",
+                "section": "3.18 Only credits of relevant courses, which have been earned",
+                "page": 17,
+                "score": 0.8182,
+                "document_id": "academic-rules-handbook-jun-2026",
+                "doc_version": "2026-06"
+              }
+            ],
+            "provider": "hosted",
+            "trace_id": "90d77dcaee634a928d7a7e018c3d40f2"
+          },
+          "seconds": 0.5874985919999745
+        },
+        {
+          "id": "q11",
+          "response": {
+            "request_id": "eval-42-q11",
+            "answer": "The service is temporarily unable to retrieve an answer from the hosted model. Please try again shortly.",
+            "citations": [],
+            "answered_from_context": false,
+            "confidence": "low",
+            "retrieved": [
+              {
+                "chunk_id": "academic-rules-handbook-jun-2026@2026-06#1-9-a-theory-course-is-normally-assigned#p8#c13",
+                "source": "academic-rules-handbook-jun-2026.pdf",
+                "section": "1.9 A theory course is normally assigned 2 to 4 credit hours, d) For pre-planned activities (conferences, etc.) during",
+                "page": 8,
+                "score": 0.5556,
+                "document_id": "academic-rules-handbook-jun-2026",
+                "doc_version": "2026-06"
+              }
+            ],
+            "provider": "hosted",
+            "trace_id": "cb624d1a94024647bc14f2910765b90f"
+          },
+          "seconds": 0.5939605710000251
+        },
+        {
+          "id": "q12",
+          "response": {
+            "request_id": "eval-42-q12",
+            "answer": "The service is temporarily unable to retrieve an answer from the hosted model. Please try again shortly.",
+            "citations": [],
+            "answered_from_context": false,
+            "confidence": "low",
+            "retrieved": [
+              {
+                "chunk_id": "academic-rules-handbook-jun-2026@2026-06#1-9-a-theory-course-is-normally-assigned#p13#c23",
+                "source": "academic-rules-handbook-jun-2026.pdf",
+                "section": "1.9 A theory course is normally assigned 2 to 4 credit hours, d) For pre-planned activities (conferences, etc.) during",
+                "page": 13,
+                "score": 0.8571,
+                "document_id": "academic-rules-handbook-jun-2026",
+                "doc_version": "2026-06"
+              }
+            ],
+            "provider": "hosted",
+            "trace_id": "3a7b4f955df3451681f2a2b699589e10"
+          },
+          "seconds": 0.581254839000394
+        },
+        {
+          "id": "q13",
+          "response": {
+            "request_id": "eval-42-q13",
+            "answer": "The provided corpus documents do not contain information regarding this topic.",
+            "citations": [],
+            "answered_from_context": false,
+            "confidence": "low",
+            "retrieved": [
+              {
+                "chunk_id": "academic-rules-handbook-jun-2026@2026-06#10-policy-on-generative#p42#c84",
+                "source": "academic-rules-handbook-jun-2026.pdf",
+                "section": "10. Policy on Generative",
+                "page": 42,
+                "score": 0.2222,
+                "document_id": "academic-rules-handbook-jun-2026",
+                "doc_version": "2026-06"
+              }
+            ],
+            "provider": "hosted",
+            "trace_id": "956736806671460f8a47d22e6319424a"
+          },
+          "seconds": 0.1448284819998662
+        },
+        {
+          "id": "q14",
+          "response": {
+            "request_id": "eval-42-q14",
+            "answer": "The provided corpus documents do not contain information regarding this topic.",
+            "citations": [],
+            "answered_from_context": false,
+            "confidence": "low",
+            "retrieved": [
+              {
+                "chunk_id": "annual-report-2019-20@2019-20#general-annual-report-2019-20-pdf#p8#c9",
+                "source": "annual-report-2019-20.pdf",
+                "section": "General (annual-report-2019-20.pdf)",
+                "page": 8,
+                "score": 0.2727,
+                "document_id": "annual-report-2019-20",
+                "doc_version": "2019-20"
+              }
+            ],
+            "provider": "hosted",
+            "trace_id": "8e9fdf39e53a4804ac5919841caf0bfd"
+          },
+          "seconds": 0.1906013689995234
+        },
+        {
+          "id": "q15",
+          "response": {
+            "request_id": "eval-42-q15",
+            "answer": "The provided corpus documents do not contain information regarding this topic.",
+            "citations": [],
+            "answered_from_context": false,
+            "confidence": "low",
+            "retrieved": [],
+            "provider": "hosted",
+            "trace_id": "7e230e4f37654931b6bdab2e4c9576fa"
+          },
+          "seconds": 0.16462609999962297
+        },
+        {
+          "id": "q16",
+          "response": {
+            "request_id": "eval-42-q16",
+            "answer": "The service is temporarily unable to retrieve an answer from the hosted model. Please try again shortly.",
+            "citations": [],
+            "answered_from_context": false,
+            "confidence": "low",
+            "retrieved": [
+              {
+                "chunk_id": "student-handbook-jun-2026@2026-06#general-student-handbook-jun-2026-pdf#p18#c35",
+                "source": "student-handbook-jun-2026.pdf",
+                "section": "General (student-handbook-jun-2026.pdf)",
+                "page": 18,
+                "score": 0.5714,
+                "document_id": "student-handbook-jun-2026",
+                "doc_version": "2026-06"
+              }
+            ],
+            "provider": "hosted",
+            "trace_id": "c1bd28a6848e4f5cba06ea96e12b72e1"
+          },
+          "seconds": 0.5428178669999397
+        },
+        {
+          "id": "q17",
+          "response": {
+            "request_id": "eval-42-q17",
+            "answer": "The service is temporarily unable to retrieve an answer from the hosted model. Please try again shortly.",
+            "citations": [],
+            "answered_from_context": false,
+            "confidence": "low",
+            "retrieved": [
+              {
+                "chunk_id": "prospectus-2026-academic-rules-and-regul@2026#general-prospectus-2026-academic-rules-a#p3#c7",
+                "source": "prospectus-2026-academic-rules-and-regulations.pdf",
+                "section": "General (prospectus-2026-academic-rules-and-regulations.pdf)",
+                "page": 3,
+                "score": 0.6667,
+                "document_id": "prospectus-2026-academic-rules-and-regulations",
+                "doc_version": "2026"
+              }
+            ],
+            "provider": "hosted",
+            "trace_id": "dd06dd645f9f4266971556e9eb579c40"
+          },
+          "seconds": 0.5513056469999356
+        },
+        {
+          "id": "q18",
+          "response": {
+            "request_id": "eval-42-q18",
+            "answer": "An undergraduate may borrow up to five library books for fourteen days.",
+            "citations": [
+              {
+                "source": "near-duplicate-a.md",
+                "section": "Library Loan Policy",
+                "page": 1
+              }
+            ],
+            "answered_from_context": true,
+            "confidence": "high",
+            "retrieved": [
+              {
+                "chunk_id": "library-loan-policy-a@2026#library-loan-policy#p1#c0",
+                "source": "near-duplicate-a.md",
+                "section": "Library Loan Policy",
+                "page": 1,
+                "score": 0.7143,
+                "document_id": "library-loan-policy-a",
+                "doc_version": "2026"
+              }
+            ],
+            "provider": "hosted",
+            "trace_id": "0377f665dc84452db15cbcd1bd3815ef"
+          },
+          "seconds": 1.3454712140000993
+        },
+        {
+          "id": "q19",
+          "response": {
+            "request_id": "eval-42-q19",
+            "answer": "The service is temporarily unable to retrieve an answer from the hosted model. Please try again shortly.",
+            "citations": [],
+            "answered_from_context": false,
+            "confidence": "low",
+            "retrieved": [
+              {
+                "chunk_id": "library-loan-policy-a@2026#library-loan-policy#p1#c0",
+                "source": "near-duplicate-a.md",
+                "section": "Library Loan Policy",
+                "page": 1,
+                "score": 0.8,
+                "document_id": "library-loan-policy-a",
+                "doc_version": "2026"
+              }
+            ],
+            "provider": "hosted",
+            "trace_id": "c6291c359cd741029244539c836ada4b"
+          },
+          "seconds": 0.5161041580004166
+        },
+        {
+          "id": "q20",
+          "response": {
+            "request_id": "eval-42-q20",
+            "answer": "The service is temporarily unable to retrieve an answer from the hosted model. Please try again shortly.",
+            "citations": [],
+            "answered_from_context": false,
+            "confidence": "low",
+            "retrieved": [
+              {
+                "chunk_id": "academic-rules-handbook-jun-2026@2026-06#5-academic-assessment#p27#c52",
+                "source": "academic-rules-handbook-jun-2026.pdf",
+                "section": "5. Academic Assessment",
+                "page": 27,
+                "score": 0.625,
+                "document_id": "academic-rules-handbook-jun-2026",
+                "doc_version": "2026-06"
+              }
+            ],
+            "provider": "hosted",
+            "trace_id": "f68c73b7c470434498920ea1433c783a"
+          },
+          "seconds": 0.5093629339999097
+        },
+        {
+          "id": "q21",
+          "response": {
+            "request_id": "eval-42-q21",
+            "answer": "The service is temporarily unable to retrieve an answer from the hosted model. Please try again shortly.",
+            "citations": [],
+            "answered_from_context": false,
+            "confidence": "low",
+            "retrieved": [
+              {
+                "chunk_id": "fee-payment-schedule@2026#fee-payment-schedule#p1#c0",
+                "source": "fee-payment.md",
+                "section": "Fee Payment Schedule",
+                "page": 1,
+                "score": 0.5556,
+                "document_id": "fee-payment-schedule",
+                "doc_version": "2026"
+              }
+            ],
+            "provider": "hosted",
+            "trace_id": "7e9fa2ecdf0a484fb2d28830b9fd3deb"
+          },
+          "seconds": 0.5916826530001345
+        },
+        {
+          "id": "q22",
+          "response": {
+            "request_id": "eval-42-q22",
+            "answer": "The service is temporarily unable to retrieve an answer from the hosted model. Please try again shortly.",
+            "citations": [],
+            "answered_from_context": false,
+            "confidence": "low",
+            "retrieved": [
+              {
+                "chunk_id": "academic-rules-handbook-jun-2026@2026-06#1-9-a-theory-course-is-normally-assigned#p10#c17",
+                "source": "academic-rules-handbook-jun-2026.pdf",
+                "section": "1.9 A theory course is normally assigned 2 to 4 credit hours, d) For pre-planned activities (conferences, etc.) during",
+                "page": 10,
+                "score": 0.5714,
+                "document_id": "academic-rules-handbook-jun-2026",
+                "doc_version": "2026-06"
+              }
+            ],
+            "provider": "hosted",
+            "trace_id": "f47bb9c1557a4aaebbe86eac432e106a"
+          },
+          "seconds": 0.5127236799999082
+        },
+        {
+          "id": "q23",
+          "response": {
+            "request_id": "eval-42-q23",
+            "answer": "The provided corpus documents do not contain information regarding this topic.",
+            "citations": [],
+            "answered_from_context": false,
+            "confidence": "low",
+            "retrieved": [
+              {
+                "chunk_id": "academic-rules-handbook-jun-2026@2026-06#3-18-only-credits-of-relevant-courses-wh#p17#c31",
+                "source": "academic-rules-handbook-jun-2026.pdf",
+                "section": "3.18 Only credits of relevant courses, which have been earned",
+                "page": 17,
+                "score": 0.4444,
+                "document_id": "academic-rules-handbook-jun-2026",
+                "doc_version": "2026-06"
+              }
+            ],
+            "provider": "hosted",
+            "trace_id": "34def672c89b467b9ccb49d98704b323"
+          },
+          "seconds": 0.19262908099972265
+        },
+        {
+          "id": "q24",
+          "response": {
+            "request_id": "eval-42-q24",
+            "answer": "The service is temporarily unable to retrieve an answer from the hosted model. Please try again shortly.",
+            "citations": [],
+            "answered_from_context": false,
+            "confidence": "low",
+            "retrieved": [
+              {
+                "chunk_id": "academic-rules-handbook-jun-2026@2026-06#8-6-deception-or-providing-false-informa#p35#c68",
+                "source": "academic-rules-handbook-jun-2026.pdf",
+                "section": "8.6 Deception or providing false information to a teacher",
+                "page": 35,
+                "score": 0.5,
+                "document_id": "academic-rules-handbook-jun-2026",
+                "doc_version": "2026-06"
+              }
+            ],
+            "provider": "hosted",
+            "trace_id": "5ee96daf1f3f4a77a1f84874d5db9995"
+          },
+          "seconds": 0.5736984380000649
+        },
+        {
+          "id": "q25",
+          "response": {
+            "request_id": "eval-42-q25",
+            "answer": "The provided corpus documents do not contain information regarding this topic.",
+            "citations": [],
+            "answered_from_context": false,
+            "confidence": "low",
+            "retrieved": [
+              {
+                "chunk_id": "academic-rules-handbook-jun-2026@2026-06#6-rules-for-summer-semester#p29#c56",
+                "source": "academic-rules-handbook-jun-2026.pdf",
+                "section": "6. Rules for Summer Semester",
+                "page": 29,
+                "score": 0.4167,
+                "document_id": "academic-rules-handbook-jun-2026",
+                "doc_version": "2026-06"
+              }
+            ],
+            "provider": "hosted",
+            "trace_id": "abef9582cdaf46acb202248e0adcf96f"
+          },
+          "seconds": 0.1427174330001435
+        },
+        {
+          "id": "q26",
+          "response": {
+            "request_id": "eval-42-q26",
+            "answer": "The provided corpus documents do not contain information regarding this topic.",
+            "citations": [],
+            "answered_from_context": false,
+            "confidence": "low",
+            "retrieved": [
+              {
+                "chunk_id": "academic-rules-handbook-jun-2026@2026-06#general-academic-rules-handbook-jun-2026#p4#c5",
+                "source": "academic-rules-handbook-jun-2026.pdf",
+                "section": "General (academic-rules-handbook-jun-2026.pdf)",
+                "page": 4,
+                "score": 0.2,
+                "document_id": "academic-rules-handbook-jun-2026",
+                "doc_version": "2026-06"
+              }
+            ],
+            "provider": "hosted",
+            "trace_id": "d86fc18730d04f549f0fcb6df77f9557"
+          },
+          "seconds": 0.15137656499973673
+        },
+        {
+          "id": "q27",
+          "response": {
+            "request_id": "eval-42-q27",
+            "answer": "The provided corpus documents do not contain information regarding this topic.",
+            "citations": [],
+            "answered_from_context": false,
+            "confidence": "low",
+            "retrieved": [
+              {
+                "chunk_id": "academic-rules-handbook-jun-2026@2026-06#3-18-only-credits-of-relevant-courses-wh#p16#c29",
+                "source": "academic-rules-handbook-jun-2026.pdf",
+                "section": "3.18 Only credits of relevant courses, which have been earned",
+                "page": 16,
+                "score": 0.4286,
+                "document_id": "academic-rules-handbook-jun-2026",
+                "doc_version": "2026-06"
+              }
+            ],
+            "provider": "hosted",
+            "trace_id": "5e1abfa0591c44599456d4e14731333a"
+          },
+          "seconds": 0.1825498449998122
+        },
+        {
+          "id": "q28",
+          "response": {
+            "request_id": "eval-42-q28",
+            "answer": "The service is temporarily unable to retrieve an answer from the hosted model. Please try again shortly.",
+            "citations": [],
+            "answered_from_context": false,
+            "confidence": "low",
+            "retrieved": [
+              {
+                "chunk_id": "student-handbook-jun-2026@2026-06#general-student-handbook-jun-2026-pdf#p54#c119",
+                "source": "student-handbook-jun-2026.pdf",
+                "section": "General (student-handbook-jun-2026.pdf)",
+                "page": 54,
+                "score": 0.5,
+                "document_id": "student-handbook-jun-2026",
+                "doc_version": "2026-06"
+              }
+            ],
+            "provider": "hosted",
+            "trace_id": "b929295630ed4bf9b1f85831d912ca22"
+          },
+          "seconds": 0.5776598269994793
+        },
+        {
+          "id": "q29",
+          "response": {
+            "request_id": "eval-42-q29",
+            "answer": "The provided corpus documents do not contain information regarding this topic.",
+            "citations": [],
+            "answered_from_context": false,
+            "confidence": "low",
+            "retrieved": [
+              {
+                "chunk_id": "academic-rules-handbook-jun-2026@2026-06#general-academic-rules-handbook-jun-2026#p1#c2",
+                "source": "academic-rules-handbook-jun-2026.pdf",
+                "section": "General (academic-rules-handbook-jun-2026.pdf)",
+                "page": 1,
+                "score": 0.25,
+                "document_id": "academic-rules-handbook-jun-2026",
+                "doc_version": "2026-06"
+              }
+            ],
+            "provider": "hosted",
+            "trace_id": "7cd4577138bb407c9c4a1882947cf0ed"
+          },
+          "seconds": 0.1846562990003804
+        },
+        {
+          "id": "q30",
+          "response": {
+            "request_id": "eval-42-q30",
+            "answer": "The provided corpus documents do not contain information regarding this topic.",
+            "citations": [],
+            "answered_from_context": false,
+            "confidence": "low",
+            "retrieved": [
+              {
+                "chunk_id": "academic-rules-handbook-jun-2026@2026-06#1-9-a-theory-course-is-normally-assigned#p8#c13",
+                "source": "academic-rules-handbook-jun-2026.pdf",
+                "section": "1.9 A theory course is normally assigned 2 to 4 credit hours, d) For pre-planned activities (conferences, etc.) during",
+                "page": 8,
+                "score": 0.1667,
+                "document_id": "academic-rules-handbook-jun-2026",
+                "doc_version": "2026-06"
+              }
+            ],
+            "provider": "hosted",
+            "trace_id": "e9cbcfca1d4441fab624f1235438bf98"
+          },
+          "seconds": 0.23121650200027943
+        },
+        {
+          "id": "q31",
+          "response": {
+            "request_id": "eval-42-q31",
+            "answer": "The service is temporarily unable to retrieve an answer from the hosted model. Please try again shortly.",
+            "citations": [],
+            "answered_from_context": false,
+            "confidence": "low",
+            "retrieved": [
+              {
+                "chunk_id": "academic-rules-handbook-jun-2026@2026-06#10-policy-on-generative#p44#c89",
+                "source": "academic-rules-handbook-jun-2026.pdf",
+                "section": "10. Policy on Generative",
+                "page": 44,
+                "score": 0.5,
+                "document_id": "academic-rules-handbook-jun-2026",
+                "doc_version": "2026-06"
+              }
+            ],
+            "provider": "hosted",
+            "trace_id": "59452e82d39449d28aa32d092168a708"
+          },
+          "seconds": 0.5689637419991413
+        },
+        {
+          "id": "q32",
+          "response": {
+            "request_id": "eval-42-q32",
+            "answer": "The provided corpus documents do not contain information regarding this topic.",
+            "citations": [],
+            "answered_from_context": false,
+            "confidence": "low",
+            "retrieved": [
+              {
+                "chunk_id": "academic-rules-handbook-jun-2026@2026-06#3-admission-policy#p15#c27",
+                "source": "academic-rules-handbook-jun-2026.pdf",
+                "section": "3. Admission Policy",
+                "page": 15,
+                "score": 0.1667,
+                "document_id": "academic-rules-handbook-jun-2026",
+                "doc_version": "2026-06"
+              }
+            ],
+            "provider": "hosted",
+            "trace_id": "7ccfc0e775ec4b6e9c15c5639f486137"
+          },
+          "seconds": 0.1629275860004782
+        },
+        {
+          "id": "q33",
+          "response": {
+            "request_id": "eval-42-q33",
+            "answer": "The provided corpus documents do not contain information regarding this topic.",
+            "citations": [],
+            "answered_from_context": false,
+            "confidence": "low",
+            "retrieved": [
+              {
+                "chunk_id": "annual-report-2023-24@2023-24#22-seminar-on-ux-design-as-a-career#p35#c59",
+                "source": "annual-report-2023-24.pdf",
+                "section": "22. Seminar on UX Design as a Career",
+                "page": 35,
+                "score": 0.4286,
+                "document_id": "annual-report-2023-24",
+                "doc_version": "2023-24"
+              }
+            ],
+            "provider": "hosted",
+            "trace_id": "833de8db7c144aea93d99b665e389a3e"
+          },
+          "seconds": 0.18877970400080812
+        },
+        {
+          "id": "q34",
+          "response": {
+            "request_id": "eval-42-q34",
+            "answer": "The service is temporarily unable to retrieve an answer from the hosted model. Please try again shortly.",
+            "citations": [],
+            "answered_from_context": false,
+            "confidence": "low",
+            "retrieved": [
+              {
+                "chunk_id": "academic-rules-handbook-jun-2026@2026-06#3-32-a-new-admission-is-closed-if-an-awa#p19#c35",
+                "source": "academic-rules-handbook-jun-2026.pdf",
+                "section": "3.32 A new admission is closed if an awaited result does not meet",
+                "page": 19,
+                "score": 0.7778,
+                "document_id": "academic-rules-handbook-jun-2026",
+                "doc_version": "2026-06"
+              }
+            ],
+            "provider": "hosted",
+            "trace_id": "61e30f864d324bf4ad8e1f001298064e"
+          },
+          "seconds": 0.582300595999186
+        },
+        {
+          "id": "q35",
+          "response": {
+            "request_id": "eval-42-q35",
+            "answer": "The service is temporarily unable to retrieve an answer from the hosted model. Please try again shortly.",
+            "citations": [],
+            "answered_from_context": false,
+            "confidence": "low",
+            "retrieved": [
+              {
+                "chunk_id": "academic-rules-handbook-jun-2026@2026-06#1-9-a-theory-course-is-normally-assigned#p8#c13",
+                "source": "academic-rules-handbook-jun-2026.pdf",
+                "section": "1.9 A theory course is normally assigned 2 to 4 credit hours, d) For pre-planned activities (conferences, etc.) during",
+                "page": 8,
+                "score": 0.625,
+                "document_id": "academic-rules-handbook-jun-2026",
+                "doc_version": "2026-06"
+              }
+            ],
+            "provider": "hosted",
+            "trace_id": "e0605b7585d344c98de9aa628e723825"
+          },
+          "seconds": 0.9123387780000485
+        },
+        {
+          "id": "q36",
+          "response": {
+            "request_id": "eval-42-q36",
+            "answer": "The service is temporarily unable to retrieve an answer from the hosted model. Please try again shortly.",
+            "citations": [],
+            "answered_from_context": false,
+            "confidence": "low",
+            "retrieved": [
+              {
+                "chunk_id": "academic-rules-handbook-jun-2026@2026-06#6-rules-for-summer-semester#p29#c56",
+                "source": "academic-rules-handbook-jun-2026.pdf",
+                "section": "6. Rules for Summer Semester",
+                "page": 29,
+                "score": 1.0,
+                "document_id": "academic-rules-handbook-jun-2026",
+                "doc_version": "2026-06"
+              }
+            ],
+            "provider": "hosted",
+            "trace_id": "154bc6d92e8f40a0ac2e7bb74660df03"
+          },
+          "seconds": 0.4946245920000365
+        },
+        {
+          "id": "q37",
+          "response": {
+            "request_id": "eval-42-q37",
+            "answer": "The service is temporarily unable to retrieve an answer from the hosted model. Please try again shortly.",
+            "citations": [],
+            "answered_from_context": false,
+            "confidence": "low",
+            "retrieved": [
+              {
+                "chunk_id": "academic-rules-handbook-jun-2026@2026-06#10-policy-on-generative#p43#c86",
+                "source": "academic-rules-handbook-jun-2026.pdf",
+                "section": "10. Policy on Generative",
+                "page": 43,
+                "score": 1.0,
+                "document_id": "academic-rules-handbook-jun-2026",
+                "doc_version": "2026-06"
+              }
+            ],
+            "provider": "hosted",
+            "trace_id": "01383821a93846cfa5c188141729bbd4"
+          },
+          "seconds": 0.48296752700025536
+        },
+        {
+          "id": "q38",
+          "response": {
+            "request_id": "eval-42-q38",
+            "answer": "The service is temporarily unable to retrieve an answer from the hosted model. Please try again shortly.",
+            "citations": [],
+            "answered_from_context": false,
+            "confidence": "low",
+            "retrieved": [
+              {
+                "chunk_id": "prospectus-2026-academic-rules-and-regul@2026#general-prospectus-2026-academic-rules-a#p1#c0",
+                "source": "prospectus-2026-academic-rules-and-regulations.pdf",
+                "section": "General (prospectus-2026-academic-rules-and-regulations.pdf)",
+                "page": 1,
+                "score": 0.7273,
+                "document_id": "prospectus-2026-academic-rules-and-regulations",
+                "doc_version": "2026"
+              }
+            ],
+            "provider": "hosted",
+            "trace_id": "97ddaa88dd334ecca78705b71b3e63b9"
+          },
+          "seconds": 0.5015378039997813
+        },
+        {
+          "id": "q39",
+          "response": {
+            "request_id": "eval-42-q39",
+            "answer": "The service is temporarily unable to retrieve an answer from the hosted model. Please try again shortly.",
+            "citations": [],
+            "answered_from_context": false,
+            "confidence": "low",
+            "retrieved": [
+              {
+                "chunk_id": "academic-rules-handbook-jun-2026@2026-06#5-academic-assessment#p25#c47",
+                "source": "academic-rules-handbook-jun-2026.pdf",
+                "section": "5. Academic Assessment",
+                "page": 25,
+                "score": 0.7273,
+                "document_id": "academic-rules-handbook-jun-2026",
+                "doc_version": "2026-06"
+              }
+            ],
+            "provider": "hosted",
+            "trace_id": "d34b4c3d53d74bfeb439167a2ff4c5b9"
+          },
+          "seconds": 0.5107382249998409
+        }
+      ],
+      "noise_rows": [
+        {
+          "id": "q01",
+          "response": {
+            "request_id": "noise-42-q01",
+            "answer": "An undergraduate student must maintain a CGPA of at least 2.0 to stay off academic warning.",
+            "citations": [
+              {
+                "source": "prospectus-2026-academic-rules-and-regulations.pdf",
+                "section": "General (prospectus-2026-academic-rules-and-regulations.pdf)",
+                "page": 3
+              }
+            ],
+            "answered_from_context": true,
+            "confidence": "medium",
+            "retrieved": [
+              {
+                "chunk_id": "prospectus-2026-academic-rules-and-regul@2026#general-prospectus-2026-academic-rules-a#p3#c7",
+                "source": "prospectus-2026-academic-rules-and-regulations.pdf",
+                "section": "General (prospectus-2026-academic-rules-and-regulations.pdf)",
+                "page": 3,
+                "score": 0.5,
+                "document_id": "prospectus-2026-academic-rules-and-regulations",
+                "doc_version": "2026"
+              }
+            ],
+            "provider": "hosted",
+            "trace_id": "959d08d98b0b4518ae852164f335f396"
+          },
+          "seconds": 1.7298440949998621
+        },
+        {
+          "id": "q02",
+          "response": {
+            "request_id": "noise-42-q02",
+            "answer": "80%",
+            "citations": [
+              {
+                "source": "prospectus-2026-academic-rules-and-regulations.pdf",
+                "section": "General (prospectus-2026-academic-rules-and-regulations.pdf)",
+                "page": 3
+              }
+            ],
+            "answered_from_context": true,
+            "confidence": "high",
+            "retrieved": [
+              {
+                "chunk_id": "prospectus-2026-academic-rules-and-regul@2026#general-prospectus-2026-academic-rules-a#p3#c7",
+                "source": "prospectus-2026-academic-rules-and-regulations.pdf",
+                "section": "General (prospectus-2026-academic-rules-and-regulations.pdf)",
+                "page": 3,
+                "score": 0.5714,
+                "document_id": "prospectus-2026-academic-rules-and-regulations",
+                "doc_version": "2026"
+              }
+            ],
+            "provider": "hosted",
+            "trace_id": "c11b3568500442a39a1439f66738db06"
+          },
+          "seconds": 1.023819646999982
+        },
+        {
+          "id": "q03",
+          "response": {
+            "request_id": "noise-42-q03",
+            "answer": "No, a student cannot register for a subsequent course if they have failed its prerequisite.",
+            "citations": [
+              {
+                "source": "academic-rules-handbook-jun-2026.pdf",
+                "section": "3.32 A new admission is closed if an awaited result does not meet",
+                "page": 21
+              }
+            ],
+            "answered_from_context": true,
+            "confidence": "medium",
+            "retrieved": [
+              {
+                "chunk_id": "academic-rules-handbook-jun-2026@2026-06#3-32-a-new-admission-is-closed-if-an-awa#p21#c39",
+                "source": "academic-rules-handbook-jun-2026.pdf",
+                "section": "3.32 A new admission is closed if an awaited result does not meet",
+                "page": 21,
+                "score": 0.5455,
+                "document_id": "academic-rules-handbook-jun-2026",
+                "doc_version": "2026-06"
+              }
+            ],
+            "provider": "hosted",
+            "trace_id": "cd3250c565154cd6933830851db40543"
+          },
+          "seconds": 2.335928848000549
+        },
+        {
+          "id": "q04",
+          "response": {
+            "request_id": "noise-42-q04",
+            "answer": "The service is temporarily unable to retrieve an answer from the hosted model. Please try again shortly.",
+            "citations": [],
+            "answered_from_context": false,
+            "confidence": "low",
+            "retrieved": [
+              {
+                "chunk_id": "academic-rules-handbook-jun-2026@2026-06#1-9-a-theory-course-is-normally-assigned#p8#c13",
+                "source": "academic-rules-handbook-jun-2026.pdf",
+                "section": "1.9 A theory course is normally assigned 2 to 4 credit hours, d) For pre-planned activities (conferences, etc.) during",
+                "page": 8,
+                "score": 0.7143,
+                "document_id": "academic-rules-handbook-jun-2026",
+                "doc_version": "2026-06"
+              }
+            ],
+            "provider": "hosted",
+            "trace_id": "ecb08a48a9be4c0ab09956255e121813"
+          },
+          "seconds": 0.48495333600021695
+        },
+        {
+          "id": "q05",
+          "response": {
+            "request_id": "noise-42-q05",
+            "answer": "The service is temporarily unable to retrieve an answer from the hosted model. Please try again shortly.",
+            "citations": [],
+            "answered_from_context": false,
+            "confidence": "low",
+            "retrieved": [
+              {
+                "chunk_id": "academic-rules-handbook-jun-2026@2026-06#general-academic-rules-handbook-jun-2026#p4#c5",
+                "source": "academic-rules-handbook-jun-2026.pdf",
+                "section": "General (academic-rules-handbook-jun-2026.pdf)",
+                "page": 4,
+                "score": 0.6667,
+                "document_id": "academic-rules-handbook-jun-2026",
+                "doc_version": "2026-06"
+              }
+            ],
+            "provider": "hosted",
+            "trace_id": "849fca1c407847e38dc73157d424962a"
+          },
+          "seconds": 0.5984309949999442
+        },
+        {
+          "id": "q06",
+          "response": {
+            "request_id": "noise-42-q06",
+            "answer": "The service is temporarily unable to retrieve an answer from the hosted model. Please try again shortly.",
+            "citations": [],
+            "answered_from_context": false,
+            "confidence": "low",
+            "retrieved": [
+              {
+                "chunk_id": "academic-rules-handbook-jun-2026@2026-06#3-32-a-new-admission-is-closed-if-an-awa#p23#c43",
+                "source": "academic-rules-handbook-jun-2026.pdf",
+                "section": "3.32 A new admission is closed if an awaited result does not meet",
+                "page": 23,
+                "score": 0.6667,
+                "document_id": "academic-rules-handbook-jun-2026",
+                "doc_version": "2026-06"
+              }
+            ],
+            "provider": "hosted",
+            "trace_id": "ef999b0f8aa641ff8ca37f97c72c2286"
+          },
+          "seconds": 0.47910902300009184
+        },
+        {
+          "id": "q07",
+          "response": {
+            "request_id": "noise-42-q07",
+            "answer": "The service is temporarily unable to retrieve an answer from the hosted model. Please try again shortly.",
+            "citations": [],
+            "answered_from_context": false,
+            "confidence": "low",
+            "retrieved": [
+              {
+                "chunk_id": "academic-rules-handbook-jun-2026@2026-06#10-policy-on-generative#p43#c86",
+                "source": "academic-rules-handbook-jun-2026.pdf",
+                "section": "10. Policy on Generative",
+                "page": 43,
+                "score": 0.5833,
+                "document_id": "academic-rules-handbook-jun-2026",
+                "doc_version": "2026-06"
+              }
+            ],
+            "provider": "hosted",
+            "trace_id": "be74026b8fc2433889ab8b05cb37e7fb"
+          },
+          "seconds": 0.5346436049994736
+        },
+        {
+          "id": "q08",
+          "response": {
+            "request_id": "noise-42-q08",
+            "answer": "The service is temporarily unable to retrieve an answer from the hosted model. Please try again shortly.",
+            "citations": [],
+            "answered_from_context": false,
+            "confidence": "low",
+            "retrieved": [
+              {
+                "chunk_id": "academic-rules-handbook-jun-2026@2026-06#1-9-a-theory-course-is-normally-assigned#p10#c17",
+                "source": "academic-rules-handbook-jun-2026.pdf",
+                "section": "1.9 A theory course is normally assigned 2 to 4 credit hours, d) For pre-planned activities (conferences, etc.) during",
+                "page": 10,
+                "score": 0.5,
+                "document_id": "academic-rules-handbook-jun-2026",
+                "doc_version": "2026-06"
+              }
+            ],
+            "provider": "hosted",
+            "trace_id": "de54da743ff34eeaacd936ede5041a3e"
+          },
+          "seconds": 0.5807411949999732
+        },
+        {
+          "id": "q09",
+          "response": {
+            "request_id": "noise-42-q09",
+            "answer": "The service is temporarily unable to retrieve an answer from the hosted model. Please try again shortly.",
+            "citations": [],
+            "answered_from_context": false,
+            "confidence": "low",
+            "retrieved": [
+              {
+                "chunk_id": "prospectus-2026-academic-rules-and-regul@2026#general-prospectus-2026-academic-rules-a#p2#c4",
+                "source": "prospectus-2026-academic-rules-and-regulations.pdf",
+                "section": "General (prospectus-2026-academic-rules-and-regulations.pdf)",
+                "page": 2,
+                "score": 0.6364,
+                "document_id": "prospectus-2026-academic-rules-and-regulations",
+                "doc_version": "2026"
+              }
+            ],
+            "provider": "hosted",
+            "trace_id": "8869fc9bc73b45199d8a7d49bcd4f102"
+          },
+          "seconds": 0.5067261540007166
+        },
+        {
+          "id": "q10",
+          "response": {
+            "request_id": "noise-42-q10",
+            "answer": "The service is temporarily unable to retrieve an answer from the hosted model. Please try again shortly.",
+            "citations": [],
+            "answered_from_context": false,
+            "confidence": "low",
+            "retrieved": [
+              {
+                "chunk_id": "academic-rules-handbook-jun-2026@2026-06#3-18-only-credits-of-relevant-courses-wh#p17#c31",
+                "source": "academic-rules-handbook-jun-2026.pdf",
+                "section": "3.18 Only credits of relevant courses, which have been earned",
+                "page": 17,
+                "score": 0.7273,
+                "document_id": "academic-rules-handbook-jun-2026",
+                "doc_version": "2026-06"
+              }
+            ],
+            "provider": "hosted",
+            "trace_id": "8228fe82c50c4cff950c3d32d6ea8617"
+          },
+          "seconds": 0.8319211610005368
+        },
+        {
+          "id": "q11",
+          "response": {
+            "request_id": "noise-42-q11",
+            "answer": "The service is temporarily unable to retrieve an answer from the hosted model. Please try again shortly.",
+            "citations": [],
+            "answered_from_context": false,
+            "confidence": "low",
+            "retrieved": [
+              {
+                "chunk_id": "academic-rules-handbook-jun-2026@2026-06#1-9-a-theory-course-is-normally-assigned#p8#c13",
+                "source": "academic-rules-handbook-jun-2026.pdf",
+                "section": "1.9 A theory course is normally assigned 2 to 4 credit hours, d) For pre-planned activities (conferences, etc.) during",
+                "page": 8,
+                "score": 0.5556,
+                "document_id": "academic-rules-handbook-jun-2026",
+                "doc_version": "2026-06"
+              }
+            ],
+            "provider": "hosted",
+            "trace_id": "ead94bfa7268484bb19bba0cb584336a"
+          },
+          "seconds": 0.536032284000612
+        },
+        {
+          "id": "q12",
+          "response": {
+            "request_id": "noise-42-q12",
+            "answer": "The service is temporarily unable to retrieve an answer from the hosted model. Please try again shortly.",
+            "citations": [],
+            "answered_from_context": false,
+            "confidence": "low",
+            "retrieved": [
+              {
+                "chunk_id": "prospectus-2026-academic-rules-and-regul@2026#general-prospectus-2026-academic-rules-a#p3#c7",
+                "source": "prospectus-2026-academic-rules-and-regulations.pdf",
+                "section": "General (prospectus-2026-academic-rules-and-regulations.pdf)",
+                "page": 3,
+                "score": 0.8571,
+                "document_id": "prospectus-2026-academic-rules-and-regulations",
+                "doc_version": "2026"
+              }
+            ],
+            "provider": "hosted",
+            "trace_id": "7b0569136bf44beaa6f3525a78882f18"
+          },
+          "seconds": 0.5863171239998337
+        },
+        {
+          "id": "q13",
+          "response": {
+            "request_id": "noise-42-q13",
+            "answer": "The provided corpus documents do not contain information regarding this topic.",
+            "citations": [],
+            "answered_from_context": false,
+            "confidence": "low",
+            "retrieved": [
+              {
+                "chunk_id": "academic-rules-handbook-jun-2026@2026-06#10-policy-on-generative#p42#c84",
+                "source": "academic-rules-handbook-jun-2026.pdf",
+                "section": "10. Policy on Generative",
+                "page": 42,
+                "score": 0.2222,
+                "document_id": "academic-rules-handbook-jun-2026",
+                "doc_version": "2026-06"
+              }
+            ],
+            "provider": "hosted",
+            "trace_id": "0367d5b6f8244e45b689bd460dcb29c9"
+          },
+          "seconds": 0.13808160100052191
+        },
+        {
+          "id": "q14",
+          "response": {
+            "request_id": "noise-42-q14",
+            "answer": "The provided corpus documents do not contain information regarding this topic.",
+            "citations": [],
+            "answered_from_context": false,
+            "confidence": "low",
+            "retrieved": [
+              {
+                "chunk_id": "annual-report-2019-20@2019-20#general-annual-report-2019-20-pdf#p8#c9",
+                "source": "annual-report-2019-20.pdf",
+                "section": "General (annual-report-2019-20.pdf)",
+                "page": 8,
+                "score": 0.2727,
+                "document_id": "annual-report-2019-20",
+                "doc_version": "2019-20"
+              }
+            ],
+            "provider": "hosted",
+            "trace_id": "e5e2468d5f124d5c812f5a66662b267d"
+          },
+          "seconds": 0.20134247500027413
+        },
+        {
+          "id": "q15",
+          "response": {
+            "request_id": "noise-42-q15",
+            "answer": "The provided corpus documents do not contain information regarding this topic.",
+            "citations": [],
+            "answered_from_context": false,
+            "confidence": "low",
+            "retrieved": [],
+            "provider": "hosted",
+            "trace_id": "79794f1e19db47d1a19aa1433c477a84"
+          },
+          "seconds": 0.19557254899973486
+        },
+        {
+          "id": "q16",
+          "response": {
+            "request_id": "noise-42-q16",
+            "answer": "The provided corpus documents do not contain information regarding this topic.",
+            "citations": [],
+            "answered_from_context": false,
+            "confidence": "low",
+            "retrieved": [
+              {
+                "chunk_id": "fee-structure-page@2026-27#security-deposit#p1#c183",
+                "source": "fee-structure-page.html",
+                "section": "Security Deposit",
+                "page": 1,
+                "score": 0.4286,
+                "document_id": "fee-structure-page",
+                "doc_version": "2026-27"
+              }
+            ],
+            "provider": "hosted",
+            "trace_id": "1ccf9a0fb2f34f22a70391ac90f7b516"
+          },
+          "seconds": 0.1538155899997946
+        },
+        {
+          "id": "q17",
+          "response": {
+            "request_id": "noise-42-q17",
+            "answer": "80%",
+            "citations": [
+              {
+                "source": "prospectus-2026-academic-rules-and-regulations.pdf",
+                "section": "General (prospectus-2026-academic-rules-and-regulations.pdf)",
+                "page": 3
+              }
+            ],
+            "answered_from_context": true,
+            "confidence": "high",
+            "retrieved": [
+              {
+                "chunk_id": "prospectus-2026-academic-rules-and-regul@2026#general-prospectus-2026-academic-rules-a#p3#c7",
+                "source": "prospectus-2026-academic-rules-and-regulations.pdf",
+                "section": "General (prospectus-2026-academic-rules-and-regulations.pdf)",
+                "page": 3,
+                "score": 0.5556,
+                "document_id": "prospectus-2026-academic-rules-and-regulations",
+                "doc_version": "2026"
+              }
+            ],
+            "provider": "hosted",
+            "trace_id": "647a89c9018f4bfba2289ede944a1648"
+          },
+          "seconds": 1.0051986890002809
+        },
+        {
+          "id": "q18",
+          "response": {
+            "request_id": "noise-42-q18",
+            "answer": "The service is temporarily unable to retrieve an answer from the hosted model. Please try again shortly.",
+            "citations": [],
+            "answered_from_context": false,
+            "confidence": "low",
+            "retrieved": [
+              {
+                "chunk_id": "library-loan-policy-a@2026#library-loan-policy#p1#c0",
+                "source": "near-duplicate-a.md",
+                "section": "Library Loan Policy",
+                "page": 1,
+                "score": 0.5714,
+                "document_id": "library-loan-policy-a",
+                "doc_version": "2026"
+              }
+            ],
+            "provider": "hosted",
+            "trace_id": "e820b5a89aad4c9da0e021282b6a5a8b"
+          },
+          "seconds": 0.5281800410002688
+        },
+        {
+          "id": "q19",
+          "response": {
+            "request_id": "noise-42-q19",
+            "answer": "The service is temporarily unable to retrieve an answer from the hosted model. Please try again shortly.",
+            "citations": [],
+            "answered_from_context": false,
+            "confidence": "low",
+            "retrieved": [
+              {
+                "chunk_id": "library-loan-policy-a@2026#library-loan-policy#p1#c0",
+                "source": "near-duplicate-a.md",
+                "section": "Library Loan Policy",
+                "page": 1,
+                "score": 0.8,
+                "document_id": "library-loan-policy-a",
+                "doc_version": "2026"
+              }
+            ],
+            "provider": "hosted",
+            "trace_id": "13c6b2baea694f8c9317fb8db6bf1bc7"
+          },
+          "seconds": 0.4765854039997066
+        },
+        {
+          "id": "q20",
+          "response": {
+            "request_id": "noise-42-q20",
+            "answer": "The service is temporarily unable to retrieve an answer from the hosted model. Please try again shortly.",
+            "citations": [],
+            "answered_from_context": false,
+            "confidence": "low",
+            "retrieved": [
+              {
+                "chunk_id": "academic-rules-handbook-jun-2026@2026-06#5-academic-assessment#p27#c52",
+                "source": "academic-rules-handbook-jun-2026.pdf",
+                "section": "5. Academic Assessment",
+                "page": 27,
+                "score": 0.5,
+                "document_id": "academic-rules-handbook-jun-2026",
+                "doc_version": "2026-06"
+              }
+            ],
+            "provider": "hosted",
+            "trace_id": "0cc8bd8a567c467b9035ec325d54e93c"
+          },
+          "seconds": 0.49707863699950394
+        },
+        {
+          "id": "q21",
+          "response": {
+            "request_id": "noise-42-q21",
+            "answer": "The service is temporarily unable to retrieve an answer from the hosted model. Please try again shortly.",
+            "citations": [],
+            "answered_from_context": false,
+            "confidence": "low",
+            "retrieved": [
+              {
+                "chunk_id": "fee-payment-schedule@2026#fee-payment-schedule#p1#c0",
+                "source": "fee-payment.md",
+                "section": "Fee Payment Schedule",
+                "page": 1,
+                "score": 0.5556,
+                "document_id": "fee-payment-schedule",
+                "doc_version": "2026"
+              }
+            ],
+            "provider": "hosted",
+            "trace_id": "33400ff74d264c2da526577fb3c4aaaf"
+          },
+          "seconds": 0.5058385769998495
+        },
+        {
+          "id": "q22",
+          "response": {
+            "request_id": "noise-42-q22",
+            "answer": "The service is temporarily unable to retrieve an answer from the hosted model. Please try again shortly.",
+            "citations": [],
+            "answered_from_context": false,
+            "confidence": "low",
+            "retrieved": [
+              {
+                "chunk_id": "academic-rules-handbook-jun-2026@2026-06#1-9-a-theory-course-is-normally-assigned#p10#c17",
+                "source": "academic-rules-handbook-jun-2026.pdf",
+                "section": "1.9 A theory course is normally assigned 2 to 4 credit hours, d) For pre-planned activities (conferences, etc.) during",
+                "page": 10,
+                "score": 0.5714,
+                "document_id": "academic-rules-handbook-jun-2026",
+                "doc_version": "2026-06"
+              }
+            ],
+            "provider": "hosted",
+            "trace_id": "d99b9fe3582d4cd0a956e134e911173a"
+          },
+          "seconds": 0.7770718049996503
+        },
+        {
+          "id": "q23",
+          "response": {
+            "request_id": "noise-42-q23",
+            "answer": "The provided corpus documents do not contain information regarding this topic.",
+            "citations": [],
+            "answered_from_context": false,
+            "confidence": "low",
+            "retrieved": [
+              {
+                "chunk_id": "academic-rules-handbook-jun-2026@2026-06#3-18-only-credits-of-relevant-courses-wh#p16#c29",
+                "source": "academic-rules-handbook-jun-2026.pdf",
+                "section": "3.18 Only credits of relevant courses, which have been earned",
+                "page": 16,
+                "score": 0.3333,
+                "document_id": "academic-rules-handbook-jun-2026",
+                "doc_version": "2026-06"
+              }
+            ],
+            "provider": "hosted",
+            "trace_id": "31bfee3f9d624095ac81e3e483a0ca83"
+          },
+          "seconds": 0.15745801000048232
+        },
+        {
+          "id": "q24",
+          "response": {
+            "request_id": "noise-42-q24",
+            "answer": "The service is temporarily unable to retrieve an answer from the hosted model. Please try again shortly.",
+            "citations": [],
+            "answered_from_context": false,
+            "confidence": "low",
+            "retrieved": [
+              {
+                "chunk_id": "annual-report-2019-20@2019-20#general-annual-report-2019-20-pdf#p8#c10",
+                "source": "annual-report-2019-20.pdf",
+                "section": "General (annual-report-2019-20.pdf)",
+                "page": 8,
+                "score": 0.5,
+                "document_id": "annual-report-2019-20",
+                "doc_version": "2019-20"
+              }
+            ],
+            "provider": "hosted",
+            "trace_id": "0f321df8ba9a46179421478a4bcf45e8"
+          },
+          "seconds": 0.4834842430000208
+        },
+        {
+          "id": "q25",
+          "response": {
+            "request_id": "noise-42-q25",
+            "answer": "The provided corpus documents do not contain information regarding this topic.",
+            "citations": [],
+            "answered_from_context": false,
+            "confidence": "low",
+            "retrieved": [
+              {
+                "chunk_id": "academic-rules-handbook-jun-2026@2026-06#6-rules-for-summer-semester#p29#c56",
+                "source": "academic-rules-handbook-jun-2026.pdf",
+                "section": "6. Rules for Summer Semester",
+                "page": 29,
+                "score": 0.4167,
+                "document_id": "academic-rules-handbook-jun-2026",
+                "doc_version": "2026-06"
+              }
+            ],
+            "provider": "hosted",
+            "trace_id": "7a2813f196464bbb96ccebb658ebf985"
+          },
+          "seconds": 0.13754215500011924
+        },
+        {
+          "id": "q26",
+          "response": {
+            "request_id": "noise-42-q26",
+            "answer": "The provided corpus documents do not contain information regarding this topic.",
+            "citations": [],
+            "answered_from_context": false,
+            "confidence": "low",
+            "retrieved": [
+              {
+                "chunk_id": "academic-rules-handbook-jun-2026@2026-06#1-9-a-theory-course-is-normally-assigned#p8#c13",
+                "source": "academic-rules-handbook-jun-2026.pdf",
+                "section": "1.9 A theory course is normally assigned 2 to 4 credit hours, d) For pre-planned activities (conferences, etc.) during",
+                "page": 8,
+                "score": 0.2,
+                "document_id": "academic-rules-handbook-jun-2026",
+                "doc_version": "2026-06"
+              }
+            ],
+            "provider": "hosted",
+            "trace_id": "074f163aaf004b6389c79bfb471b5846"
+          },
+          "seconds": 0.18781612899965694
+        },
+        {
+          "id": "q27",
+          "response": {
+            "request_id": "noise-42-q27",
+            "answer": "The provided corpus documents do not contain information regarding this topic.",
+            "citations": [],
+            "answered_from_context": false,
+            "confidence": "low",
+            "retrieved": [
+              {
+                "chunk_id": "academic-rules-handbook-jun-2026@2026-06#3-18-only-credits-of-relevant-courses-wh#p16#c29",
+                "source": "academic-rules-handbook-jun-2026.pdf",
+                "section": "3.18 Only credits of relevant courses, which have been earned",
+                "page": 16,
+                "score": 0.4286,
+                "document_id": "academic-rules-handbook-jun-2026",
+                "doc_version": "2026-06"
+              }
+            ],
+            "provider": "hosted",
+            "trace_id": "91d9cb133b854fb3a78ae2af18c92178"
+          },
+          "seconds": 0.187691420000192
+        },
+        {
+          "id": "q28",
+          "response": {
+            "request_id": "noise-42-q28",
+            "answer": "The service is temporarily unable to retrieve an answer from the hosted model. Please try again shortly.",
+            "citations": [],
+            "answered_from_context": false,
+            "confidence": "low",
+            "retrieved": [
+              {
+                "chunk_id": "student-handbook-jun-2026@2026-06#general-student-handbook-jun-2026-pdf#p54#c119",
+                "source": "student-handbook-jun-2026.pdf",
+                "section": "General (student-handbook-jun-2026.pdf)",
+                "page": 54,
+                "score": 0.5,
+                "document_id": "student-handbook-jun-2026",
+                "doc_version": "2026-06"
+              }
+            ],
+            "provider": "hosted",
+            "trace_id": "fe7e15b81a524f14804354db5576695b"
+          },
+          "seconds": 0.5322005040006843
+        },
+        {
+          "id": "q29",
+          "response": {
+            "request_id": "noise-42-q29",
+            "answer": "The provided corpus documents do not contain information regarding this topic.",
+            "citations": [],
+            "answered_from_context": false,
+            "confidence": "low",
+            "retrieved": [
+              {
+                "chunk_id": "academic-rules-handbook-jun-2026@2026-06#general-academic-rules-handbook-jun-2026#p1#c2",
+                "source": "academic-rules-handbook-jun-2026.pdf",
+                "section": "General (academic-rules-handbook-jun-2026.pdf)",
+                "page": 1,
+                "score": 0.25,
+                "document_id": "academic-rules-handbook-jun-2026",
+                "doc_version": "2026-06"
+              }
+            ],
+            "provider": "hosted",
+            "trace_id": "e0d916f401bd4af3af5077d0ad34f837"
+          },
+          "seconds": 0.167122317000576
+        },
+        {
+          "id": "q30",
+          "response": {
+            "request_id": "noise-42-q30",
+            "answer": "The provided corpus documents do not contain information regarding this topic.",
+            "citations": [],
+            "answered_from_context": false,
+            "confidence": "low",
+            "retrieved": [
+              {
+                "chunk_id": "academic-rules-handbook-jun-2026@2026-06#1-9-a-theory-course-is-normally-assigned#p8#c13",
+                "source": "academic-rules-handbook-jun-2026.pdf",
+                "section": "1.9 A theory course is normally assigned 2 to 4 credit hours, d) For pre-planned activities (conferences, etc.) during",
+                "page": 8,
+                "score": 0.1667,
+                "document_id": "academic-rules-handbook-jun-2026",
+                "doc_version": "2026-06"
+              }
+            ],
+            "provider": "hosted",
+            "trace_id": "eccabd93faf844d99089652a849a3b01"
+          },
+          "seconds": 0.13192354400052864
+        },
+        {
+          "id": "q31",
+          "response": {
+            "request_id": "noise-42-q31",
+            "answer": "Cricket is a bat\u2011and\u2011ball game played between two teams of eleven players each. The main objective is to score more runs than the opposition. A match is divided into innings; in each innings, one team bats while the other bowls and fields. The batting side attempts to hit the ball and run between the wickets to accumulate runs, while the bowling side tries to dismiss the batsmen by getting them out. A batsman is out in several ways: bowled, caught, leg\u2011before\u2011wicket, run\u2011out, stumped, or hit\u2011wicket. Each dismissal reduces the batting side\u2019s wickets. An innings ends when ten wickets fall or a predetermined number of overs (sets of six deliveries) is completed. The team with the higher run total wins. Additional rules cover over\u2011limits, fielding restrictions, and tie\u2011breaking methods such as super overs in limited\u2011overs formats.",
+            "citations": [],
+            "answered_from_context": false,
+            "confidence": "low",
+            "retrieved": [
+              {
+                "chunk_id": "academic-rules-handbook-jun-2026@2026-06#10-policy-on-generative#p44#c89",
+                "source": "academic-rules-handbook-jun-2026.pdf",
+                "section": "10. Policy on Generative",
+                "page": 44,
+                "score": 0.5,
+                "document_id": "academic-rules-handbook-jun-2026",
+                "doc_version": "2026-06"
+              }
+            ],
+            "provider": "hosted",
+            "trace_id": "a1e7708a3e4d49f78f74806af1359581"
+          },
+          "seconds": 1.50145227899975
+        },
+        {
+          "id": "q32",
+          "response": {
+            "request_id": "noise-42-q32",
+            "answer": "The provided corpus documents do not contain information regarding this topic.",
+            "citations": [],
+            "answered_from_context": false,
+            "confidence": "low",
+            "retrieved": [
+              {
+                "chunk_id": "academic-rules-handbook-jun-2026@2026-06#3-admission-policy#p15#c27",
+                "source": "academic-rules-handbook-jun-2026.pdf",
+                "section": "3. Admission Policy",
+                "page": 15,
+                "score": 0.1667,
+                "document_id": "academic-rules-handbook-jun-2026",
+                "doc_version": "2026-06"
+              }
+            ],
+            "provider": "hosted",
+            "trace_id": "a3c97e10a36946b2899b47429ea7be11"
+          },
+          "seconds": 0.19168031899971538
+        },
+        {
+          "id": "q33",
+          "response": {
+            "request_id": "noise-42-q33",
+            "answer": "The provided corpus documents do not contain information regarding this topic.",
+            "citations": [],
+            "answered_from_context": false,
+            "confidence": "low",
+            "retrieved": [
+              {
+                "chunk_id": "annual-report-2023-24@2023-24#22-seminar-on-ux-design-as-a-career#p35#c59",
+                "source": "annual-report-2023-24.pdf",
+                "section": "22. Seminar on UX Design as a Career",
+                "page": 35,
+                "score": 0.4286,
+                "document_id": "annual-report-2023-24",
+                "doc_version": "2023-24"
+              }
+            ],
+            "provider": "hosted",
+            "trace_id": "6a9ed4f59e074ac5b63c5bd95e12f894"
+          },
+          "seconds": 0.2068888470003003
+        },
+        {
+          "id": "q34",
+          "response": {
+            "request_id": "noise-42-q34",
+            "answer": "The service is temporarily unable to retrieve an answer from the hosted model. Please try again shortly.",
+            "citations": [],
+            "answered_from_context": false,
+            "confidence": "low",
+            "retrieved": [
+              {
+                "chunk_id": "academic-rules-handbook-jun-2026@2026-06#3-32-a-new-admission-is-closed-if-an-awa#p19#c35",
+                "source": "academic-rules-handbook-jun-2026.pdf",
+                "section": "3.32 A new admission is closed if an awaited result does not meet",
+                "page": 19,
+                "score": 0.6667,
+                "document_id": "academic-rules-handbook-jun-2026",
+                "doc_version": "2026-06"
+              }
+            ],
+            "provider": "hosted",
+            "trace_id": "926489b80b1b494b95a48976507aff25"
+          },
+          "seconds": 0.5557405259996813
+        },
+        {
+          "id": "q35",
+          "response": {
+            "request_id": "noise-42-q35",
+            "answer": "The service is temporarily unable to retrieve an answer from the hosted model. Please try again shortly.",
+            "citations": [],
+            "answered_from_context": false,
+            "confidence": "low",
+            "retrieved": [
+              {
+                "chunk_id": "academic-rules-handbook-jun-2026@2026-06#1-9-a-theory-course-is-normally-assigned#p8#c13",
+                "source": "academic-rules-handbook-jun-2026.pdf",
+                "section": "1.9 A theory course is normally assigned 2 to 4 credit hours, d) For pre-planned activities (conferences, etc.) during",
+                "page": 8,
+                "score": 0.5,
+                "document_id": "academic-rules-handbook-jun-2026",
+                "doc_version": "2026-06"
+              }
+            ],
+            "provider": "hosted",
+            "trace_id": "0cfda5321f9f44f79a41d83af9e1b17c"
+          },
+          "seconds": 0.5366132059998563
+        },
+        {
+          "id": "q36",
+          "response": {
+            "request_id": "noise-42-q36",
+            "answer": "The service is temporarily unable to retrieve an answer from the hosted model. Please try again shortly.",
+            "citations": [],
+            "answered_from_context": false,
+            "confidence": "low",
+            "retrieved": [
+              {
+                "chunk_id": "academic-rules-handbook-jun-2026@2026-06#6-rules-for-summer-semester#p29#c56",
+                "source": "academic-rules-handbook-jun-2026.pdf",
+                "section": "6. Rules for Summer Semester",
+                "page": 29,
+                "score": 0.875,
+                "document_id": "academic-rules-handbook-jun-2026",
+                "doc_version": "2026-06"
+              }
+            ],
+            "provider": "hosted",
+            "trace_id": "e88d8bce877b40b5ba6acf542c838458"
+          },
+          "seconds": 0.5039404829994965
+        },
+        {
+          "id": "q37",
+          "response": {
+            "request_id": "noise-42-q37",
+            "answer": "The service is temporarily unable to retrieve an answer from the hosted model. Please try again shortly.",
+            "citations": [],
+            "answered_from_context": false,
+            "confidence": "low",
+            "retrieved": [
+              {
+                "chunk_id": "academic-rules-handbook-jun-2026@2026-06#10-policy-on-generative#p43#c86",
+                "source": "academic-rules-handbook-jun-2026.pdf",
+                "section": "10. Policy on Generative",
+                "page": 43,
+                "score": 0.8571,
+                "document_id": "academic-rules-handbook-jun-2026",
+                "doc_version": "2026-06"
+              }
+            ],
+            "provider": "hosted",
+            "trace_id": "0773e00aa8c54707baec29dc23ce6340"
+          },
+          "seconds": 0.4957861780003441
+        },
+        {
+          "id": "q38",
+          "response": {
+            "request_id": "noise-42-q38",
+            "answer": "The service is temporarily unable to retrieve an answer from the hosted model. Please try again shortly.",
+            "citations": [],
+            "answered_from_context": false,
+            "confidence": "low",
+            "retrieved": [
+              {
+                "chunk_id": "prospectus-2026-academic-rules-and-regul@2026#general-prospectus-2026-academic-rules-a#p1#c0",
+                "source": "prospectus-2026-academic-rules-and-regulations.pdf",
+                "section": "General (prospectus-2026-academic-rules-and-regulations.pdf)",
+                "page": 1,
+                "score": 0.7273,
+                "document_id": "prospectus-2026-academic-rules-and-regulations",
+                "doc_version": "2026"
+              }
+            ],
+            "provider": "hosted",
+            "trace_id": "62ff5c2651bc41d99eae17fe0e50986e"
+          },
+          "seconds": 0.507126753999728
+        },
+        {
+          "id": "q39",
+          "response": {
+            "request_id": "noise-42-q39",
+            "answer": "The service is temporarily unable to retrieve an answer from the hosted model. Please try again shortly.",
+            "citations": [],
+            "answered_from_context": false,
+            "confidence": "low",
+            "retrieved": [
+              {
+                "chunk_id": "academic-rules-handbook-jun-2026@2026-06#5-academic-assessment#p25#c47",
+                "source": "academic-rules-handbook-jun-2026.pdf",
+                "section": "5. Academic Assessment",
+                "page": 25,
+                "score": 0.6364,
+                "document_id": "academic-rules-handbook-jun-2026",
+                "doc_version": "2026-06"
+              }
+            ],
+            "provider": "hosted",
+            "trace_id": "d3e94a2a4b9043d3893cf59674830118"
+          },
+          "seconds": 0.49188512100045045
+        }
+      ]
+    },
+    {
+      "run": 2,
+      "seed": 42,
+      "summary": {
+        "retrieval": {
+          "recall_at_3": 0.1111111111111111,
+          "recall_at_5": 0.1111111111111111,
+          "mrr": 0.1111111111111111,
+          "ndcg_at_5": 0.1111111111111111
+        },
+        "answers": {
+          "faithfulness_expected_answer_proxy": 0.037037037037037035,
+          "faithfulness_proxy_questions": 27,
+          "abstention_correctness": 1.0,
+          "citation_validity": 1.0,
+          "latency_p50_seconds": 0.5139116620002824,
+          "latency_p95_seconds": 1.0649275950000632
+        },
+        "counts": {
+          "questions": 39,
+          "answerable": 27,
+          "must_abstain": 12
+        },
+        "noise_test": {
+          "typo_queries": 39,
+          "metric_deltas": {
+            "recall_at_3": 0.037037037037037035,
+            "recall_at_5": 0.037037037037037035,
+            "mrr": 0.037037037037037035,
+            "ndcg_at_5": 0.037037037037037035
+          }
+        }
+      },
+      "rows": [
+        {
+          "id": "q01",
+          "response": {
+            "request_id": "eval-42-q01",
+            "answer": "An undergraduate student must maintain a cumulative GPA of at least 2.00 to stay off academic warning.",
+            "citations": [
+              {
+                "source": "academic-rules-handbook-jun-2026.pdf",
+                "section": "1.9 A theory course is normally assigned 2 to 4 credit hours, d) For pre-planned activities (conferences, etc.) during",
+                "page": 10
+              }
+            ],
+            "answered_from_context": true,
+            "confidence": "high",
+            "retrieved": [
+              {
+                "chunk_id": "academic-rules-handbook-jun-2026@2026-06#1-9-a-theory-course-is-normally-assigned#p10#c17",
+                "source": "academic-rules-handbook-jun-2026.pdf",
+                "section": "1.9 A theory course is normally assigned 2 to 4 credit hours, d) For pre-planned activities (conferences, etc.) during",
+                "page": 10,
+                "score": 0.5,
+                "document_id": "academic-rules-handbook-jun-2026",
+                "doc_version": "2026-06"
+              }
+            ],
+            "provider": "hosted",
+            "trace_id": "25e0c5c92a514e9198e8147580559b75"
+          },
+          "seconds": 1.2959773860002315
+        },
+        {
+          "id": "q02",
+          "response": {
+            "request_id": "eval-42-q02",
+            "answer": "The service is temporarily unable to retrieve an answer from the hosted model. Please try again shortly.",
+            "citations": [],
+            "answered_from_context": false,
+            "confidence": "low",
+            "retrieved": [
+              {
+                "chunk_id": "prospectus-2026-academic-rules-and-regul@2026#general-prospectus-2026-academic-rules-a#p3#c7",
+                "source": "prospectus-2026-academic-rules-and-regulations.pdf",
+                "section": "General (prospectus-2026-academic-rules-and-regulations.pdf)",
+                "page": 3,
+                "score": 0.7143,
+                "document_id": "prospectus-2026-academic-rules-and-regulations",
+                "doc_version": "2026"
+              }
+            ],
+            "provider": "hosted",
+            "trace_id": "887920b8fddb4e9686183bf85c0ec95a"
+          },
+          "seconds": 0.5385858979998375
+        },
+        {
+          "id": "q03",
+          "response": {
+            "request_id": "eval-42-q03",
+            "answer": "The service is temporarily unable to retrieve an answer from the hosted model. Please try again shortly.",
+            "citations": [],
+            "answered_from_context": false,
+            "confidence": "low",
+            "retrieved": [
+              {
+                "chunk_id": "academic-rules-handbook-jun-2026@2026-06#3-32-a-new-admission-is-closed-if-an-awa#p21#c39",
+                "source": "academic-rules-handbook-jun-2026.pdf",
+                "section": "3.32 A new admission is closed if an awaited result does not meet",
+                "page": 21,
+                "score": 0.6364,
+                "document_id": "academic-rules-handbook-jun-2026",
+                "doc_version": "2026-06"
+              }
+            ],
+            "provider": "hosted",
+            "trace_id": "1d5c2acc157d4a70be40e9a446ac7aa7"
+          },
+          "seconds": 0.5003065490000154
+        },
+        {
+          "id": "q04",
+          "response": {
+            "request_id": "eval-42-q04",
+            "answer": "The service is temporarily unable to retrieve an answer from the hosted model. Please try again shortly.",
+            "citations": [],
+            "answered_from_context": false,
+            "confidence": "low",
+            "retrieved": [
+              {
+                "chunk_id": "academic-rules-handbook-jun-2026@2026-06#1-9-a-theory-course-is-normally-assigned#p8#c13",
+                "source": "academic-rules-handbook-jun-2026.pdf",
+                "section": "1.9 A theory course is normally assigned 2 to 4 credit hours, d) For pre-planned activities (conferences, etc.) during",
+                "page": 8,
+                "score": 0.8571,
+                "document_id": "academic-rules-handbook-jun-2026",
+                "doc_version": "2026-06"
+              }
+            ],
+            "provider": "hosted",
+            "trace_id": "9083389110d44eb98155f048f219d16e"
+          },
+          "seconds": 0.7918573550005021
+        },
+        {
+          "id": "q05",
+          "response": {
+            "request_id": "eval-42-q05",
+            "answer": "The service is temporarily unable to retrieve an answer from the hosted model. Please try again shortly.",
+            "citations": [],
+            "answered_from_context": false,
+            "confidence": "low",
+            "retrieved": [
+              {
+                "chunk_id": "academic-rules-handbook-jun-2026@2026-06#general-academic-rules-handbook-jun-2026#p4#c5",
+                "source": "academic-rules-handbook-jun-2026.pdf",
+                "section": "General (academic-rules-handbook-jun-2026.pdf)",
+                "page": 4,
+                "score": 0.6667,
+                "document_id": "academic-rules-handbook-jun-2026",
+                "doc_version": "2026-06"
+              }
+            ],
+            "provider": "hosted",
+            "trace_id": "00280120cfdd4dedae966ddd6a3c2e47"
+          },
+          "seconds": 0.4952598720001333
+        },
+        {
+          "id": "q06",
+          "response": {
+            "request_id": "eval-42-q06",
+            "answer": "The service is temporarily unable to retrieve an answer from the hosted model. Please try again shortly.",
+            "citations": [],
+            "answered_from_context": false,
+            "confidence": "low",
+            "retrieved": [
+              {
+                "chunk_id": "academic-rules-handbook-jun-2026@2026-06#3-32-a-new-admission-is-closed-if-an-awa#p23#c43",
+                "source": "academic-rules-handbook-jun-2026.pdf",
+                "section": "3.32 A new admission is closed if an awaited result does not meet",
+                "page": 23,
+                "score": 0.6667,
+                "document_id": "academic-rules-handbook-jun-2026",
+                "doc_version": "2026-06"
+              }
+            ],
+            "provider": "hosted",
+            "trace_id": "68d1cab1c2864682bb600f5b996ce457"
+          },
+          "seconds": 0.5139116620002824
+        },
+        {
+          "id": "q07",
+          "response": {
+            "request_id": "eval-42-q07",
+            "answer": "The service is temporarily unable to retrieve an answer from the hosted model. Please try again shortly.",
+            "citations": [],
+            "answered_from_context": false,
+            "confidence": "low",
+            "retrieved": [
+              {
+                "chunk_id": "academic-rules-handbook-jun-2026@2026-06#10-policy-on-generative#p43#c86",
+                "source": "academic-rules-handbook-jun-2026.pdf",
+                "section": "10. Policy on Generative",
+                "page": 43,
+                "score": 0.6667,
+                "document_id": "academic-rules-handbook-jun-2026",
+                "doc_version": "2026-06"
+              }
+            ],
+            "provider": "hosted",
+            "trace_id": "4f6926dd07c243e39b4ea4127454b19a"
+          },
+          "seconds": 0.4812165379998987
+        },
+        {
+          "id": "q08",
+          "response": {
+            "request_id": "eval-42-q08",
+            "answer": "The service is temporarily unable to retrieve an answer from the hosted model. Please try again shortly.",
+            "citations": [],
+            "answered_from_context": false,
+            "confidence": "low",
+            "retrieved": [
+              {
+                "chunk_id": "academic-rules-handbook-jun-2026@2026-06#1-9-a-theory-course-is-normally-assigned#p10#c17",
+                "source": "academic-rules-handbook-jun-2026.pdf",
+                "section": "1.9 A theory course is normally assigned 2 to 4 credit hours, d) For pre-planned activities (conferences, etc.) during",
+                "page": 10,
+                "score": 0.6,
+                "document_id": "academic-rules-handbook-jun-2026",
+                "doc_version": "2026-06"
+              }
+            ],
+            "provider": "hosted",
+            "trace_id": "3b28fdc9d5484c2793441623ea156e81"
+          },
+          "seconds": 0.4940801949996967
+        },
+        {
+          "id": "q09",
+          "response": {
+            "request_id": "eval-42-q09",
+            "answer": "The service is temporarily unable to retrieve an answer from the hosted model. Please try again shortly.",
+            "citations": [],
+            "answered_from_context": false,
+            "confidence": "low",
+            "retrieved": [
+              {
+                "chunk_id": "prospectus-2026-academic-rules-and-regul@2026#general-prospectus-2026-academic-rules-a#p2#c4",
+                "source": "prospectus-2026-academic-rules-and-regulations.pdf",
+                "section": "General (prospectus-2026-academic-rules-and-regulations.pdf)",
+                "page": 2,
+                "score": 0.6364,
+                "document_id": "prospectus-2026-academic-rules-and-regulations",
+                "doc_version": "2026"
+              }
+            ],
+            "provider": "hosted",
+            "trace_id": "d4cd041479804181a64c006cf9ce2651"
+          },
+          "seconds": 0.5111430659999314
+        },
+        {
+          "id": "q10",
+          "response": {
+            "request_id": "eval-42-q10",
+            "answer": "After three consecutive semesters below a CGPA of 2.00, undergraduate admission is automatically closed.",
+            "citations": [
+              {
+                "source": "academic-rules-handbook-jun-2026.pdf",
+                "section": "3.18 Only credits of relevant courses, which have been earned",
+                "page": 17
+              }
+            ],
+            "answered_from_context": true,
+            "confidence": "high",
+            "retrieved": [
+              {
+                "chunk_id": "academic-rules-handbook-jun-2026@2026-06#3-18-only-credits-of-relevant-courses-wh#p17#c31",
+                "source": "academic-rules-handbook-jun-2026.pdf",
+                "section": "3.18 Only credits of relevant courses, which have been earned",
+                "page": 17,
+                "score": 0.8182,
+                "document_id": "academic-rules-handbook-jun-2026",
+                "doc_version": "2026-06"
+              }
+            ],
+            "provider": "hosted",
+            "trace_id": "f08816db74dd47718b834722448550c8"
+          },
+          "seconds": 1.0392553960000441
+        },
+        {
+          "id": "q11",
+          "response": {
+            "request_id": "eval-42-q11",
+            "answer": "The service is temporarily unable to retrieve an answer from the hosted model. Please try again shortly.",
+            "citations": [],
+            "answered_from_context": false,
+            "confidence": "low",
+            "retrieved": [
+              {
+                "chunk_id": "academic-rules-handbook-jun-2026@2026-06#1-9-a-theory-course-is-normally-assigned#p8#c13",
+                "source": "academic-rules-handbook-jun-2026.pdf",
+                "section": "1.9 A theory course is normally assigned 2 to 4 credit hours, d) For pre-planned activities (conferences, etc.) during",
+                "page": 8,
+                "score": 0.5556,
+                "document_id": "academic-rules-handbook-jun-2026",
+                "doc_version": "2026-06"
+              }
+            ],
+            "provider": "hosted",
+            "trace_id": "0698b21d1e49414eb25f9ccd14ac7162"
+          },
+          "seconds": 0.5042876560000877
+        },
+        {
+          "id": "q12",
+          "response": {
+            "request_id": "eval-42-q12",
+            "answer": "The service is temporarily unable to retrieve an answer from the hosted model. Please try again shortly.",
+            "citations": [],
+            "answered_from_context": false,
+            "confidence": "low",
+            "retrieved": [
+              {
+                "chunk_id": "academic-rules-handbook-jun-2026@2026-06#1-9-a-theory-course-is-normally-assigned#p13#c23",
+                "source": "academic-rules-handbook-jun-2026.pdf",
+                "section": "1.9 A theory course is normally assigned 2 to 4 credit hours, d) For pre-planned activities (conferences, etc.) during",
+                "page": 13,
+                "score": 0.8571,
+                "document_id": "academic-rules-handbook-jun-2026",
+                "doc_version": "2026-06"
+              }
+            ],
+            "provider": "hosted",
+            "trace_id": "e225737e11824418988b7fd4bc8dc1ce"
+          },
+          "seconds": 0.5035756020006374
+        },
+        {
+          "id": "q13",
+          "response": {
+            "request_id": "eval-42-q13",
+            "answer": "The provided corpus documents do not contain information regarding this topic.",
+            "citations": [],
+            "answered_from_context": false,
+            "confidence": "low",
+            "retrieved": [
+              {
+                "chunk_id": "academic-rules-handbook-jun-2026@2026-06#10-policy-on-generative#p42#c84",
+                "source": "academic-rules-handbook-jun-2026.pdf",
+                "section": "10. Policy on Generative",
+                "page": 42,
+                "score": 0.2222,
+                "document_id": "academic-rules-handbook-jun-2026",
+                "doc_version": "2026-06"
+              }
+            ],
+            "provider": "hosted",
+            "trace_id": "8869598e37194856b758fd630984541d"
+          },
+          "seconds": 0.24498364800001582
+        },
+        {
+          "id": "q14",
+          "response": {
+            "request_id": "eval-42-q14",
+            "answer": "The provided corpus documents do not contain information regarding this topic.",
+            "citations": [],
+            "answered_from_context": false,
+            "confidence": "low",
+            "retrieved": [
+              {
+                "chunk_id": "annual-report-2019-20@2019-20#general-annual-report-2019-20-pdf#p8#c9",
+                "source": "annual-report-2019-20.pdf",
+                "section": "General (annual-report-2019-20.pdf)",
+                "page": 8,
+                "score": 0.2727,
+                "document_id": "annual-report-2019-20",
+                "doc_version": "2019-20"
+              }
+            ],
+            "provider": "hosted",
+            "trace_id": "6d6491b07061426286ee6b6b51bbb3d9"
+          },
+          "seconds": 0.20997534799971618
+        },
+        {
+          "id": "q15",
+          "response": {
+            "request_id": "eval-42-q15",
+            "answer": "The provided corpus documents do not contain information regarding this topic.",
+            "citations": [],
+            "answered_from_context": false,
+            "confidence": "low",
+            "retrieved": [],
+            "provider": "hosted",
+            "trace_id": "5cf68795fc3e4683af69bf2fadb85ea9"
+          },
+          "seconds": 0.15622474200063152
+        },
+        {
+          "id": "q16",
+          "response": {
+            "request_id": "eval-42-q16",
+            "answer": "The service is temporarily unable to retrieve an answer from the hosted model. Please try again shortly.",
+            "citations": [],
+            "answered_from_context": false,
+            "confidence": "low",
+            "retrieved": [
+              {
+                "chunk_id": "student-handbook-jun-2026@2026-06#general-student-handbook-jun-2026-pdf#p18#c35",
+                "source": "student-handbook-jun-2026.pdf",
+                "section": "General (student-handbook-jun-2026.pdf)",
+                "page": 18,
+                "score": 0.5714,
+                "document_id": "student-handbook-jun-2026",
+                "doc_version": "2026-06"
+              }
+            ],
+            "provider": "hosted",
+            "trace_id": "875216f821674f2b906115b56c656edf"
+          },
+          "seconds": 0.5253499499995087
+        },
+        {
+          "id": "q17",
+          "response": {
+            "request_id": "eval-42-q17",
+            "answer": "The service is temporarily unable to retrieve an answer from the hosted model. Please try again shortly.",
+            "citations": [],
+            "answered_from_context": false,
+            "confidence": "low",
+            "retrieved": [
+              {
+                "chunk_id": "prospectus-2026-academic-rules-and-regul@2026#general-prospectus-2026-academic-rules-a#p3#c7",
+                "source": "prospectus-2026-academic-rules-and-regulations.pdf",
+                "section": "General (prospectus-2026-academic-rules-and-regulations.pdf)",
+                "page": 3,
+                "score": 0.6667,
+                "document_id": "prospectus-2026-academic-rules-and-regulations",
+                "doc_version": "2026"
+              }
+            ],
+            "provider": "hosted",
+            "trace_id": "6bd725b1c7c24637ba9a0625316f7866"
+          },
+          "seconds": 0.6163417309999204
+        },
+        {
+          "id": "q18",
+          "response": {
+            "request_id": "eval-42-q18",
+            "answer": "An undergraduate may borrow up to five books for fourteen days.",
+            "citations": [
+              {
+                "source": "near-duplicate-a.md",
+                "section": "Library Loan Policy",
+                "page": 1
+              }
+            ],
+            "answered_from_context": true,
+            "confidence": "high",
+            "retrieved": [
+              {
+                "chunk_id": "library-loan-policy-a@2026#library-loan-policy#p1#c0",
+                "source": "near-duplicate-a.md",
+                "section": "Library Loan Policy",
+                "page": 1,
+                "score": 0.7143,
+                "document_id": "library-loan-policy-a",
+                "doc_version": "2026"
+              }
+            ],
+            "provider": "hosted",
+            "trace_id": "c68d9017bf174aeea87d891aeabec83d"
+          },
+          "seconds": 0.9412978469999871
+        },
+        {
+          "id": "q19",
+          "response": {
+            "request_id": "eval-42-q19",
+            "answer": "The service is temporarily unable to retrieve an answer from the hosted model. Please try again shortly.",
+            "citations": [],
+            "answered_from_context": false,
+            "confidence": "low",
+            "retrieved": [
+              {
+                "chunk_id": "library-loan-policy-a@2026#library-loan-policy#p1#c0",
+                "source": "near-duplicate-a.md",
+                "section": "Library Loan Policy",
+                "page": 1,
+                "score": 0.8,
+                "document_id": "library-loan-policy-a",
+                "doc_version": "2026"
+              }
+            ],
+            "provider": "hosted",
+            "trace_id": "217da5bd5c6142aea5635394c0b9455b"
+          },
+          "seconds": 0.5257695810005316
+        },
+        {
+          "id": "q20",
+          "response": {
+            "request_id": "eval-42-q20",
+            "answer": "The service is temporarily unable to retrieve an answer from the hosted model. Please try again shortly.",
+            "citations": [],
+            "answered_from_context": false,
+            "confidence": "low",
+            "retrieved": [
+              {
+                "chunk_id": "academic-rules-handbook-jun-2026@2026-06#5-academic-assessment#p27#c52",
+                "source": "academic-rules-handbook-jun-2026.pdf",
+                "section": "5. Academic Assessment",
+                "page": 27,
+                "score": 0.625,
+                "document_id": "academic-rules-handbook-jun-2026",
+                "doc_version": "2026-06"
+              }
+            ],
+            "provider": "hosted",
+            "trace_id": "abef23954ba546d58bf6989a6404225c"
+          },
+          "seconds": 0.5330430229996637
+        },
+        {
+          "id": "q21",
+          "response": {
+            "request_id": "eval-42-q21",
+            "answer": "The service is temporarily unable to retrieve an answer from the hosted model. Please try again shortly.",
+            "citations": [],
+            "answered_from_context": false,
+            "confidence": "low",
+            "retrieved": [
+              {
+                "chunk_id": "fee-payment-schedule@2026#fee-payment-schedule#p1#c0",
+                "source": "fee-payment.md",
+                "section": "Fee Payment Schedule",
+                "page": 1,
+                "score": 0.5556,
+                "document_id": "fee-payment-schedule",
+                "doc_version": "2026"
+              }
+            ],
+            "provider": "hosted",
+            "trace_id": "9b156f52971e46cdb0509cf18c0d3a1f"
+          },
+          "seconds": 0.572861591000219
+        },
+        {
+          "id": "q22",
+          "response": {
+            "request_id": "eval-42-q22",
+            "answer": "The service is temporarily unable to retrieve an answer from the hosted model. Please try again shortly.",
+            "citations": [],
+            "answered_from_context": false,
+            "confidence": "low",
+            "retrieved": [
+              {
+                "chunk_id": "academic-rules-handbook-jun-2026@2026-06#1-9-a-theory-course-is-normally-assigned#p10#c17",
+                "source": "academic-rules-handbook-jun-2026.pdf",
+                "section": "1.9 A theory course is normally assigned 2 to 4 credit hours, d) For pre-planned activities (conferences, etc.) during",
+                "page": 10,
+                "score": 0.5714,
+                "document_id": "academic-rules-handbook-jun-2026",
+                "doc_version": "2026-06"
+              }
+            ],
+            "provider": "hosted",
+            "trace_id": "2146d8eda8e441d89a2955a5b90090d3"
+          },
+          "seconds": 0.4964157250005883
+        },
+        {
+          "id": "q23",
+          "response": {
+            "request_id": "eval-42-q23",
+            "answer": "The provided corpus documents do not contain information regarding this topic.",
+            "citations": [],
+            "answered_from_context": false,
+            "confidence": "low",
+            "retrieved": [
+              {
+                "chunk_id": "academic-rules-handbook-jun-2026@2026-06#3-18-only-credits-of-relevant-courses-wh#p17#c31",
+                "source": "academic-rules-handbook-jun-2026.pdf",
+                "section": "3.18 Only credits of relevant courses, which have been earned",
+                "page": 17,
+                "score": 0.4444,
+                "document_id": "academic-rules-handbook-jun-2026",
+                "doc_version": "2026-06"
+              }
+            ],
+            "provider": "hosted",
+            "trace_id": "13970e34b9c7475e94fa29d455f22f0d"
+          },
+          "seconds": 0.19359064099990064
+        },
+        {
+          "id": "q24",
+          "response": {
+            "request_id": "eval-42-q24",
+            "answer": "The service is temporarily unable to retrieve an answer from the hosted model. Please try again shortly.",
+            "citations": [],
+            "answered_from_context": false,
+            "confidence": "low",
+            "retrieved": [
+              {
+                "chunk_id": "academic-rules-handbook-jun-2026@2026-06#8-6-deception-or-providing-false-informa#p35#c68",
+                "source": "academic-rules-handbook-jun-2026.pdf",
+                "section": "8.6 Deception or providing false information to a teacher",
+                "page": 35,
+                "score": 0.5,
+                "document_id": "academic-rules-handbook-jun-2026",
+                "doc_version": "2026-06"
+              }
+            ],
+            "provider": "hosted",
+            "trace_id": "b36d696dc7e74d0084ce3d11b09f3f17"
+          },
+          "seconds": 0.5401101900006324
+        },
+        {
+          "id": "q25",
+          "response": {
+            "request_id": "eval-42-q25",
+            "answer": "The provided corpus documents do not contain information regarding this topic.",
+            "citations": [],
+            "answered_from_context": false,
+            "confidence": "low",
+            "retrieved": [
+              {
+                "chunk_id": "academic-rules-handbook-jun-2026@2026-06#6-rules-for-summer-semester#p29#c56",
+                "source": "academic-rules-handbook-jun-2026.pdf",
+                "section": "6. Rules for Summer Semester",
+                "page": 29,
+                "score": 0.4167,
+                "document_id": "academic-rules-handbook-jun-2026",
+                "doc_version": "2026-06"
+              }
+            ],
+            "provider": "hosted",
+            "trace_id": "a01f17cb6b374f0d9e92c422cbdd342e"
+          },
+          "seconds": 0.1389404640003704
+        },
+        {
+          "id": "q26",
+          "response": {
+            "request_id": "eval-42-q26",
+            "answer": "The provided corpus documents do not contain information regarding this topic.",
+            "citations": [],
+            "answered_from_context": false,
+            "confidence": "low",
+            "retrieved": [
+              {
+                "chunk_id": "academic-rules-handbook-jun-2026@2026-06#general-academic-rules-handbook-jun-2026#p4#c5",
+                "source": "academic-rules-handbook-jun-2026.pdf",
+                "section": "General (academic-rules-handbook-jun-2026.pdf)",
+                "page": 4,
+                "score": 0.2,
+                "document_id": "academic-rules-handbook-jun-2026",
+                "doc_version": "2026-06"
+              }
+            ],
+            "provider": "hosted",
+            "trace_id": "eba8040be10248e2a623ebd36e7ab728"
+          },
+          "seconds": 0.21135786600007123
+        },
+        {
+          "id": "q27",
+          "response": {
+            "request_id": "eval-42-q27",
+            "answer": "The provided corpus documents do not contain information regarding this topic.",
+            "citations": [],
+            "answered_from_context": false,
+            "confidence": "low",
+            "retrieved": [
+              {
+                "chunk_id": "academic-rules-handbook-jun-2026@2026-06#3-18-only-credits-of-relevant-courses-wh#p16#c29",
+                "source": "academic-rules-handbook-jun-2026.pdf",
+                "section": "3.18 Only credits of relevant courses, which have been earned",
+                "page": 16,
+                "score": 0.4286,
+                "document_id": "academic-rules-handbook-jun-2026",
+                "doc_version": "2026-06"
+              }
+            ],
+            "provider": "hosted",
+            "trace_id": "a3764905ea84405aa9076b569a06ab1a"
+          },
+          "seconds": 0.241568819999884
+        },
+        {
+          "id": "q28",
+          "response": {
+            "request_id": "eval-42-q28",
+            "answer": "The service is temporarily unable to retrieve an answer from the hosted model. Please try again shortly.",
+            "citations": [],
+            "answered_from_context": false,
+            "confidence": "low",
+            "retrieved": [
+              {
+                "chunk_id": "student-handbook-jun-2026@2026-06#general-student-handbook-jun-2026-pdf#p54#c119",
+                "source": "student-handbook-jun-2026.pdf",
+                "section": "General (student-handbook-jun-2026.pdf)",
+                "page": 54,
+                "score": 0.5,
+                "document_id": "student-handbook-jun-2026",
+                "doc_version": "2026-06"
+              }
+            ],
+            "provider": "hosted",
+            "trace_id": "788e649dac98463dbdc9233520bb3c78"
+          },
+          "seconds": 0.5806737160000921
+        },
+        {
+          "id": "q29",
+          "response": {
+            "request_id": "eval-42-q29",
+            "answer": "The provided corpus documents do not contain information regarding this topic.",
+            "citations": [],
+            "answered_from_context": false,
+            "confidence": "low",
+            "retrieved": [
+              {
+                "chunk_id": "academic-rules-handbook-jun-2026@2026-06#general-academic-rules-handbook-jun-2026#p1#c2",
+                "source": "academic-rules-handbook-jun-2026.pdf",
+                "section": "General (academic-rules-handbook-jun-2026.pdf)",
+                "page": 1,
+                "score": 0.25,
+                "document_id": "academic-rules-handbook-jun-2026",
+                "doc_version": "2026-06"
+              }
+            ],
+            "provider": "hosted",
+            "trace_id": "59b0d81074ed4241b2aefde32da0697a"
+          },
+          "seconds": 0.161036712999703
+        },
+        {
+          "id": "q30",
+          "response": {
+            "request_id": "eval-42-q30",
+            "answer": "The provided corpus documents do not contain information regarding this topic.",
+            "citations": [],
+            "answered_from_context": false,
+            "confidence": "low",
+            "retrieved": [
+              {
+                "chunk_id": "academic-rules-handbook-jun-2026@2026-06#1-9-a-theory-course-is-normally-assigned#p8#c13",
+                "source": "academic-rules-handbook-jun-2026.pdf",
+                "section": "1.9 A theory course is normally assigned 2 to 4 credit hours, d) For pre-planned activities (conferences, etc.) during",
+                "page": 8,
+                "score": 0.1667,
+                "document_id": "academic-rules-handbook-jun-2026",
+                "doc_version": "2026-06"
+              }
+            ],
+            "provider": "hosted",
+            "trace_id": "c68428b751d84cd2a76a44a84d5522bc"
+          },
+          "seconds": 0.1844384589994661
+        },
+        {
+          "id": "q31",
+          "response": {
+            "request_id": "eval-42-q31",
+            "answer": "Cricket is a bat\u2011and\u2011ball game played between two teams of eleven players each. A match is divided into innings, during which one team bats and the other bowls and fields. The batting team tries to score runs by hitting the ball and running between the wickets or by hitting boundaries (four or six runs). The bowling team attempts to dismiss the batsmen by getting them out in several ways: bowled, caught, leg\u2011before\u2011wicket, run\u2011out, stumped, hit\u2011wicket, or obstructing the field. Each dismissal removes a batsman, and the innings ends when ten wickets fall or a set number of overs (typically 20 or 50 in limited\u2011overs formats, or a predetermined number in Test matches) is completed. The team with the most runs wins. Key rules also cover the fielding restrictions, over limits, and the use of protective gear. These fundamentals apply across all standard formats of the game.",
+            "citations": [],
+            "answered_from_context": false,
+            "confidence": "high",
+            "retrieved": [
+              {
+                "chunk_id": "academic-rules-handbook-jun-2026@2026-06#10-policy-on-generative#p44#c89",
+                "source": "academic-rules-handbook-jun-2026.pdf",
+                "section": "10. Policy on Generative",
+                "page": 44,
+                "score": 0.5,
+                "document_id": "academic-rules-handbook-jun-2026",
+                "doc_version": "2026-06"
+              }
+            ],
+            "provider": "hosted",
+            "trace_id": "57fa3b1fb11741f7a1ea0e9ea028d0fc"
+          },
+          "seconds": 1.8645228860004863
+        },
+        {
+          "id": "q32",
+          "response": {
+            "request_id": "eval-42-q32",
+            "answer": "The provided corpus documents do not contain information regarding this topic.",
+            "citations": [],
+            "answered_from_context": false,
+            "confidence": "low",
+            "retrieved": [
+              {
+                "chunk_id": "academic-rules-handbook-jun-2026@2026-06#3-admission-policy#p15#c27",
+                "source": "academic-rules-handbook-jun-2026.pdf",
+                "section": "3. Admission Policy",
+                "page": 15,
+                "score": 0.1667,
+                "document_id": "academic-rules-handbook-jun-2026",
+                "doc_version": "2026-06"
+              }
+            ],
+            "provider": "hosted",
+            "trace_id": "156aff956a044902a29a554d5526e9e0"
+          },
+          "seconds": 0.15145339799983049
+        },
+        {
+          "id": "q33",
+          "response": {
+            "request_id": "eval-42-q33",
+            "answer": "The provided corpus documents do not contain information regarding this topic.",
+            "citations": [],
+            "answered_from_context": false,
+            "confidence": "low",
+            "retrieved": [
+              {
+                "chunk_id": "annual-report-2023-24@2023-24#22-seminar-on-ux-design-as-a-career#p35#c59",
+                "source": "annual-report-2023-24.pdf",
+                "section": "22. Seminar on UX Design as a Career",
+                "page": 35,
+                "score": 0.4286,
+                "document_id": "annual-report-2023-24",
+                "doc_version": "2023-24"
+              }
+            ],
+            "provider": "hosted",
+            "trace_id": "134cb9a724cd4ff2ac513944d8703246"
+          },
+          "seconds": 0.1976591599996027
+        },
+        {
+          "id": "q34",
+          "response": {
+            "request_id": "eval-42-q34",
+            "answer": "The service is temporarily unable to retrieve an answer from the hosted model. Please try again shortly.",
+            "citations": [],
+            "answered_from_context": false,
+            "confidence": "low",
+            "retrieved": [
+              {
+                "chunk_id": "academic-rules-handbook-jun-2026@2026-06#3-32-a-new-admission-is-closed-if-an-awa#p19#c35",
+                "source": "academic-rules-handbook-jun-2026.pdf",
+                "section": "3.32 A new admission is closed if an awaited result does not meet",
+                "page": 19,
+                "score": 0.7778,
+                "document_id": "academic-rules-handbook-jun-2026",
+                "doc_version": "2026-06"
+              }
+            ],
+            "provider": "hosted",
+            "trace_id": "d09a9ea6ae2c48bab3e0d73997073b56"
+          },
+          "seconds": 0.6940995309996651
+        },
+        {
+          "id": "q35",
+          "response": {
+            "request_id": "eval-42-q35",
+            "answer": "The service is temporarily unable to retrieve an answer from the hosted model. Please try again shortly.",
+            "citations": [],
+            "answered_from_context": false,
+            "confidence": "low",
+            "retrieved": [
+              {
+                "chunk_id": "academic-rules-handbook-jun-2026@2026-06#1-9-a-theory-course-is-normally-assigned#p8#c13",
+                "source": "academic-rules-handbook-jun-2026.pdf",
+                "section": "1.9 A theory course is normally assigned 2 to 4 credit hours, d) For pre-planned activities (conferences, etc.) during",
+                "page": 8,
+                "score": 0.625,
+                "document_id": "academic-rules-handbook-jun-2026",
+                "doc_version": "2026-06"
+              }
+            ],
+            "provider": "hosted",
+            "trace_id": "c7cd5d8e18ab471e9a66f30f403c0e0a"
+          },
+          "seconds": 0.5789880350002932
+        },
+        {
+          "id": "q36",
+          "response": {
+            "request_id": "eval-42-q36",
+            "answer": "The service is temporarily unable to retrieve an answer from the hosted model. Please try again shortly.",
+            "citations": [],
+            "answered_from_context": false,
+            "confidence": "low",
+            "retrieved": [
+              {
+                "chunk_id": "academic-rules-handbook-jun-2026@2026-06#6-rules-for-summer-semester#p29#c56",
+                "source": "academic-rules-handbook-jun-2026.pdf",
+                "section": "6. Rules for Summer Semester",
+                "page": 29,
+                "score": 1.0,
+                "document_id": "academic-rules-handbook-jun-2026",
+                "doc_version": "2026-06"
+              }
+            ],
+            "provider": "hosted",
+            "trace_id": "6e11b88c1c3a4014af056d1e367f1bf1"
+          },
+          "seconds": 1.018531157000325
+        },
+        {
+          "id": "q37",
+          "response": {
+            "request_id": "eval-42-q37",
+            "answer": "The service is temporarily unable to retrieve an answer from the hosted model. Please try again shortly.",
+            "citations": [],
+            "answered_from_context": false,
+            "confidence": "low",
+            "retrieved": [
+              {
+                "chunk_id": "academic-rules-handbook-jun-2026@2026-06#10-policy-on-generative#p43#c86",
+                "source": "academic-rules-handbook-jun-2026.pdf",
+                "section": "10. Policy on Generative",
+                "page": 43,
+                "score": 1.0,
+                "document_id": "academic-rules-handbook-jun-2026",
+                "doc_version": "2026-06"
+              }
+            ],
+            "provider": "hosted",
+            "trace_id": "f48ee953b36c4a49b550091f58ff5d6f"
+          },
+          "seconds": 0.5305556179991981
+        },
+        {
+          "id": "q38",
+          "response": {
+            "request_id": "eval-42-q38",
+            "answer": "The service is temporarily unable to retrieve an answer from the hosted model. Please try again shortly.",
+            "citations": [],
+            "answered_from_context": false,
+            "confidence": "low",
+            "retrieved": [
+              {
+                "chunk_id": "prospectus-2026-academic-rules-and-regul@2026#general-prospectus-2026-academic-rules-a#p1#c0",
+                "source": "prospectus-2026-academic-rules-and-regulations.pdf",
+                "section": "General (prospectus-2026-academic-rules-and-regulations.pdf)",
+                "page": 1,
+                "score": 0.7273,
+                "document_id": "prospectus-2026-academic-rules-and-regulations",
+                "doc_version": "2026"
+              }
+            ],
+            "provider": "hosted",
+            "trace_id": "42f7b64e054f40acbe962b2e659077d8"
+          },
+          "seconds": 0.5294810389996201
+        },
+        {
+          "id": "q39",
+          "response": {
+            "request_id": "eval-42-q39",
+            "answer": "The service is temporarily unable to retrieve an answer from the hosted model. Please try again shortly.",
+            "citations": [],
+            "answered_from_context": false,
+            "confidence": "low",
+            "retrieved": [
+              {
+                "chunk_id": "academic-rules-handbook-jun-2026@2026-06#5-academic-assessment#p25#c47",
+                "source": "academic-rules-handbook-jun-2026.pdf",
+                "section": "5. Academic Assessment",
+                "page": 25,
+                "score": 0.7273,
+                "document_id": "academic-rules-handbook-jun-2026",
+                "doc_version": "2026-06"
+              }
+            ],
+            "provider": "hosted",
+            "trace_id": "503d2ec899414f40aa3cc407105015d2"
+          },
+          "seconds": 0.5688538790000166
+        }
+      ],
+      "noise_rows": [
+        {
+          "id": "q01",
+          "response": {
+            "request_id": "noise-42-q01",
+            "answer": "The service is temporarily unable to retrieve an answer from the hosted model. Please try again shortly.",
+            "citations": [],
+            "answered_from_context": false,
+            "confidence": "low",
+            "retrieved": [
+              {
+                "chunk_id": "prospectus-2026-academic-rules-and-regul@2026#general-prospectus-2026-academic-rules-a#p3#c7",
+                "source": "prospectus-2026-academic-rules-and-regulations.pdf",
+                "section": "General (prospectus-2026-academic-rules-and-regulations.pdf)",
+                "page": 3,
+                "score": 0.5,
+                "document_id": "prospectus-2026-academic-rules-and-regulations",
+                "doc_version": "2026"
+              }
+            ],
+            "provider": "hosted",
+            "trace_id": "626da2e1ce064ce289ff43ec36b93474"
+          },
+          "seconds": 0.489138317000652
+        },
+        {
+          "id": "q02",
+          "response": {
+            "request_id": "noise-42-q02",
+            "answer": "The service is temporarily unable to retrieve an answer from the hosted model. Please try again shortly.",
+            "citations": [],
+            "answered_from_context": false,
+            "confidence": "low",
+            "retrieved": [
+              {
+                "chunk_id": "prospectus-2026-academic-rules-and-regul@2026#general-prospectus-2026-academic-rules-a#p3#c7",
+                "source": "prospectus-2026-academic-rules-and-regulations.pdf",
+                "section": "General (prospectus-2026-academic-rules-and-regulations.pdf)",
+                "page": 3,
+                "score": 0.5714,
+                "document_id": "prospectus-2026-academic-rules-and-regulations",
+                "doc_version": "2026"
+              }
+            ],
+            "provider": "hosted",
+            "trace_id": "fb03cea854d04b4f9b42240a29643317"
+          },
+          "seconds": 0.4785106250001263
+        },
+        {
+          "id": "q03",
+          "response": {
+            "request_id": "noise-42-q03",
+            "answer": "The service is temporarily unable to retrieve an answer from the hosted model. Please try again shortly.",
+            "citations": [],
+            "answered_from_context": false,
+            "confidence": "low",
+            "retrieved": [
+              {
+                "chunk_id": "academic-rules-handbook-jun-2026@2026-06#3-32-a-new-admission-is-closed-if-an-awa#p21#c39",
+                "source": "academic-rules-handbook-jun-2026.pdf",
+                "section": "3.32 A new admission is closed if an awaited result does not meet",
+                "page": 21,
+                "score": 0.5455,
+                "document_id": "academic-rules-handbook-jun-2026",
+                "doc_version": "2026-06"
+              }
+            ],
+            "provider": "hosted",
+            "trace_id": "0f1818215fc04411ab16ed22929489dc"
+          },
+          "seconds": 0.5010571040002105
+        },
+        {
+          "id": "q04",
+          "response": {
+            "request_id": "noise-42-q04",
+            "answer": "The service is temporarily unable to retrieve an answer from the hosted model. Please try again shortly.",
+            "citations": [],
+            "answered_from_context": false,
+            "confidence": "low",
+            "retrieved": [
+              {
+                "chunk_id": "academic-rules-handbook-jun-2026@2026-06#1-9-a-theory-course-is-normally-assigned#p8#c13",
+                "source": "academic-rules-handbook-jun-2026.pdf",
+                "section": "1.9 A theory course is normally assigned 2 to 4 credit hours, d) For pre-planned activities (conferences, etc.) during",
+                "page": 8,
+                "score": 0.7143,
+                "document_id": "academic-rules-handbook-jun-2026",
+                "doc_version": "2026-06"
+              }
+            ],
+            "provider": "hosted",
+            "trace_id": "b9fb44f59ad8474eaf47b62b63c8bec7"
+          },
+          "seconds": 0.7793523230002393
+        },
+        {
+          "id": "q05",
+          "response": {
+            "request_id": "noise-42-q05",
+            "answer": "The service is temporarily unable to retrieve an answer from the hosted model. Please try again shortly.",
+            "citations": [],
+            "answered_from_context": false,
+            "confidence": "low",
+            "retrieved": [
+              {
+                "chunk_id": "academic-rules-handbook-jun-2026@2026-06#general-academic-rules-handbook-jun-2026#p4#c5",
+                "source": "academic-rules-handbook-jun-2026.pdf",
+                "section": "General (academic-rules-handbook-jun-2026.pdf)",
+                "page": 4,
+                "score": 0.6667,
+                "document_id": "academic-rules-handbook-jun-2026",
+                "doc_version": "2026-06"
+              }
+            ],
+            "provider": "hosted",
+            "trace_id": "7fdaa8a1f5f740e38a074e3cb7f61892"
+          },
+          "seconds": 0.5300401619997501
+        },
+        {
+          "id": "q06",
+          "response": {
+            "request_id": "noise-42-q06",
+            "answer": "The service is temporarily unable to retrieve an answer from the hosted model. Please try again shortly.",
+            "citations": [],
+            "answered_from_context": false,
+            "confidence": "low",
+            "retrieved": [
+              {
+                "chunk_id": "academic-rules-handbook-jun-2026@2026-06#3-32-a-new-admission-is-closed-if-an-awa#p23#c43",
+                "source": "academic-rules-handbook-jun-2026.pdf",
+                "section": "3.32 A new admission is closed if an awaited result does not meet",
+                "page": 23,
+                "score": 0.6667,
+                "document_id": "academic-rules-handbook-jun-2026",
+                "doc_version": "2026-06"
+              }
+            ],
+            "provider": "hosted",
+            "trace_id": "ec49687fe3a94e60bf19ad8b43dfd108"
+          },
+          "seconds": 0.5789290149996305
+        },
+        {
+          "id": "q07",
+          "response": {
+            "request_id": "noise-42-q07",
+            "answer": "The service is temporarily unable to retrieve an answer from the hosted model. Please try again shortly.",
+            "citations": [],
+            "answered_from_context": false,
+            "confidence": "low",
+            "retrieved": [
+              {
+                "chunk_id": "academic-rules-handbook-jun-2026@2026-06#10-policy-on-generative#p43#c86",
+                "source": "academic-rules-handbook-jun-2026.pdf",
+                "section": "10. Policy on Generative",
+                "page": 43,
+                "score": 0.5833,
+                "document_id": "academic-rules-handbook-jun-2026",
+                "doc_version": "2026-06"
+              }
+            ],
+            "provider": "hosted",
+            "trace_id": "5e1f7cd30c6c42d9859534c144af7b9b"
+          },
+          "seconds": 0.5229547450007885
+        },
+        {
+          "id": "q08",
+          "response": {
+            "request_id": "noise-42-q08",
+            "answer": "The maximum allowable time to complete a 4\u2011year undergraduate bachelor degree program is six years, extendable to seven years with approval.",
+            "citations": [
+              {
+                "source": "academic-rules-handbook-jun-2026.pdf",
+                "section": "1.9 A theory course is normally assigned 2 to 4 credit hours, d) For pre-planned activities (conferences, etc.) during",
+                "page": 10
+              }
+            ],
+            "answered_from_context": true,
+            "confidence": "high",
+            "retrieved": [
+              {
+                "chunk_id": "academic-rules-handbook-jun-2026@2026-06#1-9-a-theory-course-is-normally-assigned#p10#c17",
+                "source": "academic-rules-handbook-jun-2026.pdf",
+                "section": "1.9 A theory course is normally assigned 2 to 4 credit hours, d) For pre-planned activities (conferences, etc.) during",
+                "page": 10,
+                "score": 0.5,
+                "document_id": "academic-rules-handbook-jun-2026",
+                "doc_version": "2026-06"
+              }
+            ],
+            "provider": "hosted",
+            "trace_id": "2c8db89978654f289b159015043d5b0f"
+          },
+          "seconds": 1.133208993000153
+        },
+        {
+          "id": "q09",
+          "response": {
+            "request_id": "noise-42-q09",
+            "answer": "The service is temporarily unable to retrieve an answer from the hosted model. Please try again shortly.",
+            "citations": [],
+            "answered_from_context": false,
+            "confidence": "low",
+            "retrieved": [
+              {
+                "chunk_id": "prospectus-2026-academic-rules-and-regul@2026#general-prospectus-2026-academic-rules-a#p2#c4",
+                "source": "prospectus-2026-academic-rules-and-regulations.pdf",
+                "section": "General (prospectus-2026-academic-rules-and-regulations.pdf)",
+                "page": 2,
+                "score": 0.6364,
+                "document_id": "prospectus-2026-academic-rules-and-regulations",
+                "doc_version": "2026"
+              }
+            ],
+            "provider": "hosted",
+            "trace_id": "e19652dd2f164681b7d3968992a9e1c4"
+          },
+          "seconds": 0.4812741410005401
+        },
+        {
+          "id": "q10",
+          "response": {
+            "request_id": "noise-42-q10",
+            "answer": "The service is temporarily unable to retrieve an answer from the hosted model. Please try again shortly.",
+            "citations": [],
+            "answered_from_context": false,
+            "confidence": "low",
+            "retrieved": [
+              {
+                "chunk_id": "academic-rules-handbook-jun-2026@2026-06#3-18-only-credits-of-relevant-courses-wh#p17#c31",
+                "source": "academic-rules-handbook-jun-2026.pdf",
+                "section": "3.18 Only credits of relevant courses, which have been earned",
+                "page": 17,
+                "score": 0.7273,
+                "document_id": "academic-rules-handbook-jun-2026",
+                "doc_version": "2026-06"
+              }
+            ],
+            "provider": "hosted",
+            "trace_id": "bb3058db9ec54ce797be0e366911caa0"
+          },
+          "seconds": 0.5246155690001615
+        },
+        {
+          "id": "q11",
+          "response": {
+            "request_id": "noise-42-q11",
+            "answer": "The service is temporarily unable to retrieve an answer from the hosted model. Please try again shortly.",
+            "citations": [],
+            "answered_from_context": false,
+            "confidence": "low",
+            "retrieved": [
+              {
+                "chunk_id": "academic-rules-handbook-jun-2026@2026-06#1-9-a-theory-course-is-normally-assigned#p8#c13",
+                "source": "academic-rules-handbook-jun-2026.pdf",
+                "section": "1.9 A theory course is normally assigned 2 to 4 credit hours, d) For pre-planned activities (conferences, etc.) during",
+                "page": 8,
+                "score": 0.5556,
+                "document_id": "academic-rules-handbook-jun-2026",
+                "doc_version": "2026-06"
+              }
+            ],
+            "provider": "hosted",
+            "trace_id": "caab80f650ce4a638797511574b2b079"
+          },
+          "seconds": 0.5214197310006057
+        },
+        {
+          "id": "q12",
+          "response": {
+            "request_id": "noise-42-q12",
+            "answer": "The service is temporarily unable to retrieve an answer from the hosted model. Please try again shortly.",
+            "citations": [],
+            "answered_from_context": false,
+            "confidence": "low",
+            "retrieved": [
+              {
+                "chunk_id": "prospectus-2026-academic-rules-and-regul@2026#general-prospectus-2026-academic-rules-a#p3#c7",
+                "source": "prospectus-2026-academic-rules-and-regulations.pdf",
+                "section": "General (prospectus-2026-academic-rules-and-regulations.pdf)",
+                "page": 3,
+                "score": 0.8571,
+                "document_id": "prospectus-2026-academic-rules-and-regulations",
+                "doc_version": "2026"
+              }
+            ],
+            "provider": "hosted",
+            "trace_id": "64721c7e61aa4f46ae98a0442c29928d"
+          },
+          "seconds": 0.49624555699938355
+        },
+        {
+          "id": "q13",
+          "response": {
+            "request_id": "noise-42-q13",
+            "answer": "The provided corpus documents do not contain information regarding this topic.",
+            "citations": [],
+            "answered_from_context": false,
+            "confidence": "low",
+            "retrieved": [
+              {
+                "chunk_id": "academic-rules-handbook-jun-2026@2026-06#10-policy-on-generative#p42#c84",
+                "source": "academic-rules-handbook-jun-2026.pdf",
+                "section": "10. Policy on Generative",
+                "page": 42,
+                "score": 0.2222,
+                "document_id": "academic-rules-handbook-jun-2026",
+                "doc_version": "2026-06"
+              }
+            ],
+            "provider": "hosted",
+            "trace_id": "98e3387d5338479799ed016e3c49f081"
+          },
+          "seconds": 0.16452596100043593
+        },
+        {
+          "id": "q14",
+          "response": {
+            "request_id": "noise-42-q14",
+            "answer": "The provided corpus documents do not contain information regarding this topic.",
+            "citations": [],
+            "answered_from_context": false,
+            "confidence": "low",
+            "retrieved": [
+              {
+                "chunk_id": "annual-report-2019-20@2019-20#general-annual-report-2019-20-pdf#p8#c9",
+                "source": "annual-report-2019-20.pdf",
+                "section": "General (annual-report-2019-20.pdf)",
+                "page": 8,
+                "score": 0.2727,
+                "document_id": "annual-report-2019-20",
+                "doc_version": "2019-20"
+              }
+            ],
+            "provider": "hosted",
+            "trace_id": "60f7194afb2d4ecd8a21f4ad0e5535b2"
+          },
+          "seconds": 0.2157102749997648
+        },
+        {
+          "id": "q15",
+          "response": {
+            "request_id": "noise-42-q15",
+            "answer": "The provided corpus documents do not contain information regarding this topic.",
+            "citations": [],
+            "answered_from_context": false,
+            "confidence": "low",
+            "retrieved": [],
+            "provider": "hosted",
+            "trace_id": "b2cf2cba2fef4e08b2c731ae20bb91a1"
+          },
+          "seconds": 0.16900179399999615
+        },
+        {
+          "id": "q16",
+          "response": {
+            "request_id": "noise-42-q16",
+            "answer": "The provided corpus documents do not contain information regarding this topic.",
+            "citations": [],
+            "answered_from_context": false,
+            "confidence": "low",
+            "retrieved": [
+              {
+                "chunk_id": "fee-structure-page@2026-27#security-deposit#p1#c183",
+                "source": "fee-structure-page.html",
+                "section": "Security Deposit",
+                "page": 1,
+                "score": 0.4286,
+                "document_id": "fee-structure-page",
+                "doc_version": "2026-27"
+              }
+            ],
+            "provider": "hosted",
+            "trace_id": "1e6dfcd49fdc4b6dae25022b13bde840"
+          },
+          "seconds": 0.16373800199926336
+        },
+        {
+          "id": "q17",
+          "response": {
+            "request_id": "noise-42-q17",
+            "answer": "The service is temporarily unable to retrieve an answer from the hosted model. Please try again shortly.",
+            "citations": [],
+            "answered_from_context": false,
+            "confidence": "low",
+            "retrieved": [
+              {
+                "chunk_id": "prospectus-2026-academic-rules-and-regul@2026#general-prospectus-2026-academic-rules-a#p3#c7",
+                "source": "prospectus-2026-academic-rules-and-regulations.pdf",
+                "section": "General (prospectus-2026-academic-rules-and-regulations.pdf)",
+                "page": 3,
+                "score": 0.5556,
+                "document_id": "prospectus-2026-academic-rules-and-regulations",
+                "doc_version": "2026"
+              }
+            ],
+            "provider": "hosted",
+            "trace_id": "84cdf2e0804c4b97ba706892ddbeff66"
+          },
+          "seconds": 0.5569897080004012
+        },
+        {
+          "id": "q18",
+          "response": {
+            "request_id": "noise-42-q18",
+            "answer": "The service is temporarily unable to retrieve an answer from the hosted model. Please try again shortly.",
+            "citations": [],
+            "answered_from_context": false,
+            "confidence": "low",
+            "retrieved": [
+              {
+                "chunk_id": "library-loan-policy-a@2026#library-loan-policy#p1#c0",
+                "source": "near-duplicate-a.md",
+                "section": "Library Loan Policy",
+                "page": 1,
+                "score": 0.5714,
+                "document_id": "library-loan-policy-a",
+                "doc_version": "2026"
+              }
+            ],
+            "provider": "hosted",
+            "trace_id": "11975b024dd048cb9905ef5eef283272"
+          },
+          "seconds": 0.4890197429995169
+        },
+        {
+          "id": "q19",
+          "response": {
+            "request_id": "noise-42-q19",
+            "answer": "The service is temporarily unable to retrieve an answer from the hosted model. Please try again shortly.",
+            "citations": [],
+            "answered_from_context": false,
+            "confidence": "low",
+            "retrieved": [
+              {
+                "chunk_id": "library-loan-policy-a@2026#library-loan-policy#p1#c0",
+                "source": "near-duplicate-a.md",
+                "section": "Library Loan Policy",
+                "page": 1,
+                "score": 0.8,
+                "document_id": "library-loan-policy-a",
+                "doc_version": "2026"
+              }
+            ],
+            "provider": "hosted",
+            "trace_id": "4ccc45d359dc45abb901056f1c38798e"
+          },
+          "seconds": 0.5027566669996304
+        },
+        {
+          "id": "q20",
+          "response": {
+            "request_id": "noise-42-q20",
+            "answer": "The service is temporarily unable to retrieve an answer from the hosted model. Please try again shortly.",
+            "citations": [],
+            "answered_from_context": false,
+            "confidence": "low",
+            "retrieved": [
+              {
+                "chunk_id": "academic-rules-handbook-jun-2026@2026-06#5-academic-assessment#p27#c52",
+                "source": "academic-rules-handbook-jun-2026.pdf",
+                "section": "5. Academic Assessment",
+                "page": 27,
+                "score": 0.5,
+                "document_id": "academic-rules-handbook-jun-2026",
+                "doc_version": "2026-06"
+              }
+            ],
+            "provider": "hosted",
+            "trace_id": "6b52904f683745f58373dc28b4d3f991"
+          },
+          "seconds": 0.4912984120001056
+        },
+        {
+          "id": "q21",
+          "response": {
+            "request_id": "noise-42-q21",
+            "answer": "If semester dues are paid after the date on the fee voucher, a surcharge may be applied and the student may be blocked from registering for courses.",
+            "citations": [
+              {
+                "source": "fee-payment.md",
+                "section": "Fee Payment Schedule",
+                "page": 1
+              }
+            ],
+            "answered_from_context": true,
+            "confidence": "high",
+            "retrieved": [
+              {
+                "chunk_id": "fee-payment-schedule@2026#fee-payment-schedule#p1#c0",
+                "source": "fee-payment.md",
+                "section": "Fee Payment Schedule",
+                "page": 1,
+                "score": 0.5556,
+                "document_id": "fee-payment-schedule",
+                "doc_version": "2026"
+              }
+            ],
+            "provider": "hosted",
+            "trace_id": "aec4b4d362414becbd556092f810e72b"
+          },
+          "seconds": 1.0459286440000142
+        },
+        {
+          "id": "q22",
+          "response": {
+            "request_id": "noise-42-q22",
+            "answer": "The service is temporarily unable to retrieve an answer from the hosted model. Please try again shortly.",
+            "citations": [],
+            "answered_from_context": false,
+            "confidence": "low",
+            "retrieved": [
+              {
+                "chunk_id": "academic-rules-handbook-jun-2026@2026-06#1-9-a-theory-course-is-normally-assigned#p10#c17",
+                "source": "academic-rules-handbook-jun-2026.pdf",
+                "section": "1.9 A theory course is normally assigned 2 to 4 credit hours, d) For pre-planned activities (conferences, etc.) during",
+                "page": 10,
+                "score": 0.5714,
+                "document_id": "academic-rules-handbook-jun-2026",
+                "doc_version": "2026-06"
+              }
+            ],
+            "provider": "hosted",
+            "trace_id": "334af56fa9e24491a6f008b6229e5e56"
+          },
+          "seconds": 0.48321084500003053
+        },
+        {
+          "id": "q23",
+          "response": {
+            "request_id": "noise-42-q23",
+            "answer": "The provided corpus documents do not contain information regarding this topic.",
+            "citations": [],
+            "answered_from_context": false,
+            "confidence": "low",
+            "retrieved": [
+              {
+                "chunk_id": "academic-rules-handbook-jun-2026@2026-06#3-18-only-credits-of-relevant-courses-wh#p16#c29",
+                "source": "academic-rules-handbook-jun-2026.pdf",
+                "section": "3.18 Only credits of relevant courses, which have been earned",
+                "page": 16,
+                "score": 0.3333,
+                "document_id": "academic-rules-handbook-jun-2026",
+                "doc_version": "2026-06"
+              }
+            ],
+            "provider": "hosted",
+            "trace_id": "853dd360e5e24385bd8cd797a00e9b65"
+          },
+          "seconds": 0.28973791299995355
+        },
+        {
+          "id": "q24",
+          "response": {
+            "request_id": "noise-42-q24",
+            "answer": "The service is temporarily unable to retrieve an answer from the hosted model. Please try again shortly.",
+            "citations": [],
+            "answered_from_context": false,
+            "confidence": "low",
+            "retrieved": [
+              {
+                "chunk_id": "annual-report-2019-20@2019-20#general-annual-report-2019-20-pdf#p8#c10",
+                "source": "annual-report-2019-20.pdf",
+                "section": "General (annual-report-2019-20.pdf)",
+                "page": 8,
+                "score": 0.5,
+                "document_id": "annual-report-2019-20",
+                "doc_version": "2019-20"
+              }
+            ],
+            "provider": "hosted",
+            "trace_id": "86dd1c8d20994e9fbc40e862ab035331"
+          },
+          "seconds": 0.4666261090005719
+        },
+        {
+          "id": "q25",
+          "response": {
+            "request_id": "noise-42-q25",
+            "answer": "The provided corpus documents do not contain information regarding this topic.",
+            "citations": [],
+            "answered_from_context": false,
+            "confidence": "low",
+            "retrieved": [
+              {
+                "chunk_id": "academic-rules-handbook-jun-2026@2026-06#6-rules-for-summer-semester#p29#c56",
+                "source": "academic-rules-handbook-jun-2026.pdf",
+                "section": "6. Rules for Summer Semester",
+                "page": 29,
+                "score": 0.4167,
+                "document_id": "academic-rules-handbook-jun-2026",
+                "doc_version": "2026-06"
+              }
+            ],
+            "provider": "hosted",
+            "trace_id": "e7ed6685ed1b436f8a9969d1ef06ad83"
+          },
+          "seconds": 0.15762165800060757
+        },
+        {
+          "id": "q26",
+          "response": {
+            "request_id": "noise-42-q26",
+            "answer": "The provided corpus documents do not contain information regarding this topic.",
+            "citations": [],
+            "answered_from_context": false,
+            "confidence": "low",
+            "retrieved": [
+              {
+                "chunk_id": "academic-rules-handbook-jun-2026@2026-06#1-9-a-theory-course-is-normally-assigned#p8#c13",
+                "source": "academic-rules-handbook-jun-2026.pdf",
+                "section": "1.9 A theory course is normally assigned 2 to 4 credit hours, d) For pre-planned activities (conferences, etc.) during",
+                "page": 8,
+                "score": 0.2,
+                "document_id": "academic-rules-handbook-jun-2026",
+                "doc_version": "2026-06"
+              }
+            ],
+            "provider": "hosted",
+            "trace_id": "3b0fa58c576b49519c2c8198d5efd93e"
+          },
+          "seconds": 0.2015586359993904
+        },
+        {
+          "id": "q27",
+          "response": {
+            "request_id": "noise-42-q27",
+            "answer": "The provided corpus documents do not contain information regarding this topic.",
+            "citations": [],
+            "answered_from_context": false,
+            "confidence": "low",
+            "retrieved": [
+              {
+                "chunk_id": "academic-rules-handbook-jun-2026@2026-06#3-18-only-credits-of-relevant-courses-wh#p16#c29",
+                "source": "academic-rules-handbook-jun-2026.pdf",
+                "section": "3.18 Only credits of relevant courses, which have been earned",
+                "page": 16,
+                "score": 0.4286,
+                "document_id": "academic-rules-handbook-jun-2026",
+                "doc_version": "2026-06"
+              }
+            ],
+            "provider": "hosted",
+            "trace_id": "4aa6c92c91ac459393aa61c14d54d1cc"
+          },
+          "seconds": 0.16478009200000088
+        },
+        {
+          "id": "q28",
+          "response": {
+            "request_id": "noise-42-q28",
+            "answer": "The service is temporarily unable to retrieve an answer from the hosted model. Please try again shortly.",
+            "citations": [],
+            "answered_from_context": false,
+            "confidence": "low",
+            "retrieved": [
+              {
+                "chunk_id": "student-handbook-jun-2026@2026-06#general-student-handbook-jun-2026-pdf#p54#c119",
+                "source": "student-handbook-jun-2026.pdf",
+                "section": "General (student-handbook-jun-2026.pdf)",
+                "page": 54,
+                "score": 0.5,
+                "document_id": "student-handbook-jun-2026",
+                "doc_version": "2026-06"
+              }
+            ],
+            "provider": "hosted",
+            "trace_id": "0559f1ab73584b16ab4fc2977e3f5bea"
+          },
+          "seconds": 0.5144758779997574
+        },
+        {
+          "id": "q29",
+          "response": {
+            "request_id": "noise-42-q29",
+            "answer": "The provided corpus documents do not contain information regarding this topic.",
+            "citations": [],
+            "answered_from_context": false,
+            "confidence": "low",
+            "retrieved": [
+              {
+                "chunk_id": "academic-rules-handbook-jun-2026@2026-06#general-academic-rules-handbook-jun-2026#p1#c2",
+                "source": "academic-rules-handbook-jun-2026.pdf",
+                "section": "General (academic-rules-handbook-jun-2026.pdf)",
+                "page": 1,
+                "score": 0.25,
+                "document_id": "academic-rules-handbook-jun-2026",
+                "doc_version": "2026-06"
+              }
+            ],
+            "provider": "hosted",
+            "trace_id": "eb66231ce8f74b4fac375fc38047b198"
+          },
+          "seconds": 0.15899006000017835
+        },
+        {
+          "id": "q30",
+          "response": {
+            "request_id": "noise-42-q30",
+            "answer": "The provided corpus documents do not contain information regarding this topic.",
+            "citations": [],
+            "answered_from_context": false,
+            "confidence": "low",
+            "retrieved": [
+              {
+                "chunk_id": "academic-rules-handbook-jun-2026@2026-06#1-9-a-theory-course-is-normally-assigned#p8#c13",
+                "source": "academic-rules-handbook-jun-2026.pdf",
+                "section": "1.9 A theory course is normally assigned 2 to 4 credit hours, d) For pre-planned activities (conferences, etc.) during",
+                "page": 8,
+                "score": 0.1667,
+                "document_id": "academic-rules-handbook-jun-2026",
+                "doc_version": "2026-06"
+              }
+            ],
+            "provider": "hosted",
+            "trace_id": "60825aaa4cf84254b23cc84774a572df"
+          },
+          "seconds": 0.1964924579997387
+        },
+        {
+          "id": "q31",
+          "response": {
+            "request_id": "noise-42-q31",
+            "answer": "The service is temporarily unable to retrieve an answer from the hosted model. Please try again shortly.",
+            "citations": [],
+            "answered_from_context": false,
+            "confidence": "low",
+            "retrieved": [
+              {
+                "chunk_id": "academic-rules-handbook-jun-2026@2026-06#10-policy-on-generative#p44#c89",
+                "source": "academic-rules-handbook-jun-2026.pdf",
+                "section": "10. Policy on Generative",
+                "page": 44,
+                "score": 0.5,
+                "document_id": "academic-rules-handbook-jun-2026",
+                "doc_version": "2026-06"
+              }
+            ],
+            "provider": "hosted",
+            "trace_id": "fe64a990a7fe4337b32e3b8dccc7a30e"
+          },
+          "seconds": 0.5690554499997234
+        },
+        {
+          "id": "q32",
+          "response": {
+            "request_id": "noise-42-q32",
+            "answer": "The provided corpus documents do not contain information regarding this topic.",
+            "citations": [],
+            "answered_from_context": false,
+            "confidence": "low",
+            "retrieved": [
+              {
+                "chunk_id": "academic-rules-handbook-jun-2026@2026-06#3-admission-policy#p15#c27",
+                "source": "academic-rules-handbook-jun-2026.pdf",
+                "section": "3. Admission Policy",
+                "page": 15,
+                "score": 0.1667,
+                "document_id": "academic-rules-handbook-jun-2026",
+                "doc_version": "2026-06"
+              }
+            ],
+            "provider": "hosted",
+            "trace_id": "9fcda14791854ce295b59c552980f5e0"
+          },
+          "seconds": 0.20703284999945026
+        },
+        {
+          "id": "q33",
+          "response": {
+            "request_id": "noise-42-q33",
+            "answer": "The provided corpus documents do not contain information regarding this topic.",
+            "citations": [],
+            "answered_from_context": false,
+            "confidence": "low",
+            "retrieved": [
+              {
+                "chunk_id": "annual-report-2023-24@2023-24#22-seminar-on-ux-design-as-a-career#p35#c59",
+                "source": "annual-report-2023-24.pdf",
+                "section": "22. Seminar on UX Design as a Career",
+                "page": 35,
+                "score": 0.4286,
+                "document_id": "annual-report-2023-24",
+                "doc_version": "2023-24"
+              }
+            ],
+            "provider": "hosted",
+            "trace_id": "a11b9b1e14a549df94a446a0ae94c42a"
+          },
+          "seconds": 0.2012206259996674
+        },
+        {
+          "id": "q34",
+          "response": {
+            "request_id": "noise-42-q34",
+            "answer": "The service is temporarily unable to retrieve an answer from the hosted model. Please try again shortly.",
+            "citations": [],
+            "answered_from_context": false,
+            "confidence": "low",
+            "retrieved": [
+              {
+                "chunk_id": "academic-rules-handbook-jun-2026@2026-06#3-32-a-new-admission-is-closed-if-an-awa#p19#c35",
+                "source": "academic-rules-handbook-jun-2026.pdf",
+                "section": "3.32 A new admission is closed if an awaited result does not meet",
+                "page": 19,
+                "score": 0.6667,
+                "document_id": "academic-rules-handbook-jun-2026",
+                "doc_version": "2026-06"
+              }
+            ],
+            "provider": "hosted",
+            "trace_id": "19ee7d6b79564df48882eaa9fae55c40"
+          },
+          "seconds": 0.471212187000674
+        },
+        {
+          "id": "q35",
+          "response": {
+            "request_id": "noise-42-q35",
+            "answer": "The service is temporarily unable to retrieve an answer from the hosted model. Please try again shortly.",
+            "citations": [],
+            "answered_from_context": false,
+            "confidence": "low",
+            "retrieved": [
+              {
+                "chunk_id": "academic-rules-handbook-jun-2026@2026-06#1-9-a-theory-course-is-normally-assigned#p8#c13",
+                "source": "academic-rules-handbook-jun-2026.pdf",
+                "section": "1.9 A theory course is normally assigned 2 to 4 credit hours, d) For pre-planned activities (conferences, etc.) during",
+                "page": 8,
+                "score": 0.5,
+                "document_id": "academic-rules-handbook-jun-2026",
+                "doc_version": "2026-06"
+              }
+            ],
+            "provider": "hosted",
+            "trace_id": "bdbd520e252b4d938763bb8fd91f6a82"
+          },
+          "seconds": 0.5914499649998106
+        },
+        {
+          "id": "q36",
+          "response": {
+            "request_id": "noise-42-q36",
+            "answer": "The service is temporarily unable to retrieve an answer from the hosted model. Please try again shortly.",
+            "citations": [],
+            "answered_from_context": false,
+            "confidence": "low",
+            "retrieved": [
+              {
+                "chunk_id": "academic-rules-handbook-jun-2026@2026-06#6-rules-for-summer-semester#p29#c56",
+                "source": "academic-rules-handbook-jun-2026.pdf",
+                "section": "6. Rules for Summer Semester",
+                "page": 29,
+                "score": 0.875,
+                "document_id": "academic-rules-handbook-jun-2026",
+                "doc_version": "2026-06"
+              }
+            ],
+            "provider": "hosted",
+            "trace_id": "de4b936241914f4fae51727fe7e3f3ed"
+          },
+          "seconds": 0.9421222520004449
+        },
+        {
+          "id": "q37",
+          "response": {
+            "request_id": "noise-42-q37",
+            "answer": "The service is temporarily unable to retrieve an answer from the hosted model. Please try again shortly.",
+            "citations": [],
+            "answered_from_context": false,
+            "confidence": "low",
+            "retrieved": [
+              {
+                "chunk_id": "academic-rules-handbook-jun-2026@2026-06#10-policy-on-generative#p43#c86",
+                "source": "academic-rules-handbook-jun-2026.pdf",
+                "section": "10. Policy on Generative",
+                "page": 43,
+                "score": 0.8571,
+                "document_id": "academic-rules-handbook-jun-2026",
+                "doc_version": "2026-06"
+              }
+            ],
+            "provider": "hosted",
+            "trace_id": "01ab35de6f9c4e57a7b65bbe80dd8eb3"
+          },
+          "seconds": 0.4840028419994269
+        },
+        {
+          "id": "q38",
+          "response": {
+            "request_id": "noise-42-q38",
+            "answer": "The service is temporarily unable to retrieve an answer from the hosted model. Please try again shortly.",
+            "citations": [],
+            "answered_from_context": false,
+            "confidence": "low",
+            "retrieved": [
+              {
+                "chunk_id": "prospectus-2026-academic-rules-and-regul@2026#general-prospectus-2026-academic-rules-a#p1#c0",
+                "source": "prospectus-2026-academic-rules-and-regulations.pdf",
+                "section": "General (prospectus-2026-academic-rules-and-regulations.pdf)",
+                "page": 1,
+                "score": 0.7273,
+                "document_id": "prospectus-2026-academic-rules-and-regulations",
+                "doc_version": "2026"
+              }
+            ],
+            "provider": "hosted",
+            "trace_id": "350f02833c714618a3f83ba13a067f49"
+          },
+          "seconds": 0.6178544379999948
+        },
+        {
+          "id": "q39",
+          "response": {
+            "request_id": "noise-42-q39",
+            "answer": "The service is temporarily unable to retrieve an answer from the hosted model. Please try again shortly.",
+            "citations": [],
+            "answered_from_context": false,
+            "confidence": "low",
+            "retrieved": [
+              {
+                "chunk_id": "academic-rules-handbook-jun-2026@2026-06#5-academic-assessment#p25#c47",
+                "source": "academic-rules-handbook-jun-2026.pdf",
+                "section": "5. Academic Assessment",
+                "page": 25,
+                "score": 0.6364,
+                "document_id": "academic-rules-handbook-jun-2026",
+                "doc_version": "2026-06"
+              }
+            ],
+            "provider": "hosted",
+            "trace_id": "983244608187437baf74cf6c44af2add"
+          },
+          "seconds": 0.5043183589996261
+        }
+      ]
+    }
+  ],
+  "stochasticity_metric_deltas_run2_minus_run1": {
+    "retrieval.recall_at_3": 0.0,
+    "retrieval.recall_at_5": 0.0,
+    "retrieval.mrr": 0.0,
+    "retrieval.ndcg_at_5": 0.0,
+    "answers.faithfulness_expected_answer_proxy": -0.1111111111111111,
+    "answers.faithfulness_proxy_questions": 0,
+    "answers.abstention_correctness": 0.0,
+    "answers.citation_validity": 0.0,
+    "answers.latency_p50_seconds": -0.011023629998817341,
+    "answers.latency_p95_seconds": -0.3087248758999521
+  },
+  "release_gate": {
+    "created_at": "2026-11-27T09:04:32.888140+00:00",
+    "decision": "fail",
+    "baseline": {
+      "recall_at_5": 0.2222222222222222,
+      "embedding_gap": 0.07011079286173025,
+      "faithfulness": 0.037037037037037035,
+      "citation_validity": 1.0,
+      "abstention_correctness": 1.0,
+      "latency_p95_seconds": 1.3169478629000881
+    },
+    "candidate": {
+      "recall_at_5": 0.1111111111111111,
+      "embedding_gap": 0.07011079286173025,
+      "faithfulness": 0.09259259259259259,
+      "citation_validity": 1.0,
+      "abstention_correctness": 1.0,
+      "latency_p95_seconds": 1.2192900329500391
+    },
+    "thresholds": {
+      "max_recall5_drop": 0.02,
+      "max_embedding_gap_drop": 0.02,
+      "min_faithfulness": 0.8,
+      "min_citation_validity": 0.95,
+      "max_latency_p95_seconds": 30.0
+    },
+    "checks": [
+      {
+        "name": "recall_at_5",
+        "passed": false,
+        "detail": "candidate recall@5 0.1111; baseline 0.2222; maximum drop 0.0200"
+      },
+      {
+        "name": "embedding_gap",
+        "passed": true,
+        "detail": "candidate embedding gap 0.0701; baseline 0.0701; maximum drop 0.0200"
+      },
+      {
+        "name": "faithfulness",
+        "passed": false,
+        "detail": "faithfulness proxy 0.0926; minimum 0.8000"
+      },
+      {
+        "name": "citation_validity",
+        "passed": true,
+        "detail": "citation validity 1.0000; minimum 0.9500"
+      },
+      {
+        "name": "abstention_correctness",
+        "passed": true,
+        "detail": "abstention correctness 1.0000; baseline 1.0000"
+      },
+      {
+        "name": "latency_p95_seconds",
+        "passed": true,
+        "detail": "latency p95 1.2193s; maximum 30.0000s"
+      }
+    ]
+  }
+}

@@ -10,7 +10,9 @@ from __future__ import annotations
 import json
 import logging
 import math
-from typing import Any
+from typing import Any, cast
+
+import redis
 
 from ..config import Settings
 from ..schemas import AskResponse, Citation, RetrievedRef
@@ -40,8 +42,6 @@ class SemanticCache:
         self._redis = None
 
         try:
-            import redis
-
             client = redis.Redis(
                 host=settings.redis_host,
                 port=settings.redis_port,
@@ -51,7 +51,7 @@ class SemanticCache:
             client.ping()
             self._redis = client
             log.info("Semantic cache connected to Redis at %s:%d", settings.redis_host, settings.redis_port)
-        except Exception as exc:
+        except (redis.RedisError, OSError) as exc:
             log.info("Redis not reachable (%s); operating with in-memory semantic cache", exc)
 
     def is_followup(self, question: str) -> bool:
@@ -72,9 +72,7 @@ class SemanticCache:
             return True
         if response.confidence == "low":
             return True
-        if not response.citations:
-            return True
-        return False
+        return not response.citations
 
     def get(self, question: str, vector: list[float], is_followup: bool = False) -> AskResponse | None:
         """Query semantic cache for an entry with cosine similarity >= threshold."""
@@ -128,7 +126,7 @@ class SemanticCache:
                 key = f"rahbar:cache:{uuid.uuid4().hex[:12]}"
                 self._redis.set(key, json.dumps(entry), ex=86400 * 7)  # 7-day TTL
                 return True
-            except Exception as exc:
+            except (redis.RedisError, OSError) as exc:
                 log.warning("Redis store failed (%s), writing to in-memory fallback", exc)
 
         self._memory_cache.append(entry)
@@ -141,19 +139,21 @@ class SemanticCache:
             try:
                 self._redis.flushdb()
                 log.info("Flushed semantic cache in Redis")
-            except Exception as exc:
+            except (redis.RedisError, OSError) as exc:
                 log.warning("Could not flush Redis cache: %s", exc)
 
     def _load_entries(self) -> list[dict[str, Any]]:
         if self._redis:
             try:
                 entries: list[dict[str, Any]] = []
-                keys = self._redis.keys("rahbar:cache:*")
+                # redis-py shares sync/async command typings; this client is synchronous
+                # and uses decode_responses=True.
+                keys = cast(list[str], self._redis.keys("rahbar:cache:*"))
                 for k in keys:
-                    raw = self._redis.get(k)
+                    raw = cast(str | None, self._redis.get(k))
                     if raw:
                         entries.append(json.loads(raw))
                 return entries
-            except Exception as exc:
+            except (redis.RedisError, OSError, json.JSONDecodeError, KeyError, TypeError) as exc:
                 log.warning("Error reading Redis cache keys: %s", exc)
         return self._memory_cache

@@ -9,7 +9,8 @@ kubeconfig
 !*placeholder*.yaml
 
 # Corpus files you did not write: commit corpus/MANIFEST.md and corpus/fetch.py instead
-corpus/raw/
+corpus/raw/**
+!corpus/raw/.gitkeep
 
 # Python
 __pycache__/
@@ -23,3 +24,11 @@ venv/
 # Local scratch
 *.log
 .DS_Store
+
+# Local dev scripts with API keys
+start_server.ps1
+run_indexer.ps1
+test_ask.py
+test_gemini.py
+test_groq.py
+.chroma_data/

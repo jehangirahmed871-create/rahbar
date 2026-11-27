@@ -1,0 +1,40 @@
+{"id":"lq01","question":"What is the lowest CGPA an undergraduate needs to avoid an academic warning?","expected_coverage":"in_domain","topic":"academic-warning"}
+{"id":"lq02","question":"How much class attendance is required before a student can sit for final exams?","expected_coverage":"in_domain","topic":"attendance"}
+{"id":"lq03","question":"What attendance percentage must I meet to be allowed to take an examination?","expected_coverage":"in_domain","topic":"attendance"}
+{"id":"lq04","question":"When a course is repeated, which attempt is used to calculate the CGPA?","expected_coverage":"in_domain","topic":"repeat-course"}
+{"id":"lq05","question":"How much of the tuition is refunded if admission is cancelled in the first week?","expected_coverage":"in_domain","topic":"fee-refund"}
+{"id":"lq06","question":"How many years may an undergraduate take to finish a four-year degree?","expected_coverage":"in_domain","topic":"degree-duration"}
+{"id":"lq07","question":"Can I use generative AI to do preparatory research for an assignment?","expected_coverage":"in_domain","topic":"generative-ai"}
+{"id":"lq08","question":"How many courses should I normally take during one semester?","expected_coverage":"in_domain","topic":"course-load"}
+{"id":"lq09","question":"What grade points count after I repeat a course to improve my GPA?","expected_coverage":"in_domain","topic":"repeat-course"}
+{"id":"lq10","question":"How many consecutive semesters below the required CGPA can lead to admission closure?","expected_coverage":"in_domain","topic":"academic-warning"}
+{"id":"lq11","question":"May I take a course before passing its prerequisite?","expected_coverage":"in_domain","topic":"prerequisites"}
+{"id":"lq12","question":"When is a refunded admission fee paid back if the student completes the degree?","expected_coverage":"in_domain","topic":"fee-refund"}
+{"id":"lq13","question":"How many grade points are assigned to a B plus?","expected_coverage":"in_domain","topic":"grade-points"}
+{"id":"lq14","question":"Can a new course be taken in the summer semester or only a repeat course?","expected_coverage":"in_domain","topic":"summer-semester"}
+{"id":"lq15","question":"What is the policy for repeating a course after receiving a failing grade?","expected_coverage":"in_domain","topic":"repeat-course"}
+{"id":"lq16","question":"What happens if I fail to meet the attendance requirement for the final exam?","expected_coverage":"in_domain","topic":"attendance"}
+{"id":"lq17","question":"How is CGPA calculated when a student repeats a subject?","expected_coverage":"in_domain","topic":"repeat-course"}
+{"id":"lq18","question":"What is the minimum CGPA needed to stay in good academic standing?","expected_coverage":"in_domain","topic":"academic-warning"}
+{"id":"lq19","question":"Can students use generative AI tools in a non-lab course?","expected_coverage":"in_domain","topic":"generative-ai"}
+{"id":"lq20","question":"What are the rules for the final attempt or rechecking of an examination?","expected_coverage":"in_domain","topic":"examinations"}
+{"id":"lq21","question":"What is the maximum duration for completing a bachelor degree?","expected_coverage":"in_domain","topic":"degree-duration"}
+{"id":"lq22","question":"Which semester grade is counted for a course taken more than once?","expected_coverage":"in_domain","topic":"repeat-course"}
+{"id":"lq23","question":"How many credit hours are normally assigned to a theory course?","expected_coverage":"in_domain","topic":"credit-hours"}
+{"id":"lq24","question":"What percentage of the fee is returned for cancelling admission during the first week?","expected_coverage":"in_domain","topic":"fee-refund"}
+{"id":"lq25","question":"What penalty applies to academic dishonesty in an assignment?","expected_coverage":"in_domain","topic":"academic-honesty"}
+{"id":"lq26","question":"What is the attendance rule for a student to be eligible for an exam?","expected_coverage":"in_domain","topic":"attendance"}
+{"id":"lq27","question":"Can a student register for a course after failing its prerequisite?","expected_coverage":"in_domain","topic":"prerequisites"}
+{"id":"lq28","question":"What is the deadline or rule for withdrawing from a course?","expected_coverage":"in_domain","topic":"course-withdrawal"}
+{"id":"lq29","question":"How do I make sourdough bread at home?","expected_coverage":"out_of_domain","topic":"cooking"}
+{"id":"lq30","question":"What will the weather be in Lahore tomorrow?","expected_coverage":"out_of_domain","topic":"weather"}
+{"id":"lq31","question":"How can I troubleshoot a slow home Wi-Fi router?","expected_coverage":"out_of_domain","topic":"consumer-technology"}
+{"id":"lq32","question":"What evidence supports the possibility of life on Mars?","expected_coverage":"out_of_domain","topic":"astronomy"}
+{"id":"lq33","question":"Can you explain the basic rules of cricket?","expected_coverage":"out_of_domain","topic":"sports"}
+{"id":"lq34","question":"What are common ways to prevent a migraine headache?","expected_coverage":"out_of_domain","topic":"health"}
+{"id":"lq35","question":"Which graphics card is best for a gaming computer this year?","expected_coverage":"out_of_domain","topic":"consumer-technology"}
+{"id":"lq36","question":"How do I calculate income tax on a freelance invoice?","expected_coverage":"out_of_domain","topic":"personal-finance"}
+{"id":"lq37","question":"Where can I buy a train ticket from Lahore to Karachi?","expected_coverage":"out_of_domain","topic":"travel"}
+{"id":"lq38","question":"Can you create a beginner training plan for a marathon?","expected_coverage":"out_of_domain","topic":"fitness"}
+{"id":"lq39","question":"What documents are needed to renew a Pakistani passport?","expected_coverage":"out_of_domain","topic":"travel"}
+{"id":"lq40","question":"What are the ingredients for a vegetarian Thai curry?","expected_coverage":"out_of_domain","topic":"cooking"}

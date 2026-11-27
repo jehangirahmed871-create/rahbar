@@ -8,7 +8,10 @@ from .models import Chunk, Document
 
 HEADING_PATTERNS = [
     re.compile(r"^#{1,4}\s+(.+)$"),
-    re.compile(r"^(?:Section|Clause|Rule|Article)\s+([0-9]+(?:\.[0-9]+)*\b.*)$", re.I),
+    re.compile(
+        r"^(?:Section|Clause|Rule|Article)\s+([0-9]+(?:\.[0-9]+)*\b.*)$",
+        re.IGNORECASE,
+    ),
     re.compile(r"^([0-9]+(?:\.[0-9]+)+\.?\s+[A-Za-z].*)$"),
     re.compile(r"^([0-9]+\.\s+[A-Za-z][\w\s]{2,50})$"),
 ]
@@ -50,6 +53,11 @@ def chunk(doc: Document, size: int = 400, overlap: int = 50) -> list[Chunk]:
     chunks: list[Chunk] = []
     chunk_idx = 0
     current_section = f"General ({doc.source})"
+    document_version_id = f"{doc.document_id}@{doc.doc_version}"
+    chunk_prefix = (
+        f"{_slugify(doc.document_id or doc.source)}@{_slugify(doc.doc_version)}"
+    )
+    page_count = len(doc.pages)
 
     for page in doc.pages:
         page_num = page.page
@@ -70,7 +78,7 @@ def chunk(doc: Document, size: int = 400, overlap: int = 50) -> list[Chunk]:
             para_tokens = _token_count(para)
             if para_tokens <= size:
                 # Small enough to be a standalone unit or merged
-                chunk_id = f"{doc.source}#{_slugify(current_section)}#p{page_num}#c{chunk_idx}"
+                chunk_id = f"{chunk_prefix}#{_slugify(current_section)}#p{page_num}#c{chunk_idx}"
                 chunks.append(
                     Chunk(
                         id=chunk_id,
@@ -80,6 +88,13 @@ def chunk(doc: Document, size: int = 400, overlap: int = 50) -> list[Chunk]:
                         page=page_num,
                         doc_version=doc.doc_version,
                         superseded=doc.superseded,
+                        document_id=doc.document_id,
+                        document_version_id=document_version_id,
+                        document_hash=doc.content_hash,
+                        title=doc.title,
+                        page_count=page_count,
+                        chunk_size=size,
+                        chunk_overlap=overlap,
                     )
                 )
                 chunk_idx += 1
@@ -93,7 +108,7 @@ def chunk(doc: Document, size: int = 400, overlap: int = 50) -> list[Chunk]:
                     sent_tokens = _token_count(sent)
                     if window_tokens + sent_tokens > size and window:
                         chunk_text = " ".join(window)
-                        chunk_id = f"{doc.source}#{_slugify(current_section)}#p{page_num}#c{chunk_idx}"
+                        chunk_id = f"{chunk_prefix}#{_slugify(current_section)}#p{page_num}#c{chunk_idx}"
                         chunks.append(
                             Chunk(
                                 id=chunk_id,
@@ -103,6 +118,13 @@ def chunk(doc: Document, size: int = 400, overlap: int = 50) -> list[Chunk]:
                                 page=page_num,
                                 doc_version=doc.doc_version,
                                 superseded=doc.superseded,
+                                document_id=doc.document_id,
+                                document_version_id=document_version_id,
+                                document_hash=doc.content_hash,
+                                title=doc.title,
+                                page_count=page_count,
+                                chunk_size=size,
+                                chunk_overlap=overlap,
                             )
                         )
                         chunk_idx += 1
@@ -125,7 +147,7 @@ def chunk(doc: Document, size: int = 400, overlap: int = 50) -> list[Chunk]:
 
                 if window:
                     chunk_text = " ".join(window)
-                    chunk_id = f"{doc.source}#{_slugify(current_section)}#p{page_num}#c{chunk_idx}"
+                    chunk_id = f"{chunk_prefix}#{_slugify(current_section)}#p{page_num}#c{chunk_idx}"
                     chunks.append(
                         Chunk(
                             id=chunk_id,
@@ -135,6 +157,13 @@ def chunk(doc: Document, size: int = 400, overlap: int = 50) -> list[Chunk]:
                             page=page_num,
                             doc_version=doc.doc_version,
                             superseded=doc.superseded,
+                            document_id=doc.document_id,
+                            document_version_id=document_version_id,
+                            document_hash=doc.content_hash,
+                            title=doc.title,
+                            page_count=page_count,
+                            chunk_size=size,
+                            chunk_overlap=overlap,
                         )
                     )
                     chunk_idx += 1

@@ -1,0 +1,100 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: indexer-candidate
+  namespace: rahbar
+  labels:
+    app.kubernetes.io/name: indexer
+spec:
+  backoffLimit: 1
+  activeDeadlineSeconds: 7200
+  ttlSecondsAfterFinished: 86400
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: indexer
+        app.kubernetes.io/instance: candidate
+    spec:
+      restartPolicy: OnFailure
+      enableServiceLinks: false
+      serviceAccountName: indexer-sa
+      automountServiceAccountToken: false
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 10001
+        runAsGroup: 10001
+        fsGroup: 10001
+      initContainers:
+        - name: seed-corpus-from-image
+          image: rahbar-indexer:dev
+          imagePullPolicy: IfNotPresent
+          command: ["/bin/sh", "-ec"]
+          args:
+            - |
+              cp -rn /corpus/. /corpus-pvc/
+              touch /corpus-pvc/.base-seeded
+          resources:
+            requests:
+              cpu: 50m
+              memory: 64Mi
+            limits:
+              cpu: 100m
+              memory: 128Mi
+          securityContext:
+            runAsNonRoot: true
+            readOnlyRootFilesystem: true
+            allowPrivilegeEscalation: false
+            capabilities:
+              drop:
+                - ALL
+          volumeMounts:
+            - name: corpus-data
+              mountPath: /corpus-pvc
+      containers:
+        - name: indexer
+          image: rahbar-indexer:dev
+          imagePullPolicy: IfNotPresent
+          envFrom:
+            - configMapRef:
+                name: rahbar-config
+          env:
+            - name: CORPUS_DIR
+              value: /corpus
+            - name: CHROMA_COLLECTION
+              value: rahbar_candidate
+            - name: QUARANTINE_DIR
+              value: /indexer-data/quarantine
+            - name: ARCHIVE_DIR
+              value: /indexer-data/archive
+            - name: VERIFICATION_DIR
+              value: /indexer-data/verification
+          resources:
+            requests:
+              cpu: 250m
+              memory: 512Mi
+            limits:
+              cpu: "1"
+              memory: 1536Mi
+          securityContext:
+            runAsNonRoot: true
+            readOnlyRootFilesystem: false
+            allowPrivilegeEscalation: false
+            capabilities:
+              drop:
+                - ALL
+          volumeMounts:
+            - name: tmp-dir
+              mountPath: /tmp
+            - name: corpus-data
+              mountPath: /corpus
+            - name: indexer-data
+              mountPath: /indexer-data
+      volumes:
+        - name: tmp-dir
+          emptyDir: {}
+        - name: corpus-data
+          persistentVolumeClaim:
+            claimName: corpus-pvc
+        - name: indexer-data
+          persistentVolumeClaim:
+            claimName: indexer-data-pvc

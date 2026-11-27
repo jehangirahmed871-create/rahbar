@@ -1,0 +1,30 @@
+{"id":"p01","kind":"paraphrase","text_a":"What attendance percentage is needed to sit the final examination?","text_b":"How much of the lectures must a student attend to qualify for finals?"}
+{"id":"p02","kind":"paraphrase","text_a":"When does an undergraduate receive an academic warning?","text_b":"What CGPA threshold places a bachelor student on academic warning?"}
+{"id":"p03","kind":"paraphrase","text_a":"Can a student take a course before passing its prerequisite?","text_b":"Is registration allowed when the prerequisite course was failed?"}
+{"id":"p04","kind":"paraphrase","text_a":"How many courses are normally taken in a regular semester?","text_b":"What is the standard semester course load for a student?"}
+{"id":"p05","kind":"paraphrase","text_a":"How many grade points does a B+ receive?","text_b":"What is the GPA value for the B-plus letter grade?"}
+{"id":"p06","kind":"paraphrase","text_a":"What tuition amount is refunded after cancelling admission in week one?","text_b":"How much of the fee is returned if admission is cancelled during the first week?"}
+{"id":"p07","kind":"paraphrase","text_a":"When may students use generative AI for coursework?","text_b":"Under what conditions is AI assistance permitted in academic assignments?"}
+{"id":"p08","kind":"paraphrase","text_a":"What is the maximum time allowed to finish an undergraduate degree?","text_b":"How long may a student take to complete a bachelor's programme?"}
+{"id":"p09","kind":"paraphrase","text_a":"Which attempt counts when a course is repeated?","text_b":"Does the newest course grade replace an earlier grade in CGPA?"}
+{"id":"p10","kind":"paraphrase","text_a":"How many semesters below the CGPA limit lead to admission closure?","text_b":"After how many consecutive low-CGPA terms is a student's admission closed?"}
+{"id":"p11","kind":"paraphrase","text_a":"How many books can an undergraduate borrow from the library?","text_b":"What is the library borrowing limit for undergraduate students?"}
+{"id":"p12","kind":"paraphrase","text_a":"When must a student file an examination deferral request?","text_b":"What is the deadline to submit documents for a missed-exam deferral?"}
+{"id":"p13","kind":"paraphrase","text_a":"What happens if semester dues are paid late?","text_b":"Are there penalties for paying tuition after the voucher deadline?"}
+{"id":"p14","kind":"paraphrase","text_a":"Can I renew a library book if another student has reserved it?","text_b":"Is renewal allowed when a different reader is waiting for the book?"}
+{"id":"p15","kind":"paraphrase","text_a":"What is the minimum CGPA needed to avoid academic warning?","text_b":"Which cumulative GPA keeps an undergraduate in good academic standing?"}
+{"id":"u01","kind":"unrelated","text_a":"What attendance percentage is needed to sit the final examination?","text_b":"How do ocean currents affect the migration of humpback whales?"}
+{"id":"u02","kind":"unrelated","text_a":"When does an undergraduate receive an academic warning?","text_b":"What is the chemical composition of volcanic basalt?"}
+{"id":"u03","kind":"unrelated","text_a":"Can a student take a course before passing its prerequisite?","text_b":"How are solar panels oriented for winter power generation?"}
+{"id":"u04","kind":"unrelated","text_a":"How many courses are normally taken in a regular semester?","text_b":"Which spices are traditionally used in fermented cabbage?"}
+{"id":"u05","kind":"unrelated","text_a":"How many grade points does a B+ receive?","text_b":"Why do migrating birds navigate using magnetic fields?"}
+{"id":"u06","kind":"unrelated","text_a":"What tuition amount is refunded after cancelling admission in week one?","text_b":"How can a homeowner improve soil drainage in a garden?"}
+{"id":"u07","kind":"unrelated","text_a":"When may students use generative AI for coursework?","text_b":"What is the safest way to store fresh herbs for a month?"}
+{"id":"u08","kind":"unrelated","text_a":"What is the maximum time allowed to finish an undergraduate degree?","text_b":"How are tidal pools formed along a rocky coast?"}
+{"id":"u09","kind":"unrelated","text_a":"Which attempt counts when a course is repeated?","text_b":"What causes the northern lights to change color?"}
+{"id":"u10","kind":"unrelated","text_a":"How many semesters below the CGPA limit lead to admission closure?","text_b":"How does a honeybee communicate the direction of food?"}
+{"id":"u11","kind":"unrelated","text_a":"How many books can an undergraduate borrow from the library?","text_b":"What is the role of mycorrhizal fungi in forest soil?"}
+{"id":"u12","kind":"unrelated","text_a":"When must a student file an examination deferral request?","text_b":"How do meteorologists estimate the height of storm clouds?"}
+{"id":"u13","kind":"unrelated","text_a":"What happens if semester dues are paid late?","text_b":"Why does sourdough bread rise during fermentation?"}
+{"id":"u14","kind":"unrelated","text_a":"Can I renew a library book if another student has reserved it?","text_b":"What are the stages of a butterfly's metamorphosis?"}
+{"id":"u15","kind":"unrelated","text_a":"What is the minimum CGPA needed to avoid academic warning?","text_b":"How does a telescope compensate for atmospheric distortion?"}

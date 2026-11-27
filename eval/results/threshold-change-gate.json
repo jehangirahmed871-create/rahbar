@@ -1,0 +1,59 @@
+{
+  "created_at": "2026-11-27T09:15:44.229512+00:00",
+  "decision": "pass",
+  "baseline": {
+    "recall_at_5": 0.2222222222222222,
+    "embedding_gap": 0.07011079286173025,
+    "faithfulness": 0.037037037037037035,
+    "citation_validity": 1.0,
+    "abstention_correctness": 1.0,
+    "latency_p95_seconds": 1.3169478629000881
+  },
+  "candidate": {
+    "recall_at_5": 0.25925925925925924,
+    "embedding_gap": 0.07011079286173025,
+    "faithfulness": 0.07407407407407407,
+    "citation_validity": 1.0,
+    "abstention_correctness": 1.0,
+    "latency_p95_seconds": 1.4152192544997892
+  },
+  "thresholds": {
+    "max_recall5_drop": 0.02,
+    "max_embedding_gap_drop": 0.02,
+    "min_faithfulness": 0.05,
+    "min_citation_validity": 0.95,
+    "max_latency_p95_seconds": 30.0
+  },
+  "checks": [
+    {
+      "name": "recall_at_5",
+      "passed": true,
+      "detail": "candidate recall@5 0.2593; baseline 0.2222; maximum drop 0.0200"
+    },
+    {
+      "name": "embedding_gap",
+      "passed": true,
+      "detail": "candidate embedding gap 0.0701; baseline 0.0701; maximum drop 0.0200"
+    },
+    {
+      "name": "faithfulness",
+      "passed": true,
+      "detail": "faithfulness proxy 0.0741; minimum 0.0500"
+    },
+    {
+      "name": "citation_validity",
+      "passed": true,
+      "detail": "citation validity 1.0000; minimum 0.9500"
+    },
+    {
+      "name": "abstention_correctness",
+      "passed": true,
+      "detail": "abstention correctness 1.0000; baseline 1.0000"
+    },
+    {
+      "name": "latency_p95_seconds",
+      "passed": true,
+      "detail": "latency p95 1.4152s; maximum 30.0000s"
+    }
+  ]
+}
