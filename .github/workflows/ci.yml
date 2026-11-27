@@ -156,9 +156,8 @@ jobs:
 
       - name: Build and Load Images into Kind
         run: |
-          mkdir -p corpus/raw/batch-b
+          mkdir -p corpus/raw
           cp eval/fixtures/*.md corpus/raw/
-          cp eval/fixtures/batch-b/*.md corpus/raw/batch-b/
           docker build -t rahbar-api:dev api
           docker build -f indexer/Dockerfile -t rahbar-indexer:dev .
           docker build -t rahbar-ui:dev ui
