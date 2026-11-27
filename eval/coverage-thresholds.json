@@ -1,0 +1,5 @@
+{
+  "similarity_threshold": 0.31,
+  "minimum_coverage": 0.5,
+  "threshold_justification": "Calibrated using deterministic offline lexical feature hashing. Before E4, the 21 answerable golden questions covered 16/28 in-domain live queries (57.1%) and 16/40 overall (40.0%); none of 12 out-of-domain queries exceeded the 0.31 threshold (maximum OOD similarity 0.2837). After adding six answerable questions from uncovered topics, coverage rose to 18/28 in-domain (64.3%) and 18/40 overall (45.0%), with zero OOD matches. Must-abstain golden rows are excluded from similarity references; the 50% gate applies to in-domain coverage, with overall and OOD results reported separately."
+}

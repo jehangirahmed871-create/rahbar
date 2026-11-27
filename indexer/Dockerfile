@@ -19,6 +19,7 @@ COPY indexer/pipeline/ ./pipeline/
 # The corpus is fetched by corpus/fetch.py and is intentionally not committed.
 # It is copied into the immutable indexer image at build time; the API never sees it.
 COPY corpus/raw/ /corpus/
+COPY eval/fixtures/batch-b/ /batch-b/
 
 RUN chown -R appuser:appgroup /app /corpus
 

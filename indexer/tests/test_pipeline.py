@@ -4,7 +4,10 @@ from __future__ import annotations
 
 import math
 import shutil
+import sys
 from pathlib import Path
+from types import SimpleNamespace
+from typing import Self
 
 import pytest
 
@@ -12,7 +15,7 @@ from pipeline.chunk import chunk
 from pipeline.clean import clean
 from pipeline.config import IndexerSettings
 from pipeline.embed import embed
-from pipeline.extract import extract
+from pipeline.extract import _extract_pdf, extract
 from pipeline.models import Chunk, Document, Page
 from pipeline.store import plan_incremental, store
 from pipeline.verify import CHECK_NAMES, verify_documents
@@ -30,6 +33,11 @@ class MockCollection:
 
     def count(self) -> int:
         return len(self.records)
+
+    def modify(self, metadata: dict) -> None:
+        if "hnsw:space" in metadata:
+            raise ValueError("Chroma does not allow changing the collection distance function")
+        self.metadata = metadata
 
     def get(self, where=None, include=None) -> dict:
         rows = self.records.items()
@@ -61,8 +69,6 @@ class MockClient:
     def get_or_create_collection(self, name: str, metadata: dict) -> MockCollection:
         if name not in self.collections:
             self.collections[name] = MockCollection(name, metadata)
-        else:
-            self.collections[name].metadata.update(metadata)
         return self.collections[name]
 
     def create_collection(self, name: str, metadata: dict) -> MockCollection:
@@ -84,6 +90,42 @@ def test_extract_markdown_document(tmp_path: Path) -> None:
     assert doc.superseded is False
     assert len(doc.pages) == 1
     assert "80% attendance" in doc.pages[0].text
+
+
+def test_extract_pdf_flushes_page_cache(monkeypatch: pytest.MonkeyPatch) -> None:
+    class FakePage:
+        cache_flushed = False
+
+        def extract_text(self) -> str:
+            return "A valid text page."
+
+        def extract_tables(self) -> list:
+            return []
+
+        def flush_cache(self) -> None:
+            self.cache_flushed = True
+
+    class FakePDF:
+        def __init__(self, pages: list[FakePage]) -> None:
+            self.pages = pages
+
+        def __enter__(self) -> Self:
+            return self
+
+        def __exit__(self, *_args: object) -> None:
+            return None
+
+    page = FakePage()
+    monkeypatch.setitem(
+        sys.modules,
+        "pdfplumber",
+        SimpleNamespace(open=lambda _path: FakePDF([page])),
+    )
+
+    result = _extract_pdf(Path("fixture.pdf"))
+
+    assert result[0].text == "A valid text page."
+    assert page.cache_flushed
 
 
 def test_clean_strips_repeating_headers_footers() -> None:
@@ -172,14 +214,13 @@ def test_incremental_store_skips_unchanged_chunks_and_removes_deleted_documents(
 ) -> None:
     mock_client = MockClient()
     settings = IndexerSettings(
-        embed_model="nomic-embed-text",
+        embed_model="offline-feature-hash-v1",
         chroma_host="chroma",
         chroma_port=8000,
         collection="rahbar-test",
         corpus_dir="/tmp",
         chunk_size=400,
         chunk_overlap=50,
-        ollama_url="http://localhost:11434",
     )
     monkeypatch.setattr("pipeline.store.get_client", lambda _settings: mock_client)
     monkeypatch.setattr("pipeline.store.invalidate_cache", lambda _settings: None)
@@ -221,14 +262,13 @@ def test_incremental_store_skips_unchanged_chunks_and_removes_deleted_documents(
 
 def test_verification_reports_all_checks_and_rejects_a_near_duplicate() -> None:
     settings = IndexerSettings(
-        embed_model="nomic-embed-text",
+        embed_model="offline-feature-hash-v1",
         chroma_host="chroma",
         chroma_port=8000,
         collection="rahbar-test",
         corpus_dir="/tmp",
         chunk_size=400,
         chunk_overlap=50,
-        ollama_url="http://localhost:11434",
         near_duplicate_threshold=0.9,
     )
     documents = [
@@ -281,14 +321,13 @@ def test_pipeline_quarantines_batch_b_and_is_incremental(
         shutil.copyfile(source, corpus_dir / source.name)
 
     settings = IndexerSettings(
-        embed_model="nomic-embed-text",
+        embed_model="offline-feature-hash-v1",
         chroma_host="unused",
         chroma_port=8000,
         collection="rahbar-test",
         corpus_dir=str(corpus_dir),
         chunk_size=400,
         chunk_overlap=50,
-        ollama_url="http://127.0.0.1:9999",
         quarantine_dir=str(tmp_path / "quarantine"),
         archive_dir=str(tmp_path / "archive"),
         verification_dir=str(tmp_path / "verification"),
@@ -371,34 +410,33 @@ def test_chunk_overlap_shares_tokens_between_adjacent_chunks() -> None:
 
 def test_embed_returns_normalized_vectors_offline() -> None:
     settings = IndexerSettings(
-        embed_model="nomic-embed-text",
+        embed_model="offline-feature-hash-v1",
         chroma_host="localhost",
         chroma_port=8000,
         collection="test-col",
         corpus_dir="/tmp",
         chunk_size=400,
         chunk_overlap=50,
-        ollama_url="http://127.0.0.1:9999",  # unroutable port forces offline fallback
     )
     texts = ["First chunk of policy text.", "Second chunk of policy text."]
     vectors = embed(texts, settings)
     assert len(vectors) == 2
     assert len(vectors[0]) == 768
-    # Fallback vectors are unit normalized
+    # Local feature-hash vectors are unit normalized and deterministic.
     assert math.isclose(sum(x * x for x in vectors[0]), 1.0, rel_tol=1e-5)
+    assert embed(texts, settings) == vectors
 
 
 def test_store_writes_chunks_and_metadata(monkeypatch: pytest.MonkeyPatch) -> None:
     mock_client = MockClient()
     settings = IndexerSettings(
-        embed_model="nomic-embed-text",
+        embed_model="offline-feature-hash-v1",
         chroma_host="chroma",
         chroma_port=8000,
         collection="rahbar-test",
         corpus_dir="/tmp",
         chunk_size=400,
         chunk_overlap=50,
-        ollama_url="http://localhost:11434",
     )
     monkeypatch.setattr("pipeline.store.get_client", lambda s: mock_client)
     monkeypatch.setattr("pipeline.store.invalidate_cache", lambda s: None)
@@ -413,5 +451,48 @@ def test_store_writes_chunks_and_metadata(monkeypatch: pytest.MonkeyPatch) -> No
     assert count == 2
     col = mock_client.collections["rahbar-test"]
     assert col.count() == 2
-    assert col.metadata["embed_model"] == "nomic-embed-text"
+    assert col.metadata["embed_model"] == "offline-feature-hash-v1"
     assert col.metadata["dimension"] == 768
+
+
+def test_store_updates_embedder_pin_without_changing_chroma_distance(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    mock_client = MockClient()
+    collection = mock_client.get_or_create_collection(
+        "rahbar-test",
+        metadata={"hnsw:space": "cosine", "embed_model": "nomic-embed-text", "dimension": 768},
+    )
+    settings = IndexerSettings(
+        embed_model="offline-feature-hash-v1",
+        chroma_host="chroma",
+        chroma_port=8000,
+        collection="rahbar-test",
+        corpus_dir="/tmp",
+        chunk_size=400,
+        chunk_overlap=50,
+    )
+    monkeypatch.setattr("pipeline.store.get_client", lambda _settings: mock_client)
+    monkeypatch.setattr("pipeline.store.invalidate_cache", lambda _settings: None)
+    chunk = Chunk(
+        id="rules#intro#p1#c0",
+        text="academic policy",
+        source="rules.md",
+        section="Intro",
+        page=1,
+        doc_version="2026",
+        superseded=False,
+        document_id="rules",
+        document_version_id="rules@2026",
+        document_hash="hash-a",
+        title="Rules",
+        page_count=1,
+        chunk_size=400,
+        chunk_overlap=50,
+    )
+
+    assert store([chunk], [[1.0] + [0.0] * 767], settings) == 1
+    assert collection.metadata == {
+        "embed_model": "offline-feature-hash-v1",
+        "dimension": 768,
+    }

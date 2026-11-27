@@ -73,7 +73,6 @@ def store(
     )
     if getattr(collection, "metadata", {}).get("embed_model") != settings.embed_model:
         collection.modify(metadata={
-            "hnsw:space": "cosine",
             "embed_model": settings.embed_model,
             "dimension": dim,
         })

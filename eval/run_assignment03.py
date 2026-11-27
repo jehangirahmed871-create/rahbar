@@ -20,8 +20,8 @@ import httpx
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "indexer"))
 
-from pipeline.config import get_settings as get_indexer_settings  # noqa: E402
-from pipeline.embed import embed  # noqa: E402
+from pipeline.config import get_settings as get_indexer_settings
+from pipeline.embed import embed
 
 
 def load_jsonl(path: Path) -> list[dict[str, Any]]:
@@ -334,6 +334,14 @@ def main() -> int:
     parser.add_argument("--embedding-pairs", type=Path,
                         default=ROOT / "eval" / "embedding_pairs.jsonl")
     parser.add_argument("--results-dir", type=Path, default=ROOT / "eval" / "results")
+    parser.add_argument("--output-file", type=Path,
+                        help="write the report to this exact path instead of a timestamped file")
+    parser.add_argument("--baseline-report", type=Path,
+                        help="compare this candidate run against a saved baseline report")
+    parser.add_argument("--thresholds", type=Path,
+                        help="JSON release-gate thresholds; required with --baseline-report")
+    parser.add_argument("--gate-out", type=Path,
+                        help="optional path for the separate release-gate decision JSON")
     parser.add_argument("--repeats", type=int, default=2)
     parser.add_argument("--seed", type=int, default=42)
     parser.add_argument("--timeout", type=float, default=120.0)
@@ -341,6 +349,19 @@ def main() -> int:
     args = parser.parse_args()
     if args.repeats < 2:
         parser.error("--repeats must be at least 2 to measure stochasticity")
+    if bool(args.baseline_report) != bool(args.thresholds):
+        parser.error("--baseline-report and --thresholds must be provided together")
+
+    baseline_report = None
+    gate_thresholds = None
+    if args.baseline_report:
+        from release_gate import load_json
+
+        try:
+            baseline_report = load_json(args.baseline_report)
+            gate_thresholds = load_json(args.thresholds)
+        except ValueError as exc:
+            parser.error(str(exc))
 
     questions = load_jsonl(args.golden)
     pairs = load_jsonl(args.embedding_pairs)
@@ -408,11 +429,26 @@ def main() -> int:
         "runs": runs,
         "stochasticity_metric_deltas_run2_minus_run1": deltas,
     }
-    args.results_dir.mkdir(parents=True, exist_ok=True)
-    timestamp = datetime.now(timezone.utc).strftime("%Y%m%dT%H%M%S.%fZ")
-    output = args.results_dir / f"assignment03-{timestamp}.json"
+    gate_result = None
+    if baseline_report is not None and gate_thresholds is not None:
+        from release_gate import evaluate_gate
+
+        gate_result = evaluate_gate(baseline_report, report, gate_thresholds)
+        report["release_gate"] = gate_result
+
+    output = args.output_file
+    if output is None:
+        timestamp = datetime.now(timezone.utc).strftime("%Y%m%dT%H%M%S.%fZ")
+        output = args.results_dir / f"assignment03-{timestamp}.json"
+    output.parent.mkdir(parents=True, exist_ok=True)
     output.write_text(json.dumps(report, indent=2), encoding="utf-8")
     print(f"\nResults written to {output}")
+    if gate_result is not None:
+        if args.gate_out:
+            args.gate_out.parent.mkdir(parents=True, exist_ok=True)
+            args.gate_out.write_text(json.dumps(gate_result, indent=2), encoding="utf-8")
+        print(f"Release gate: {gate_result['decision'].upper()}")
+        return 0 if gate_result["decision"] == "pass" else 1
     return 0
 
 

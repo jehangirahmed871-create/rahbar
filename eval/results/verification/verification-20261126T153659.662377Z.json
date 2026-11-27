@@ -1,0 +1,182 @@
+{
+  "run_id": "20261126T153659.662377Z",
+  "created_at": "2026-11-26T15:36:59.662377+00:00",
+  "embedding_model": "offline-feature-hash-v1",
+  "near_duplicate_cosine_threshold": 0.95,
+  "embedding_method": "configured embedding provider; deterministic lexical feature-hashing fallback is used when the provider is unavailable and is logged",
+  "summary": {
+    "documents": 6,
+    "passed": 6,
+    "failed": 0
+  },
+  "documents": [
+    {
+      "source": "academic-rules-handbook-jun-2026.pdf",
+      "title": "Academic Rules Handbook (Jun 2026)",
+      "document_id": "academic-rules-handbook-jun-2026",
+      "doc_version": "2026-06",
+      "page_count": 58,
+      "sha256": "4cfee3e191b84aeb9168f17656c7642212ff52b90f2780d028b33c154aa74b62",
+      "status": "pass",
+      "checks": {
+        "quality": {
+          "status": "pass",
+          "reason": "extracted text is non-empty and passes corruption heuristics"
+        },
+        "completeness": {
+          "status": "pass",
+          "reason": "required metadata present; page count=58; text not truncated"
+        },
+        "recency": {
+          "status": "pass",
+          "reason": "newest version 2026-06 detected"
+        },
+        "uniqueness": {
+          "status": "pass",
+          "reason": "uniqueness evaluated against this ingestion batch"
+        }
+      },
+      "quarantine_path": null
+    },
+    {
+      "source": "annual-report-2019-20.pdf",
+      "title": "Annual Report 2019-20",
+      "document_id": "annual-report-2019-20",
+      "doc_version": "2019-20",
+      "page_count": 33,
+      "sha256": "4d1961e340b13273bb039805ab5fd5e2c7bd0144a5bd5870f2ce4da13becd650",
+      "status": "pass",
+      "checks": {
+        "quality": {
+          "status": "pass",
+          "reason": "extracted text is non-empty and passes corruption heuristics"
+        },
+        "completeness": {
+          "status": "pass",
+          "reason": "required metadata present; page count=33; text not truncated"
+        },
+        "recency": {
+          "status": "pass",
+          "reason": "newest version 2019-20 detected"
+        },
+        "uniqueness": {
+          "status": "pass",
+          "reason": "uniqueness evaluated against this ingestion batch"
+        }
+      },
+      "quarantine_path": null
+    },
+    {
+      "source": "annual-report-2023-24.pdf",
+      "title": "Annual Report 2023-24",
+      "document_id": "annual-report-2023-24",
+      "doc_version": "2023-24",
+      "page_count": 85,
+      "sha256": "3c9d89e84af24df4b939f10e32c620a3877b276acea1db52f1aae4098e5c057a",
+      "status": "pass",
+      "checks": {
+        "quality": {
+          "status": "pass",
+          "reason": "extracted text is non-empty and passes corruption heuristics"
+        },
+        "completeness": {
+          "status": "pass",
+          "reason": "required metadata present; page count=85; text not truncated"
+        },
+        "recency": {
+          "status": "pass",
+          "reason": "newest version 2023-24 detected"
+        },
+        "uniqueness": {
+          "status": "pass",
+          "reason": "uniqueness evaluated against this ingestion batch"
+        }
+      },
+      "quarantine_path": null
+    },
+    {
+      "source": "faculty-entrepreneurship-and-technical-start-ups-policy.pdf",
+      "title": "Faculty Entrepreneurship and Technical Start-ups Policy",
+      "document_id": "faculty-entrepreneurship-and-technical-start-ups-policy",
+      "doc_version": "2022-05",
+      "page_count": 8,
+      "sha256": "c2d5c7648d1593daf34d5c0596ede476e8984b0551830cc1690017e6e22f1359",
+      "status": "pass",
+      "checks": {
+        "quality": {
+          "status": "pass",
+          "reason": "extracted text is non-empty and passes corruption heuristics"
+        },
+        "completeness": {
+          "status": "pass",
+          "reason": "required metadata present; page count=8; text not truncated"
+        },
+        "recency": {
+          "status": "pass",
+          "reason": "newest version 2022-05 detected"
+        },
+        "uniqueness": {
+          "status": "pass",
+          "reason": "uniqueness evaluated against this ingestion batch"
+        }
+      },
+      "quarantine_path": null
+    },
+    {
+      "source": "prospectus-2026-academic-rules-and-regulations.pdf",
+      "title": "Prospectus 2026 - Academic Rules and Regulations",
+      "document_id": "prospectus-2026-academic-rules-and-regulations",
+      "doc_version": "2026",
+      "page_count": 5,
+      "sha256": "a7e7f6896a59eb9413c9e8826e6c4c018ebe52045d10cebfcba92ded10a3174a",
+      "status": "pass",
+      "checks": {
+        "quality": {
+          "status": "pass",
+          "reason": "extracted text is non-empty and passes corruption heuristics"
+        },
+        "completeness": {
+          "status": "pass",
+          "reason": "required metadata present; page count=5; text not truncated"
+        },
+        "recency": {
+          "status": "pass",
+          "reason": "newest version 2026 detected"
+        },
+        "uniqueness": {
+          "status": "pass",
+          "reason": "uniqueness evaluated against this ingestion batch"
+        }
+      },
+      "quarantine_path": null
+    },
+    {
+      "source": "student-handbook-jun-2026.pdf",
+      "title": "Student Handbook (Jun 2026)",
+      "document_id": "student-handbook-jun-2026",
+      "doc_version": "2026-06",
+      "page_count": 64,
+      "sha256": "717eb4b8d37e50185ffe952735c08ef19edd16074d547f10ebd22cf23da67c4d",
+      "status": "pass",
+      "checks": {
+        "quality": {
+          "status": "pass",
+          "reason": "extracted text is non-empty and passes corruption heuristics"
+        },
+        "completeness": {
+          "status": "pass",
+          "reason": "required metadata present; page count=64; text not truncated"
+        },
+        "recency": {
+          "status": "pass",
+          "reason": "newest version 2026-06 detected"
+        },
+        "uniqueness": {
+          "status": "pass",
+          "reason": "uniqueness evaluated against this ingestion batch"
+        }
+      },
+      "quarantine_path": null
+    }
+  ]
+}

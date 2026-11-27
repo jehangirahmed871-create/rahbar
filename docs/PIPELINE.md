@@ -3,7 +3,7 @@
 **Owner:** Jehangir Ahmed (Person A — Data and Quality)  
 **Corpus:** FAST-NUCES Regulatory Corpus (9 documents, 279+ pages)  
 **Vector Database:** ChromaDB 1.0.12 (StatefulSet)  
-**Embedding Pin:** `nomic-embed-text` (768 dimensions)  
+**Vectorizer Pin:** `offline-feature-hash-v1` (768 dimensions)
 
 ---
 
@@ -99,11 +99,11 @@ $$\text{Storage Amplification} = \frac{\text{Stored Tokens in Chunks}}{\text{Ori
 
 ## 4. Stage 4: Embedding and Model Pinning
 
-- **Pinned Embedding Model:** `nomic-embed-text`
+- **Pinned Embedding Method:** `offline-feature-hash-v1`
 - **Vector Dimension:** 768 dimensions
 - **Embedding Space:** Cosine (`"hnsw:space": "cosine"`)
 - **Where the Pin Lives:**
-  1. ConfigMap key `EMBED_MODEL: "nomic-embed-text"`.
+  1. ConfigMap key `EMBED_MODEL: "offline-feature-hash-v1"`.
   2. Indexer writes `{"embed_model": settings.embed_model, "dimension": 768}` into Chroma collection metadata.
   3. API startup lifecycle (`api/app/main.py`) and readiness check (`/readyz`) compare the Chroma collection metadata against the API's configured `EMBED_MODEL`. If mismatched, `/readyz` returns HTTP 503 and logs an explicit configuration guardrail violation.
 
@@ -178,10 +178,11 @@ not embedded. Changed versions have only their own chunk IDs replaced, and
 versions absent from the verified corpus are deleted to prevent orphans. The
 indexer log reports embedded, written, and removed chunk counts.
 
-When Ollama is unavailable, the indexer logs that it is using deterministic
-lexical feature hashing instead of the configured semantic embedding model.
-This keeps local verification and tests offline; the report records the model,
-threshold, and fallback policy. Results measured with this fallback must not be
+The indexer always uses deterministic local lexical feature hashing; it does
+not call an embedding service. Query retrieval uses lexical term overlap rather
+than semantic vector search. This requires no Ollama service or extra API key
+and keeps resource use low, but paraphrase retrieval may be weaker. Results
+must be reported as lexical, not as semantic-model performance.
 
 The API writes one JSONL trace per successful or cached query to stdout and to
 `TRACE_DIR/queries.jsonl`. Traces include the retrieved records, the exact safe

@@ -1,0 +1,7 @@
+{
+  "max_recall5_drop": 0.02,
+  "max_embedding_gap_drop": 0.02,
+  "min_faithfulness": 0.05,
+  "min_citation_validity": 0.95,
+  "max_latency_p95_seconds": 30.0
+}

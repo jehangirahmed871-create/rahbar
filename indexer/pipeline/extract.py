@@ -21,11 +21,17 @@ class _SimpleHTMLTextExtractor(HTMLParser):
         self.pieces: list[str] = []
         self._in_table = False
         self._in_cell = False
+        self._skip_depth = 0
         self._current_row: list[str] = []
         self._current_cell: list[str] = []
 
     def handle_starttag(self, tag: str, attrs: list[tuple[str, str | None]]) -> None:
         tag = tag.lower()
+        if tag in ("script", "style", "noscript"):
+            self._skip_depth += 1
+            return
+        if self._skip_depth:
+            return
         if tag in ("h1", "h2", "h3", "h4", "h5", "h6"):
             self.pieces.append("\n\n### ")
         elif tag in ("p", "div", "br", "li"):
@@ -40,6 +46,8 @@ class _SimpleHTMLTextExtractor(HTMLParser):
             self._current_cell = []
 
     def handle_data(self, data: str) -> None:
+        if self._skip_depth:
+            return
         if self._in_cell:
             self._current_cell.append(data)
         else:
@@ -47,6 +55,11 @@ class _SimpleHTMLTextExtractor(HTMLParser):
 
     def handle_endtag(self, tag: str) -> None:
         tag = tag.lower()
+        if tag in ("script", "style", "noscript"):
+            self._skip_depth = max(0, self._skip_depth - 1)
+            return
+        if self._skip_depth:
+            return
         if tag in ("td", "th"):
             self._in_cell = False
             cell_text = " ".join("".join(self._current_cell).split())
@@ -62,8 +75,9 @@ class _SimpleHTMLTextExtractor(HTMLParser):
 
     def get_text(self) -> str:
         raw = "".join(self.pieces)
-        # normalize blank lines
-        return re.sub(r"\n{3,}", "\n\n", raw).strip()
+        lines = [re.sub(r"[ \t]+", " ", line).strip() for line in raw.splitlines()]
+        cleaned = "\n".join(lines)
+        return re.sub(r"\n{3,}", "\n\n", cleaned).strip()
 
 
 def _extract_pdf(path: Path) -> list[Page]:
@@ -81,29 +95,32 @@ def _extract_pdf(path: Path) -> list[Page]:
     try:
         with pdfplumber.open(path) as pdf:
             for idx, pdfplumber_page in enumerate(pdf.pages, start=1):
-                text = pdfplumber_page.extract_text() or ""
-                # Also check tables on this page to ensure tabular numbers are kept
-                tables = pdfplumber_page.extract_tables()
-                if tables:
-                    table_lines = []
-                    for t in tables:
-                        for row in t:
-                            cells = [str(c or "").strip() for c in row]
-                            if any(cells):
-                                table_lines.append("| " + " | ".join(cells) + " |")
-                    if table_lines:
-                        text = text + "\n\n" + "\n".join(table_lines)
+                try:
+                    text = pdfplumber_page.extract_text() or ""
+                    # Also check tables on this page to ensure tabular numbers are kept
+                    tables = pdfplumber_page.extract_tables()
+                    if tables:
+                        table_lines = []
+                        for t in tables:
+                            for row in t:
+                                cells = [str(c or "").strip() for c in row]
+                                if any(cells):
+                                    table_lines.append("| " + " | ".join(cells) + " |")
+                        if table_lines:
+                            text = text + "\n\n" + "\n".join(table_lines)
 
-                is_ocr = False
-                if len(text.strip()) < 10:
-                    # No extractable text; attempt OCR
-                    ocr_text = _attempt_ocr(path, idx)
-                    if ocr_text:
-                        text = ocr_text
-                        is_ocr = True
-                    else:
-                        is_ocr = True  # Scanned page detected and flagged
-                pages.append(Page(source=source, page=idx, text=text, ocr=is_ocr))
+                    is_ocr = False
+                    if len(text.strip()) < 10:
+                        # No extractable text; attempt OCR
+                        ocr_text = _attempt_ocr(path, idx)
+                        if ocr_text:
+                            text = ocr_text
+                            is_ocr = True
+                        else:
+                            is_ocr = True  # Scanned page detected and flagged
+                    pages.append(Page(source=source, page=idx, text=text, ocr=is_ocr))
+                finally:
+                    pdfplumber_page.flush_cache()
     except Exception as exc:  # noqa: BLE001 - use pypdf as fallback for parser-specific failures
         log.warning("pdfplumber failed for %s, falling back to pypdf: %s", path.name, exc)
         reader = PdfReader(str(path))
