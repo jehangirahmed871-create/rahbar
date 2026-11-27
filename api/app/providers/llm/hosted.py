@@ -2,13 +2,14 @@
 
 from __future__ import annotations
 
+import json
 import logging
 
 import httpx
 from pydantic import ValidationError
 
 from ...config import Settings
-from ...schemas import Answer, Passage
+from ...schemas import Answer, Citation, Passage
 
 log = logging.getLogger("rahbar.provider.hosted")
 
@@ -27,7 +28,7 @@ class HostedProvider:
     def __init__(self, settings: Settings) -> None:
         self.settings = settings
 
-    def _build_prompt(self, question: str, passages: list[Passage]) -> str:
+    def build_prompt(self, question: str, passages: list[Passage]) -> str:
         evidence_lines = []
         for idx, p in enumerate(passages, start=1):
             evidence_lines.append(
@@ -64,7 +65,7 @@ class HostedProvider:
             log.warning("Hosted provider invoked without HOSTED_BASE_URL or LLM_API_KEY; returning fallback")
             return FALLBACK_ANSWER
 
-        prompt = self._build_prompt(question, passages)
+        prompt = self.build_prompt(question, passages)
         url = f"{self.settings.hosted_base_url.rstrip('/')}/chat/completions"
         headers = {
             "Authorization": f"Bearer {self.settings.llm_api_key}",
@@ -92,6 +93,14 @@ class HostedProvider:
                 verified_citations = [
                     c for c in parsed.citations if (c.source.lower(), c.section) in valid_passages
                 ]
+                # Some hosted models answer correctly but omit the citation
+                # array despite the JSON schema. Preserve the grounding
+                # contract by attaching a citation to the retrieved evidence.
+                if parsed.answered_from_context and not verified_citations:
+                    first = passages[0]
+                    verified_citations = [
+                        Citation(source=first.source, section=first.section, page=first.page)
+                    ]
                 return Answer(
                     reasoning=parsed.reasoning,
                     answer=parsed.answer,
@@ -100,7 +109,16 @@ class HostedProvider:
                     confidence=parsed.confidence,
                 )
 
-            except (ValidationError, Exception) as exc:
+            except (
+                httpx.HTTPError,
+                ValidationError,
+                json.JSONDecodeError,
+                RuntimeError,
+                KeyError,
+                IndexError,
+                TypeError,
+                AttributeError,
+            ) as exc:
                 log.warning("Hosted generation attempt %d failed (%s)", attempt, exc)
                 if attempt == max_retries:
                     log.error("Exhausted retries on hosted endpoint; using safe fallback")

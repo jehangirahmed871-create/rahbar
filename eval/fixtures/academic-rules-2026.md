@@ -1,5 +1,7 @@
 ---
 source: academic-rules-2026.md
+title: Academic Rules
+document_id: fixture-academic-rules
 doc_version: 2026
 superseded: false
 ---

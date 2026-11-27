@@ -17,7 +17,7 @@ def _int(name: str, default: int) -> int:
         val = val.split(":")[-1]
     try:
         return int(val)
-    except Exception:
+    except ValueError:
         return default
 
 
@@ -53,6 +53,7 @@ class Settings:
     hosted_base_url: str = ""        # e.g. an OpenAI-compatible endpoint
     llm_api_key: str = field(default="", repr=False)   # from the Secret; never log it
 
+    trace_dir: str = "/tmp/rahbar-traces"
     log_level: str = "INFO"
 
 
@@ -74,5 +75,6 @@ def get_settings() -> Settings:
         ollama_url=os.environ.get("OLLAMA_URL", "http://host.minikube.internal:11434"),
         hosted_base_url=os.environ.get("HOSTED_BASE_URL", ""),
         llm_api_key=os.environ.get("LLM_API_KEY", ""),
+        trace_dir=os.environ.get("TRACE_DIR", "/tmp/rahbar-traces"),
         log_level=os.environ.get("LOG_LEVEL", "INFO"),
     )

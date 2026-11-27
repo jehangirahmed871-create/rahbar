@@ -21,6 +21,12 @@ class Document:
     doc_version: str         # e.g. "2026-06"; from corpus/sources.yaml
     superseded: bool         # True for an older version of a policy
     pages: list[Page] = field(default_factory=list)
+    title: str = ""
+    document_id: str = ""
+    text_truncated: bool = False
+    content_hash: str = ""
+    extraction_error: str = ""
+    source_path: str = ""
 
 
 @dataclass
@@ -32,6 +38,13 @@ class Chunk:
     page: int
     doc_version: str
     superseded: bool
+    document_id: str = ""
+    document_version_id: str = ""
+    document_hash: str = ""
+    title: str = ""
+    page_count: int = 0
+    chunk_size: int = 0
+    chunk_overlap: int = 0
 
     def metadata(self) -> dict[str, str | int | bool]:
         """Chroma metadata values must be str, int, float or bool."""
@@ -41,4 +54,11 @@ class Chunk:
             "page": self.page,
             "doc_version": self.doc_version,
             "superseded": self.superseded,
+            "document_id": self.document_id,
+            "document_version_id": self.document_version_id,
+            "document_hash": self.document_hash,
+            "title": self.title,
+            "page_count": self.page_count,
+            "chunk_size": self.chunk_size,
+            "chunk_overlap": self.chunk_overlap,
         }

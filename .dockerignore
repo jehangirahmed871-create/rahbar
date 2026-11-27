@@ -1,0 +1,9 @@
+**
+!indexer/
+!indexer/Dockerfile
+!indexer/requirements.txt
+!indexer/pipeline/
+!indexer/pipeline/**
+!corpus/
+!corpus/raw/
+!corpus/raw/**

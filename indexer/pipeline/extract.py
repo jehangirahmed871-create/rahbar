@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import hashlib
 import logging
 import re
 from html.parser import HTMLParser
@@ -70,8 +71,8 @@ def _extract_pdf(path: Path) -> list[Page]:
 
     If a page contains no text layer, OCR is attempted using pytesseract and pdf2image.
     """
-    import pdfplumber
-    from pypdf import PdfReader
+    import pdfplumber  # type: ignore[import-not-found]
+    from pypdf import PdfReader  # type: ignore[import-not-found]
 
     pages: list[Page] = []
     source = path.name
@@ -79,10 +80,10 @@ def _extract_pdf(path: Path) -> list[Page]:
     # Try extraction with pdfplumber first for better layout and table handling
     try:
         with pdfplumber.open(path) as pdf:
-            for idx, page in enumerate(pdf.pages, start=1):
-                text = page.extract_text() or ""
+            for idx, pdfplumber_page in enumerate(pdf.pages, start=1):
+                text = pdfplumber_page.extract_text() or ""
                 # Also check tables on this page to ensure tabular numbers are kept
-                tables = page.extract_tables()
+                tables = pdfplumber_page.extract_tables()
                 if tables:
                     table_lines = []
                     for t in tables:
@@ -103,11 +104,11 @@ def _extract_pdf(path: Path) -> list[Page]:
                     else:
                         is_ocr = True  # Scanned page detected and flagged
                 pages.append(Page(source=source, page=idx, text=text, ocr=is_ocr))
-    except Exception as exc:
+    except Exception as exc:  # noqa: BLE001 - use pypdf as fallback for parser-specific failures
         log.warning("pdfplumber failed for %s, falling back to pypdf: %s", path.name, exc)
         reader = PdfReader(str(path))
-        for idx, page in enumerate(reader.pages, start=1):
-            text = page.extract_text() or ""
+        for idx, pypdf_page in enumerate(reader.pages, start=1):
+            text = pypdf_page.extract_text() or ""
             is_ocr = False
             if len(text.strip()) < 10:
                 ocr_text = _attempt_ocr(path, idx)
@@ -124,15 +125,15 @@ def _extract_pdf(path: Path) -> list[Page]:
 def _attempt_ocr(path: Path, page_num: int) -> str | None:
     """Attempt OCR using pdf2image and pytesseract on the specified 1-based page number."""
     try:
-        import pdf2image
-        import pytesseract
+        import pdf2image  # type: ignore[import-not-found]
+        import pytesseract  # type: ignore[import-untyped]
 
         images = pdf2image.convert_from_path(str(path), first_page=page_num, last_page=page_num)
         if images:
             text = pytesseract.image_to_string(images[0])
             if text and text.strip():
                 return text.strip()
-    except Exception as exc:
+    except Exception as exc:  # noqa: BLE001 - OCR is optional and failures are logged
         log.info("OCR not executed for %s page %d (%s)", path.name, page_num, exc)
     return None
 
@@ -157,7 +158,15 @@ def _extract_markdown(path: Path) -> list[Page]:
     return [Page(source=path.name, page=1, text=text.strip(), ocr=False)]
 
 
-def extract(path: str, doc_version: str, superseded: bool) -> Document:
+def extract(
+    path: str,
+    doc_version: str,
+    superseded: bool,
+    *,
+    title: str | None = None,
+    document_id: str = "",
+    text_truncated: bool = False,
+) -> Document:
     """Return the document's text page by page.
 
     Detect pages with no text layer and OCR them; mark those pages ocr=True.
@@ -182,4 +191,9 @@ def extract(path: str, doc_version: str, superseded: bool) -> Document:
         doc_version=doc_version,
         superseded=superseded,
         pages=pages,
+        title=p.stem if title is None else title,
+        document_id=document_id or p.stem,
+        text_truncated=text_truncated,
+        content_hash=hashlib.sha256(p.read_bytes()).hexdigest(),
+        source_path=str(p.resolve()),
     )

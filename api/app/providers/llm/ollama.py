@@ -28,7 +28,7 @@ class OllamaProvider:
     def __init__(self, settings: Settings) -> None:
         self.settings = settings
 
-    def _build_prompt(self, question: str, passages: list[Passage]) -> str:
+    def build_prompt(self, question: str, passages: list[Passage]) -> str:
         evidence_lines = []
         for idx, p in enumerate(passages, start=1):
             evidence_lines.append(
@@ -68,7 +68,7 @@ class OllamaProvider:
                 confidence="low",
             )
 
-        prompt = self._build_prompt(question, passages)
+        prompt = self.build_prompt(question, passages)
         endpoint = f"{self.settings.ollama_url.rstrip('/')}/api/chat"
 
         # Request parameters with constrained decoding (format="json") and timeout
@@ -107,7 +107,14 @@ class OllamaProvider:
                     confidence=parsed.confidence,
                 )
 
-            except (ValidationError, json.JSONDecodeError, Exception) as exc:
+            except (
+                httpx.HTTPError,
+                ValidationError,
+                json.JSONDecodeError,
+                RuntimeError,
+                TypeError,
+                AttributeError,
+            ) as exc:
                 log.warning("Ollama generation attempt %d failed validation (%s)", attempt, exc)
                 if attempt == max_attempts:
                     log.error("Exhausted retries; executing safe fallback answer")

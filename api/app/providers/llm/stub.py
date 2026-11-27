@@ -6,10 +6,9 @@ real model. It is deterministic: the same input always gives the same output.
 
 from __future__ import annotations
 
-from ...schemas import Answer, Citation, Passage
-
-
 import logging
+
+from ...schemas import Answer, Citation, Passage
 
 log = logging.getLogger("rahbar.provider.stub")
 

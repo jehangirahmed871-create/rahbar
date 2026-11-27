@@ -5,6 +5,9 @@ from __future__ import annotations
 import hashlib
 import logging
 import math
+import re
+from collections import Counter
+from itertools import pairwise
 
 import httpx
 
@@ -16,13 +19,16 @@ DEFAULT_DIMENSION = 768
 
 
 def _fallback_vector(text: str, dim: int = DEFAULT_DIMENSION) -> list[float]:
-    """Deterministic fallback vector for offline tests and stub operation."""
-    values: list[float] = []
-    seed = text.encode("utf-8", errors="replace")
-    while len(values) < dim:
-        seed = hashlib.sha256(seed).digest()
-        values.extend((b - 127.5) / 127.5 for b in seed)
-    values = values[:dim]
+    """Deterministic lexical feature vector for offline tests and local operation."""
+    tokens = re.findall(r"[a-z0-9]+", text.casefold())
+    features: Counter[str] = Counter(tokens)
+    features.update(f"{left} {right}" for left, right in pairwise(tokens))
+    values = [0.0] * dim
+    for feature, weight in features.items():
+        digest = hashlib.sha256(feature.encode("utf-8")).digest()
+        index = int.from_bytes(digest[:4], "big") % dim
+        sign = 1.0 if digest[4] & 1 else -1.0
+        values[index] += sign * weight
     norm = math.sqrt(sum(v * v for v in values)) or 1.0
     return [v / norm for v in values]
 
@@ -59,7 +65,7 @@ def embed(texts: list[str], settings: IndexerSettings) -> list[list[float]]:
                     log.warning("Ollama returned status %s: %s; falling back to offline vectorizer",
                                 resp.status_code, resp.text[:100])
                     use_fallback = True
-                except Exception as exc:
+                except (httpx.HTTPError, ValueError, AttributeError, TypeError) as exc:
                     log.warning("Could not reach Ollama at %s (%s); using fallback offline vectorizer",
                                 endpoint, exc)
                     use_fallback = True
